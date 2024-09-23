@@ -6,24 +6,24 @@ import Carousel from '../components/CarouselPropiedades';
 import propiedadesVenta from '../assets/placeholderPropiedadesVenta';
 import placeholderPropiedades from '../assets/placeholderPropiedades';
 import propiedadesAlquiler from '../assets/placeholderPropiedadesAlquiler';
+import Title from '../components/Title';
 
 const Home: React.FC = () => {
     return (
         <div>
             <Banner />
             <section className=''>
-                <h2>Buscador</h2>
                 <FormBusqueda />
             </section>
             <hr />
             <section className=' px-0'>
-                <h2>En venta</h2>
+                <Title text="En venta" />
                 <Carousel properties={propiedadesVenta} />
                 <div className="pb-2">
                     <Button to="/">Ir a todas las propiedades en venta</Button>
                 </div>
                 <hr />
-                <h2>En alquiler</h2>
+                <Title text="En alquiler" />
                 <Carousel properties={propiedadesAlquiler} />
                 <div className="pb-2">
                     <Button to="/">Ir a todas las propiedades en alquiler</Button>
@@ -31,13 +31,13 @@ const Home: React.FC = () => {
             </section>
             <hr />
             <section className=' '>
-                <h2>Comprar vender</h2>
+                <Title text="Comprar vender" />
                 <Button to="/">Publicar</Button>
-                <Button to="/">Ir a todas las propiedades</Button>
+                <Button clase='ml-4' to="/">Ir a todas las propiedades</Button>
             </section>
             <hr />
             <section className=' px-0'>
-                <h2>Propiedades destacadas</h2>
+                <Title text="Propiedades destacadas" />
                 <Carousel properties={placeholderPropiedades} />
                 <div className="pb-2">
                     <Button to="/">Ir a todas las propiedades en venta</Button>
@@ -45,18 +45,19 @@ const Home: React.FC = () => {
             </section>
             <hr />
             <section className=' px-0'>
-                <h2>Nosotros</h2>
+                <Title text="Nosotros" />
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, nemo.</p>
             </section>
             <hr />
             <section className=' '>
-                <h2>Garantias</h2>
-                <p className="flex justify-center gap-8">
-                    <img src="https://placehold.co/60" width="60" height="60" alt="garantia" />
-                    <img src="https://placehold.co/60" width="60" height="60" alt="garantia" />
-                    <img src="https://placehold.co/60" width="60" height="60" alt="garantia" />
+                <Title text="Nuestras garantías" />
+                <p className="flex justify-around gap-8">
+                    <img src="https://i2.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/inmobiliaria_habilitada.png?resize=90%2C90&amp;ssl=1" alt="Inmobiliaria Habilitada" width="110" />
+                    <img src="https://i0.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/camara_inmobiliaria_uruguaya.png?resize=190%2C73&amp;ssl=1" alt="Cámara Inmobiliaria Uruguaya" width="110" />
+                    <img src="https://i0.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/camara_inmobiliaria_rocha.png?resize=196%2C73&amp;ssl=1" alt="Cámara Inmobiliaria de Rocha" width="110" />
                 </p>
             </section>
+            <hr />
         </div>
     );
 };

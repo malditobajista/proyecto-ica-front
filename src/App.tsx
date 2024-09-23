@@ -16,6 +16,7 @@ import Ventas from './pages/Ventas';
 import Contacto from './pages/Contacto';
 import PublicarProp from './pages/PublicarProp';
 import { Footer } from './components/Footer';
+import Propiedades from './pages/Propiedades';
 
 function App() {
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/Home" element={<Home />} />
           <Route path="/Ventas" element={<Ventas />} />
           <Route path="/Alquileres" element={<Alquileres />} />
+          <Route path="/Propiedades" element={<Propiedades />} />
           <Route path="/Contacto" element={<Contacto />} />
           <Route path="/login" element={<Home />} />
           <Route path="/PublicarProp" element={<PublicarProp />} />
