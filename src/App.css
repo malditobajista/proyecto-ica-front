@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+section {
+  padding: 0.5rem 1rem 1rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+section h2 {
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.nav-container .nav-button {
+  margin-left: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .nav-container .nav-button {
+    margin-left: 1rem;
+  }
+}
