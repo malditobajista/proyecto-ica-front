@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PropertyCardProps } from "../utils/types";
 import Button from "./Button";
 
-const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, description, status, price }) => {
+const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ title, type, description, status, price }) => {
     const [selectedButtons, setSelectedButtons] = useState<{ heart: boolean; dollar: boolean }>({
         heart: false,
         dollar: false,
@@ -16,12 +16,14 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ title, imageSrc, 
         }));
     };
 
+    const image = "https://placehold.co/150x40";
+
     return (
         <div className="flex w-full justify-center items-start">
             <article className="bg-white rounded w-full shadow-md dark:bg-surface-dark dark:text-gray-800 flex">
 
                 <figure className="w-2/5 relative">
-                    <div className="post_thumbnail" style={{ backgroundImage: `url('${imageSrc[0]}')`, backgroundSize: 'cover', height: '100%', width: '100%' }}></div>
+                    <div className="post_thumbnail" style={{ backgroundImage: `url('${image}')`, backgroundSize: 'cover', height: '100%', width: '100%' }}></div>
                     <div className="absolute bottom-2 right-0 flex">
                         <button
                             className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart ? 'text-red-500' : 'hover:text-red-500'}`}
@@ -53,7 +55,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ title, imageSrc, 
                         </div>
                         <div className="flex justify-between">
                             <span className="font-bold">Estado:</span>
-                            <span>{status}</span>
+                            <span>{status == "for_rent" ? "En alquiler" : ""}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-bold">Precio:</span>
