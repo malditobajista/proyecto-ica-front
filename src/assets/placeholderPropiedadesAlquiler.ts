@@ -1,6 +1,6 @@
 import { PropertyCardProps } from "../utils/types";
 
-const propiedadesVenta: PropertyCardProps[] = [
+const propiedadesAlquiler: PropertyCardProps[] = [
   {
     id: 1,
     title: "Propiedad 1",
@@ -25,7 +25,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 3",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur adipisicing   adipisicing elit",
     status: "en alquiler",
     price: "U$S 120.000",
     type: "casa",
@@ -45,7 +45,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 5",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit elit",
     status: "en alquiler",
     price: "U$S 110.000",
     type: "casa",
@@ -75,7 +75,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 8",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur adipisicing elitlore  adipisicing elit",
     status: "en alquiler",
     price: "U$S 130.000",
     type: "casa",
@@ -115,7 +115,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 12",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur adipisicing   consectetur adipisicing elit",
     status: "en alquiler",
     price: "U$S 140.000",
     type: "casa",
@@ -145,7 +145,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 15",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit  elit",
     status: "en alquiler",
     price: "U$S 110.000",
     type: "casa",
@@ -174,7 +174,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 18",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ip consectetur adipisicing elit",
     status: "en alquiler",
     price: "U$S 90.000",
     type: "casa",
@@ -194,12 +194,22 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 20",
     imageSrc: ["https://placehold.co/300x300"],
     description:
-      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet consectetur adipisicing elit",
+      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet ß adipisicing elit",
     status: "en alquiler",
     price: "U$S 80.000",
     type: "casa",
   },
+  {
+    id: 21,
+    title: "Propiedad 22",
+    imageSrc: ["https://placehold.co/300x300"],
+    description:
+      "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit amet ß adipisicing elit",
+    status: "en alquiler",
+    price: "U$S 800.000",
+    type: "casa",
+  },
 ];
 
-export default propiedadesVenta;
+export default propiedadesAlquiler;
 

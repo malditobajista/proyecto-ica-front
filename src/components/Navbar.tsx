@@ -1,19 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-gray-50 to-green-500 p-3 mb-3">
+        <nav className="fixed top-0 left-0 right-0 z-50 p-3 mb-3">
             <div className="flex justify-between items-center">
-                <img src="https://placehold.co/25" alt="Logo" width="25" height="25" className="mr-4" />
+                <img src="https://www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/logo-1.png" alt="Logo" width="80" height="40" className="mr-4" />
                 <div className="hidden md:flex gap-3">
-                    <button className="nav-button">Home</button>
-                    <button className="nav-button">Ventas</button>
-                    <button className="nav-button">Alquileres</button>
-                    <button className="nav-button">Contacto</button>
-                    <button className="nav-button">Login</button>
-                    <button className="nav-button">Publicar Prop</button>
+                    <Link className="nav-button" to="/Home">Home</Link>
+                    <Link className="nav-button" to="/Ventas">Ventas</Link>
+                    <Link className="nav-button" to="/Alquileres">Alquileres</Link>
+                    <Link className="nav-button" to="/Propiedades">Propiedades</Link>
+                    <Link className="nav-button" to="/Contacto">Contacto</Link>
+                    <Link className="nav-button">Login</Link>
+                    <Link className="nav-button" to="/PublicarProp">Publicar Prop</Link>
                 </div>
                 <button className="md:hidden" onClick={() => setIsNavOpen(!isNavOpen)}>
                     <svg
@@ -33,12 +35,13 @@ const Navbar = () => {
                 </button>
             </div>
             <div className={`${isNavOpen ? 'flex' : 'hidden'} flex-col md:hidden`}>
-                <button className="nav-button">Home</button>
-                <button className="nav-button">Ventas</button>
-                <button className="nav-button">Alquileres</button>
-                <button className="nav-button">Contacto</button>
-                <button className="nav-button">Login</button>
-                <button className="nav-button">Publicar Prop</button>
+                <Link className="nav-button" to="/Home">Home</Link>
+                <Link className="nav-button" to="/Ventas">Ventas</Link>
+                <Link className="nav-button" to="/Alquielres">Alquileres</Link>
+                <Link className="nav-button" to="/Propiedades">Propiedades</Link>
+                <Link className="nav-button" to="/Contacto">Contacto</Link>
+                <Link className="nav-button">Login</Link>
+                <Link className="nav-button" to="/PublicarProp">Publicar Prop</Link>
             </div>
         </nav>
     );

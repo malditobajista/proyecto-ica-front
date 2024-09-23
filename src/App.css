@@ -30,8 +30,8 @@ section h2 {
   margin-left: 0.5rem;
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
   .nav-container .nav-button {
     margin-left: 1rem;
   }
-}
+} */

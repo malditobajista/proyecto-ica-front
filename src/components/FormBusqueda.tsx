@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Barrios } from '../assets/barrios';
+import Button from './Button';
 
 const FormBusqueda = () => {
     const [mostrarOtrosSelects, setMostrarOtrosSelects] = useState(false);
@@ -8,34 +10,39 @@ const FormBusqueda = () => {
     };
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4 ">
             <div className="flex flex-col">
                 <label htmlFor="ubicacion">Ubicación</label>
                 <select name="ubicacion" id="ubicacion">
-                    <option value="1">Barrio 1</option>
-                    <option value="2">Barrio 2</option>
-                    <option value="3">Barrio 3</option>
-                    <option value="+">Barrio x</option>
+                    {
+                        Barrios.map((barrio) => (
+                            <option value={barrio.value}>{barrio.label}</option>
+                        ))
+                    }
                 </select>
             </div>
 
             <div className="flex flex-col">
                 <label htmlFor="tipo">Tipo</label>
                 <select name="tipo" id="tipo">
-                    <option value="1">Tipo 1</option>
-                    <option value="2">Tipo 2</option>
-                    <option value="3">Tipo 3</option>
-                    <option value="+">Tipo x</option>
+                    <option value="any">Cualquiera</option>
+                    <option value="house">Casa</option>
+                    <option value="apartament">Apartamento</option>
+                    <option value="office">Oficina</option>
+                    <option value="comerce">Comercio</option>
+                    <option value="storage">Almacén</option>
+                    <option value="land">Terreno</option>
+                    <option value="other">Otros</option>
                 </select>
             </div>
 
             <div className="flex flex-col">
                 <label htmlFor="estado">Estado</label>
                 <select name="estado" id="estado">
-                    <option value="1">Estado 1</option>
-                    <option value="2">Estado 2</option>
-                    <option value="3">Estado 3</option>
-                    <option value="+">Estado x</option>
+                    <option value="any">Cualquiera</option>
+                    <option value="a-estrenar">A estrenar</option>
+                    <option value="for-sale">En venta</option>
+                    <option value="for-rent">En alquiler</option>
                 </select>
             </div>
 
@@ -78,20 +85,19 @@ const FormBusqueda = () => {
                             <option value="3">Indistinto</option>
                         </select>
                     </div>
-                    <div className="w-full">
+                    <div className="flex flex-col">
                         <label htmlFor="nombre">Nombre de la casa</label>
                         <input type="text" name="nombre" id="nombre" />
                     </div>
                 </>
             )}
 
-            <div>
-                <button onClick={toggleMostrarOtrosSelects}>Más opciones</button>
-            </div>
+            <div >
+                <Button to='' onClick={toggleMostrarOtrosSelects}>
+                    {mostrarOtrosSelects ? 'Menos opciones' : 'Más opciones'}
+                </Button>
 
-
-            <div>
-                <button type="button">Buscar</button>
+                <Button clase='ml-4' to='/'>Buscar</Button>
             </div>
         </div>
     );
