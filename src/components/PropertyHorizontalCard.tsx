@@ -16,7 +16,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ title, type, desc
         }));
     };
 
-    const image = "https://placehold.co/150x40";
+    const image = "https://placehold.co/120x40";
 
     return (
         <div className="flex w-full justify-center items-start">

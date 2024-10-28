@@ -21,11 +21,12 @@ import Propiedades from './pages/Propiedades';
 function App() {
 
   return (
-    <div className="container-fluid bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-gray-100">
       <Router>
         <Navbar />
 
         <Routes>
+          <Route path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
           <Route path="/Ventas" element={<Ventas />} />
           <Route path="/Alquileres" element={<Alquileres />} />

@@ -16,6 +16,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, desc
         }));
     };
 
+    const image = "https://placehold.co/300x300";
+
     return (
         <div className="w-full flex justify-center items-center">
             <article className={`
@@ -50,7 +52,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, desc
                     </div>
                     <a href={"/"} className="block w-full h-full">
                         <img
-                            src={imageSrc[0]}
+                            src={imageSrc[0] ?? image}
                             alt={title}
                             className="w-full h-full object-cover mx-auto"
                         />

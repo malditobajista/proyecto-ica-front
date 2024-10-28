@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchProperties, Property } from '../services/services'; // Importa la función y el tipo
 import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
 import Title from '../components/Title';
+import propiedadesAlquiler from '../assets/placeholderPropiedadesAlquiler';
 
 const Alquileres: React.FC = () => {
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
@@ -12,13 +13,13 @@ const Alquileres: React.FC = () => {
         const loadProperties = async () => {
             try {
                 const properties = await fetchProperties();
-                const { rent } = properties
-                console.log(rent);
+                // const { rent } = properties
+                console.log(properties);
                 // rent.map((property) => {
                 //     console.log(property);
                 // });
 
-                setPropiedadesAlquiler(rent);
+                setPropiedadesAlquiler(properties);
                 console.log(propiedadesAlquiler);
                 propiedadesAlquiler.map((property) => {
                     console.log(property);
@@ -55,6 +56,15 @@ const Alquileres: React.FC = () => {
                     </div>
                 ))
             }
+            {/* {
+
+                propiedadesVenta.map((property, index) => (
+                    <div key={index} className='py-4' >
+                        <PropertyHorizontalCard {...property}>  </PropertyHorizontalCard>
+                    </div>
+                ))
+            } */}
+
         </div>
     );
 };

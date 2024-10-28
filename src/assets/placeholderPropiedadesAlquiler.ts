@@ -50,7 +50,6 @@ const propiedadesAlquiler: PropertyCardProps[] = [
     price: "U$S 110.000",
     type: "casa",
   },
-  // Add 20 more properties for sale here
   {
     id: 6,
     title: "Propiedad 6",

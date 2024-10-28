@@ -19,7 +19,7 @@ section h2 {
   margin-bottom: 0.5rem;
 }
 
-.nav-container {
+/* .nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +28,7 @@ section h2 {
 
 .nav-container .nav-button {
   margin-left: 0.5rem;
-}
+} */
 
 /* @media (min-width: 768px) {
   .nav-container .nav-button {

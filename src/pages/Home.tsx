@@ -7,10 +7,11 @@ import propiedadesVenta from '../assets/placeholderPropiedadesVenta';
 import placeholderPropiedades from '../assets/placeholderPropiedades';
 import propiedadesAlquiler from '../assets/placeholderPropiedadesAlquiler';
 import Title from '../components/Title';
+import Garantias from '../components/Garantias';
 
 const Home: React.FC = () => {
     return (
-        <div>
+        <div className="space-y-8  max-w-full ">
             <Banner />
             <section className=''>
                 <FormBusqueda />
@@ -36,11 +37,27 @@ const Home: React.FC = () => {
                 <Button clase='ml-4' to="/">Ir a todas las propiedades</Button>
             </section>
             <hr />
+            {/* solo para usuarios no logueados y administradores */}
             <section className=' px-0'>
                 <Title text="Propiedades destacadas" />
                 <Carousel properties={placeholderPropiedades} />
                 <div className="pb-2">
                     <Button to="/">Ir a todas las propiedades en venta</Button>
+                </div>
+            </section>
+            {/* solo para usuarios logueados */}
+            <section className=' px-0'>
+                <Title text="Tus propiedades favoritas" />
+                <Carousel properties={placeholderPropiedades} />
+                <div className="pb-2">
+                    <Button to="/">Ir a tus propiedades favoritas</Button>
+                </div>
+            </section>
+            <section className=' px-0'>
+                <Title text="Tus propiedades" />
+                <Carousel properties={placeholderPropiedades} />
+                <div className="pb-2">
+                    <Button to="/">Ir a tus propiedades</Button>
                 </div>
             </section>
             <hr />
@@ -49,15 +66,8 @@ const Home: React.FC = () => {
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, nemo.</p>
             </section>
             <hr />
-            <section className=' '>
-                <Title text="Nuestras garantías" />
-                <p className='pb-4'>Orgullosos de formar parte de estas instituciones.</p>
-                <p className="flex justify-around p-4 gap-8">
-                    <img src="https://i2.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/inmobiliaria_habilitada.png?resize=90%2C90&amp;ssl=1" alt="Inmobiliaria Habilitada" width="110" />
-                    <img src="https://i0.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/camara_inmobiliaria_uruguaya.png?resize=190%2C73&amp;ssl=1" alt="Cámara Inmobiliaria Uruguaya" width="190" />
-                    <img src="https://i0.wp.com/www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/camara_inmobiliaria_rocha.png?resize=196%2C73&amp;ssl=1" alt="Cámara Inmobiliaria de Rocha" width="190" />
-                </p>
-            </section>
+
+            <Garantias />
             <hr />
         </div>
     );
