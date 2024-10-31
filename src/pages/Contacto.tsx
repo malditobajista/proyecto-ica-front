@@ -1,10 +1,28 @@
 import React from 'react';
+import ContactForm from '../components/ContactForm';
+import Recaptcha from '../components/Recaptcha';
+import ContactItemsProps from '../components/ContactItemsProps';
+import Gmap from '../components/Gmap';
+import Title from '../components/Title';
 
 const Contacto: React.FC = () => {
     return (
-        <div className='mt-14'>
-            <h1>Contacto</h1>
-            <p>Bienvenido a la página de Contacto.</p>
+        <div className="py-8">
+            <Title text='Contacto' />
+            <div className="flex flex-col lg:flex-row lg:space-x-8">
+                <div className="flex-1">
+                    <ContactForm />
+                    <div className="flex justify-center mt-4">
+                        <Recaptcha />
+                    </div>
+                </div>
+                <div className="flex-1">
+                    <ContactItemsProps />
+                </div>
+            </div>
+            <div className="flex justify-center mt-8">
+                <Gmap />
+            </div>
         </div>
     );
 };

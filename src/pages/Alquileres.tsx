@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProperties, Property } from '../services/services'; // Importa la función y el tipo
+import { fetchProperties, Property } from '../services/services';
 import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
 import Title from '../components/Title';
-import propiedadesAlquiler from '../assets/placeholderPropiedadesAlquiler';
 
 const Alquileres: React.FC = () => {
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
@@ -12,15 +11,9 @@ const Alquileres: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const properties = await fetchProperties();
-                // const { rent } = properties
-                console.log(properties);
-                // rent.map((property) => {
-                //     console.log(property);
-                // });
-
+                const properties = await fetchProperties("for-rent");
                 setPropiedadesAlquiler(properties);
-                console.log(propiedadesAlquiler);
+
                 propiedadesAlquiler.map((property) => {
                     console.log(property);
                 });
