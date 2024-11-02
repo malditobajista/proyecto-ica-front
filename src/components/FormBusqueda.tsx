@@ -13,7 +13,9 @@ const FormBusqueda = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4 ">
             <div className="flex flex-col">
                 <label htmlFor="ubicacion">Ubicación</label>
-                <select name="ubicacion" id="ubicacion">
+                <select name="ubicacion" id="ubicacion"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
                     {
                         Barrios.map(({ value, label }) => (
                             <option key={value} value={value}>{label}</option>
@@ -24,8 +26,9 @@ const FormBusqueda = () => {
 
             <div className="flex flex-col">
                 <label htmlFor="tipo">Tipo</label>
-                <select name="tipo" id="tipo">
-                    <option key="anyType" value="any">Cualquiera</option>
+                <select name="tipo" id="tipo" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                    <option key="anyType" value="any">Indistinto</option>
                     <option key="house" value="house">Casa</option>
                     <option key="apartament" value="apartament">Apartamento</option>
                     <option key="office" value="office">Oficina</option>
@@ -38,8 +41,10 @@ const FormBusqueda = () => {
 
             <div className="flex flex-col">
                 <label htmlFor="estado">Estado</label>
-                <select name="estado" id="estado">
-                    <option key="anyState" value="any">Cualquiera</option>
+                <select name="estado" id="estado"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                    <option key="anyState" value="any">Indistinto</option>
                     <option key="brand-new" value="brand-new">A estrenar</option>
                     <option key="for-sale" value="for-sale">En venta</option>
                     <option key="for-rent" value="for-rent">En alquiler</option>
@@ -50,7 +55,10 @@ const FormBusqueda = () => {
                 <>
                     <div className="flex flex-col">
                         <label htmlFor="dormitorios">Dormitorios</label>
-                        <select name="dormitorios" id="dormitorios">
+                        <select name="dormitorios" id="dormitorios"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            <option key="dormitorio-0" value="0">Indistinto</option>
                             <option key="dormitorio-1" value="1">1</option>
                             <option key="dormitorio-2" value="2">2</option>
                             <option key="dormitorio-3" value="3">3</option>
@@ -60,7 +68,10 @@ const FormBusqueda = () => {
 
                     <div className="flex flex-col">
                         <label htmlFor="banios">Baños</label>
-                        <select name="banios" id="banios">
+                        <select name="banios" id="banios"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            <option key="banio-0" value="0">Indistinto</option>
                             <option key="banio-1" value="1">1</option>
                             <option key="banio-2" value="2">2</option>
                             <option key="banio-3" value="3">3</option>
@@ -70,7 +81,9 @@ const FormBusqueda = () => {
 
                     <div className="flex flex-col">
                         <label htmlFor="garages">Garages</label>
-                        <select name="garages" id="garages">
+                        <select name="garages" id="garages" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            <option key="garage-0" value="0">Indistinto</option>
                             <option key="garage-si" value="yes">Si</option>
                             <option key="garage-no" value="no">No</option>
                             <option key="garage-indistinto" value="3">Indistitno</option>
@@ -78,7 +91,9 @@ const FormBusqueda = () => {
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="piscina">Piscina</label>
-                        <select name="piscina" id="piscina">
+                        <select name="piscina" id="piscina" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        >
+                            <option key="piscina-0" value="0">Indistinto</option>
                             <option key="piscina-si" value="yes">Si</option>
                             <option key="piscina-no" value="no">No</option>
                             <option key="piscina-indistinto" value="3">Indistinto</option>
@@ -86,7 +101,8 @@ const FormBusqueda = () => {
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="nombre">Nombre de la casa</label>
-                        <input type="text" name="nombre" id="nombre" placeholder='Escriba el nombre' className='pl-1' />
+                        <input type="text" name="nombre" id="nombre" placeholder='Escriba el nombre' className="pl-1 mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        />
                     </div>
                 </>
             )}

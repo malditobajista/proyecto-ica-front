@@ -21,20 +21,20 @@ const Home: React.FC = () => {
                 <Title text="En venta" />
                 <Carousel properties={propiedadesVenta} />
                 <div className="pb-2">
-                    <Button to="/">Ir a todas las propiedades en venta</Button>
+                    <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
                 </div>
                 <hr />
                 <Title text="En alquiler" />
                 <Carousel properties={propiedadesAlquiler} />
                 <div className="pb-2">
-                    <Button to="/">Ir a todas las propiedades en alquiler</Button>
+                    <Button to="/Alquileres">Ir a todas las propiedades en alquiler</Button>
                 </div>
             </section>
             <hr />
             <section className=' '>
                 <Title text="Comprar vender" />
-                <Button to="/">Publicar</Button>
-                <Button clase='ml-4' to="/">Ir a todas las propiedades</Button>
+                <Button to="/PublicarProp">Publicar</Button>
+                <Button clase='ml-4' to="/Propiedades">Ir a todas las propiedades</Button>
             </section>
             <hr />
             {/* solo para usuarios no logueados y administradores */}
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
                 <Title text="Propiedades destacadas" />
                 <Carousel properties={placeholderPropiedades} />
                 <div className="pb-2">
-                    <Button to="/">Ir a todas las propiedades en venta</Button>
+                    <Button to="/Propiedades">Ir a todas las propiedades</Button>
                 </div>
             </section>
             {/* solo para usuarios logueados */}

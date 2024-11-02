@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProperties, Property } from '../services/services';
+import { fetchProperties } from '../services/services';
 import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
 import Title from '../components/Title';
+import { Property } from '../utils/types';
 
 const Alquileres: React.FC = () => {
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);

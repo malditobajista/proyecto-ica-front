@@ -1,14 +1,5 @@
 import propiedades from "../assets/placeholderPropiedades";
-
-export interface Property {
-  id: number;
-  title: string;
-  imageSrc?: string[];
-  description: string;
-  status: string;
-  price: string;
-  type: string;
-}
+import { Property } from "../utils/types";
 
 // const API_URL = "/api/property/home";
 const MOCKED_PROPERTIES: Property[] = propiedades;
@@ -45,5 +36,25 @@ export const fetchProperties = async (filter?: string): Promise<Property[]> => {
     console.error("Error en la llamada a la API:", error);
     return [];
   }
+};
+
+// export const fetchPropertyById = async (id: string): Promise<Property> => {
+//   const response = await fetch(`/api/properties/${id}`);
+//   console.log(">>> ", response);
+
+//   if (!response.ok) {
+//     throw new Error("Error al obtener los detalles de la propiedad");
+//   }
+//   return response.json();
+// };
+
+export const fetchPropertyById = async (id: string): Promise<Property> => {
+  const propertyId = parseInt(id, 10);
+  const property = propiedades.find((prop) => prop.id === propertyId);
+
+  if (!property) {
+    throw new Error("Error al obtener los detalles de la propiedad");
+  }
+  return Promise.resolve(property);
 };
 

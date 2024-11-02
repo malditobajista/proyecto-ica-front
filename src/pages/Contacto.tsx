@@ -1,5 +1,5 @@
 import React from 'react';
-import ContactForm from '../components/ContactForm';
+import FormContacto from '../components/FormContacto';
 import Recaptcha from '../components/Recaptcha';
 import ContactItemsProps from '../components/ContactItemsProps';
 import Gmap from '../components/Gmap';
@@ -11,7 +11,7 @@ const Contacto: React.FC = () => {
             <Title text='Contacto' />
             <div className="flex flex-col lg:flex-row lg:space-x-8">
                 <div className="flex-1">
-                    <ContactForm />
+                    <FormContacto />
                     <div className="flex justify-center mt-4">
                         <Recaptcha />
                     </div>

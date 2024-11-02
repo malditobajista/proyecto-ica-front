@@ -46,7 +46,7 @@ const Navbar = () => {
                         <Link className="nav-button" to="/Alquileres">Alquileres</Link>
                         <Link className="nav-button" to="/Propiedades">Propiedades</Link>
                         <Link className="nav-button" to="/Contacto">Contacto</Link>
-                        <Link className="nav-button" to="/PublicarProp">Publicar Prop</Link>
+                        <Link className="nav-button" to="/PublicarProp">Publicar Propiedad</Link>
                         <button className="nav-button" onClick={() => setIsModalOpen(true)}>
                             <FontAwesomeIcon icon={faUser} size="sm" />
                         </button>
