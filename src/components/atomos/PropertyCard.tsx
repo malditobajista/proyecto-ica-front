@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { PropertyCardProps } from "../utils/types";
+import { PropertyCardProps } from "../../utils/types";
 import Button from "./Button";
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, description, status, price }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, description, state, price }) => {
     const [selectedButtons, setSelectedButtons] = useState<{ heart: boolean; dollar: boolean }>({
         heart: false,
         dollar: false,
@@ -50,17 +50,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, desc
                             $
                         </button>
                     </div>
-                    <a href={"/"} className="block w-full h-full">
+                    <span className="block w-full h-full">
                         <img
+                            // @ts-ignore
                             src={imageSrc[0] ?? image}
                             alt={title}
                             className="w-full h-full object-cover mx-auto"
                         />
-                    </a>
+                    </span>
                 </figure>
                 <div className="flex-grow flex flex-col p-4 sm:p-0"> {/* Permitir que este div crezca */}
                     <h3 className="text-center text-xl font-medium leading-tight">
-                        <a href={"/"}>{title}</a>
+                        <span >{title}</span>
                     </h3>
                     <h4>{type}</h4>
                     <div className="flex-grow p-5"> {/* Esta sección también puede crecer */}
@@ -69,10 +70,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ title, imageSrc, type, desc
                 </div>
                 <div className="pb-4">
                     <div className="px-4">
-                        <p className="pb-2 text-left font-bold">Propiedad {status}</p>
+                        <p className="pb-2 text-left font-bold">Propiedad {state}</p>
                         <p className="pb-2 text-left text-xl text-green-700">{price}</p>
                     </div>
-                    <Button to={"/"}>Ir a propiedad</Button>
+                    <Button to={`/propiedades/${id}`}>
+                        Ver Propiedad
+                    </Button>
                 </div>
             </article>
         </div>

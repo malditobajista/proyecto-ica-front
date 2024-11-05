@@ -19,12 +19,12 @@ export const fetchProperties = async (filter?: string): Promise<Property[]> => {
       switch (filter) {
         case "for-rent":
           filteredProperties = MOCKED_PROPERTIES.filter(
-            (property) => property.status === "en alquiler"
+            (property) => property.state === "en alquiler"
           );
           break;
         case "for-sale":
           filteredProperties = MOCKED_PROPERTIES.filter(
-            (property) => property.status === "en venta"
+            (property) => property.state === "en venta"
           );
           break;
         default:

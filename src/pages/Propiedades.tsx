@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import placeholderPropiedades from '../assets/placeholderPropiedades';
-import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
+import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
+import Title from '../components/atomos/Title';
 
 const Propiedades: React.FC = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className='mt-14 p-4'>
-            <h1 className="text-3xl font-bold leading-tight">
-                Todas las propiedades</h1>
-
+            <Title text='Todas las Propiedades' />
             {
 
                 placeholderPropiedades.map((property, index) => (

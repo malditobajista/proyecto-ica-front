@@ -1,5 +1,5 @@
-import image from '../assets/imgs/placeholder.gif';
-import imageMobile from '../assets/imgs/placeholderMobile.gif';
+import image from '../../assets/imgs/placeholder.gif';
+import imageMobile from '../../assets/imgs/placeholderMobile.gif';
 
 const Banner = () => {
     return (

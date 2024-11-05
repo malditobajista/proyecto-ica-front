@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Barrios } from '../assets/barrios';
-import Button from './Button';
+import Button from './atomos/Button';
 
 const FormBusqueda = () => {
     const [mostrarOtrosSelects, setMostrarOtrosSelects] = useState(false);

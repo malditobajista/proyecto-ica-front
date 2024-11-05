@@ -1,15 +1,41 @@
-import React from 'react';
-import Banner from '../components/Banner';
-import Button from '../components/Button';
+import React, { useEffect, useState } from 'react';
+import Banner from '../components/atomos/Banner';
+import Button from '../components/atomos/Button';
 import FormBusqueda from '../components/FormBusqueda';
 import Carousel from '../components/CarouselPropiedades';
-import propiedadesVenta from '../assets/placeholderPropiedadesVenta';
 import placeholderPropiedades from '../assets/placeholderPropiedades';
-import propiedadesAlquiler from '../assets/placeholderPropiedadesAlquiler';
-import Title from '../components/Title';
+import Title from '../components/atomos/Title';
 import Garantias from '../components/Garantias';
+import { fetchProperties } from '../services/services';
+import { Property } from '../utils/types';
 
 const Home: React.FC = () => {
+    const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
+    const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+    }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+        const loadProperties = async () => {
+            try {
+                const forSale = await fetchProperties("for-sale");
+                setPropiedadesVenta(forSale);
+                const forRent = await fetchProperties("for-rent");
+                setPropiedadesAlquiler(forRent);
+
+            } catch (err) {
+                setError('Hubo un problema al cargar las propiedades.');
+            } finally {
+                setLoading(false);
+            }
+        };
+        console.log(">>>", error);
+
+        loadProperties();
+    }, []);
     return (
         <div className="space-y-8  max-w-full ">
             <Banner />
@@ -19,13 +45,19 @@ const Home: React.FC = () => {
             <hr />
             <section className=' px-0'>
                 <Title text="En venta" />
-                <Carousel properties={propiedadesVenta} />
+                {loading ? <Title text="Cargando propiedades..." />
+                    :
+                    <Carousel properties={propiedadesVenta} />
+                }
                 <div className="pb-2">
                     <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
                 </div>
                 <hr />
                 <Title text="En alquiler" />
-                <Carousel properties={propiedadesAlquiler} />
+                {loading ? <Title text="Cargando propiedades..." />
+                    :
+                    <Carousel properties={propiedadesAlquiler} />
+                }
                 <div className="pb-2">
                     <Button to="/Alquileres">Ir a todas las propiedades en alquiler</Button>
                 </div>
@@ -45,6 +77,8 @@ const Home: React.FC = () => {
                     <Button to="/Propiedades">Ir a todas las propiedades</Button>
                 </div>
             </section>
+            <hr />
+
             {/* solo para usuarios logueados */}
             <section className=' px-0'>
                 <Title text="Tus propiedades favoritas" />
@@ -53,6 +87,8 @@ const Home: React.FC = () => {
                     <Button to="/">Ir a tus propiedades favoritas</Button>
                 </div>
             </section>
+            <hr />
+
             <section className=' px-0'>
                 <Title text="Tus propiedades" />
                 <Carousel properties={placeholderPropiedades} />

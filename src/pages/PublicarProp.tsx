@@ -1,9 +1,13 @@
-import { useState } from 'react';
-import Title from '../components/Title';
+import { useEffect, useState } from 'react';
+import Title from '../components/atomos/Title';
 import FormPropiedades from '../components/FormPropiedades';
 import { PropertyCardProps } from '../utils/types';
 
 const PublicarProp: React.FC = () => {
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+
     const [properties, setProperties] = useState<PropertyCardProps[]>([]);
 
     const onAddProperty = (newProperty: Omit<PropertyCardProps, 'id'>) => {

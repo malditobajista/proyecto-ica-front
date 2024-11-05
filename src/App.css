@@ -35,3 +35,15 @@ section h2 {
     margin-left: 1rem;
   }
 } */
+.scrollbar-hidden {
+    overflow-x: hidden; /* Oculta el scrollbar horizontal */
+}
+
+.slides {
+    scroll-behavior: smooth; /* Desplazamiento suave */
+    scroll-snap-type: x mandatory; /* Establece el tipo de "snap" en el eje x */
+}
+
+.slides li {
+    scroll-snap-align: start; /* Alinea las miniaturas al inicio al hacer scroll */
+}

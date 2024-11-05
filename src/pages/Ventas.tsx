@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProperties } from '../services/services';
-import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
-import Title from '../components/Title';
+import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
+import Title from '../components/atomos/Title';
 import { Property } from '../utils/types';
 
 const Ventas: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const loadProperties = async () => {
@@ -39,9 +42,7 @@ const Ventas: React.FC = () => {
 
     return (
         <div className='mt-14 p-4'>
-            <h1 className="text-3xl font-bold leading-tight">
-                Propiedades en Venta
-            </h1>
+            <Title text='Propiedades en Venta' />
 
             {
                 propiedadesVenta.map((property) => (

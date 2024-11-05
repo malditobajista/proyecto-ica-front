@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../utils/Footer.css';
+import '../../utils/Footer.css';
 
 export const Footer = () => {
     const [hasScrolled, setHasScrolled] = useState(false);
@@ -36,15 +36,15 @@ export const Footer = () => {
                         />
                     </Link>
                 </div>
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 ">
                     <a className="facebook" href="https://www.facebook.com/inmobiliariacostaazul.lapaloma" target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-facebook-square fa-lg"></i>
+                        <i className="fab fa-facebook-square fa-lg  hover:text-blue-500"></i>
                     </a>
                     <a className="youtube" href="https://www.youtube.com/channel/UCDNHUcAabL3I4XRk71CACqg" target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-youtube fa-lg"></i>
+                        <i className="fab fa-youtube fa-lg  hover:text-red-500"></i>
                     </a>
                     <a className="whatsapp" href="https://api.whatsapp.com/send?phone=59898384860&text=&source=&data=" target="_blank" rel="noopener noreferrer">
-                        <i className="fab fa-whatsapp fa-lg"></i>
+                        <i className="fab fa-whatsapp fa-lg  hover:text-green-500"></i>
                     </a>
                 </div>
             </div>
@@ -53,30 +53,30 @@ export const Footer = () => {
                 <section id="nav_menu-1" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
                         <div>
-                            <Link className="nav-button" to="/Home" aria-current="page">Home</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/Home" aria-current="page">Inicio</Link>
                         </div>
                         <div>
-                            <Link className="nav-button" to="/Alquileres">Alquileres</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/Alquileres">Alquileres</Link>
                         </div>
                         <div>
-                            <Link className="nav-button" to="/Ventas">Ventas</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/Ventas">Ventas</Link>
                         </div>
                     </div>
                     <div className="flex flex-col">
                         <div>
-                            <Link className="nav-button" to="/Propiedades/">Propiedades</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/Propiedades/">Propiedades</Link>
                         </div>
                         <div>
-                            <Link className="nav-button" to="/Contacto/">Contacto</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/Contacto/">Contacto</Link>
                         </div>
                         <div>
-                            <Link className="nav-button" to="/PublicarProp/">Publicar propiedad</Link>
+                            <Link className="nav-button  hover:text-green-500" to="/PublicarProp/">Publicar propiedad</Link>
                         </div>
                     </div>
                 </section>
 
                 <section id="contact-info" className="flex flex-col gap-4">
-                    <div className="contact-item">
+                    <div className="contact-item  hover:text-green-500">
                         <p className="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 384 512">
                                 <path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"></path>
@@ -92,7 +92,7 @@ export const Footer = () => {
                             </a>
                         </p>
                     </div>
-                    <div className="contact-item">
+                    <div className="contact-item  hover:text-green-500">
                         <p className="icon">
                             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="18px" height="18px" viewBox="0 0 459 459" xmlSpace="preserve">
                                 <g>
@@ -104,7 +104,7 @@ export const Footer = () => {
                         </p>
                         <p className="content">(+598) 4479 8463</p>
                     </div>
-                    <div className="contact-item">
+                    <div className="contact-item  hover:text-green-500">
                         <p className="icon">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 510 510">
                                 <path d="M459 51H51C22.95 51 0 73.95 0 102v306c0 28.05 22.95 51 51 51h408c28.05 0 51-22.95 51-51V102c0-28.05-22.95-51-51-51zm0 102L255 280.5 51 153v-51l204 127.5L459 102v51z"></path>

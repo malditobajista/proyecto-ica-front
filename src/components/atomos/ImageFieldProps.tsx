@@ -19,6 +19,7 @@ const ImageField: React.FC<ImageFieldProps> = ({ imageSrc, onImageChange, addIma
                     onChange={(e) => onImageChange(index, e.target.value)}
                     className={`block w-full border ${error ? 'border-red-500' : 'border-gray-300'} pl-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
                     required
+                    placeholder='https://www.ejemplo.com/image.jpg'
                 />
                 <button
                     type="button"
@@ -33,9 +34,9 @@ const ImageField: React.FC<ImageFieldProps> = ({ imageSrc, onImageChange, addIma
         <button
             type="button"
             onClick={addImageField}
-            className="mt-2 text-green-500 hover:text-green-700"
+            className="mt-2 text-sm text-green-500 hover:text-green-700"
         >
-            +
+            + agregar otra imagen
         </button>
         {error && (
             <div className="text-sm text-red-500 mt-1">

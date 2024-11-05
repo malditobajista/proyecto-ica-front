@@ -6,7 +6,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 1",
     imageSrc: ["https://placehold.co/300x300"],
     description: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 100.000",
     type: "casa",
   },
@@ -16,7 +16,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 80.000",
     type: "casa",
   },
@@ -26,7 +26,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum  ",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 120.000",
     type: "casa",
   },
@@ -36,7 +36,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit lorem ipsum dolor sit amet consectetur adipisicing elit",
-    status: "reservada",
+    state: "reservada",
     price: "U$S 90.000",
     type: "casa",
   },
@@ -46,7 +46,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit a ",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 110.000",
     type: "casa",
   },
@@ -56,7 +56,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 6",
     imageSrc: ["https://placehold.co/300x300"],
     description: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 95.000",
     type: "casa",
   },
@@ -66,7 +66,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 85.000",
     type: "casa",
   },
@@ -76,7 +76,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur adipisicing  adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 130.000",
     type: "casa",
   },
@@ -86,7 +86,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit lorem ipsum dolor sit amet consectetur adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 120.000",
     type: "casa",
   },
@@ -96,7 +96,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur lorem ipsum dolor sit   adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 115.000",
     type: "casa",
   },
@@ -106,7 +106,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 105.000",
     type: "casa",
   },
@@ -116,7 +116,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur adipisicing elitlorem ipsum adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 140.000",
     type: "casa",
   },
@@ -126,7 +126,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit lorem ipsum dolor sit amet consectetur adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 130.000",
     type: "casa",
   },
@@ -136,7 +136,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 120.000",
     type: "casa",
   },
@@ -146,7 +146,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur lorem ipsum  adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 110.000",
     type: "casa",
   },
@@ -155,7 +155,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     title: "Propiedad 16",
     imageSrc: ["https://placehold.co/300x300"],
     description: "lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 100.000",
     type: "casa",
   },
@@ -165,7 +165,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum lorem ipsum dolor sit amet consectetur adipisicing elit.",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 95.000",
     type: "casa",
   },
@@ -175,7 +175,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur adipisicing elitlorem  r adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 90.000",
     type: "casa",
   },
@@ -185,7 +185,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit lorem ipsum dolor sit amet consectetur adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 85.000",
     type: "casa",
   },
@@ -195,7 +195,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur lorem ipsum dolor ßr adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 80.000",
     type: "casa",
   },
@@ -205,7 +205,7 @@ const propiedadesVenta: PropertyCardProps[] = [
     imageSrc: ["https://placehold.co/300x300"],
     description:
       "lorem ipsum dolor sit amet consectetur lorem ipsum dolor ßr adipisicing elit",
-    status: "en venta",
+    state: "en venta",
     price: "U$S 80.500",
     type: "casa",
   },

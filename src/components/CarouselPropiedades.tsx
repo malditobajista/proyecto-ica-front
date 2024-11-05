@@ -66,7 +66,7 @@
 
 // export default Carousel;
 import { useState, useEffect } from 'react';
-import PropertyCard from './PropertyCard';
+import PropertyCard from './atomos/PropertyCard';
 import { PropertyCardProps } from '../utils/types';
 
 interface CarouselProps {

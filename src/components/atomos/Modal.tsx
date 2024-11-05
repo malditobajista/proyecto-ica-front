@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { isValidEmail, isValidName, isValidPhoneNumber } from '../../utils/validations';
+import { errorMessages } from '../../utils/errorMessages';
 interface ModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -17,15 +17,71 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         telefono: '',
     });
 
+    const [errors, setErrors] = useState({
+        nombre: '',
+        apellido: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        telefono: '',
+    });
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
+
+        // Reset error message when user starts typing
+        setErrors({ ...errors, [name]: '' });
+    };
+
+    const validateFields = () => {
+        let newErrors = { ...errors };
+
+        if (isRegistering) {
+            if (!isValidName(formData.nombre)) {
+                newErrors.nombre = errorMessages.name.required;
+                // newErrors.nombre = 'Nombre inválido. Solo se permiten letras.';
+            }
+            if (!isValidName(formData.apellido)) {
+                newErrors.apellido = errorMessages.lastname.required;
+            }
+        }
+
+        if (formData.email === '') {
+            newErrors.email = errorMessages.email.required;
+        } else if (!isValidEmail(formData.email)) {
+            newErrors.email = errorMessages.email.invalid;
+        }
+
+        if (formData.password === '') {
+            newErrors.password = errorMessages.password.required;
+        } else if (formData.password.length < 6) {
+            newErrors.password = errorMessages.password.invadlid;
+        }
+
+        // Validar que las contraseñas coincidan
+        if (isRegistering) {
+            if (formData.repeatPassword !== formData.password) {
+                newErrors.repeatPassword = errorMessages.passwordsMismatch;
+            }
+        }
+
+        if (formData.telefono === '') {
+            newErrors.telefono = errorMessages.telefono.required;
+        } else if (!isValidPhoneNumber(formData.telefono)) {
+            newErrors.telefono = errorMessages.telefono.invalid;
+        }
+
+        setErrors(newErrors);
+        return Object.values(newErrors).every((error) => error === '');
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Aquí puedes manejar el envío del formulario
-        console.log(formData);
+        if (validateFields()) {
+            // Aquí puedes manejar el envío del formulario
+            console.log(">>> ", formData);
+        }
     };
 
     const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -33,6 +89,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             onClose();
         }
     };
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') {
@@ -48,6 +105,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [isOpen, onClose]);
+
     if (!isOpen) return null;
 
     return (
@@ -60,7 +118,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     &times;
                 </button>
                 <h2 className="text-xl font-bold mb-4">{isRegistering ? 'Registro' : 'Iniciar Sesión'}</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
                     {isRegistering && (
                         <>
                             <input
@@ -68,23 +126,24 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 name="nombre"
                                 placeholder="Nombre"
                                 maxLength={12}
-                                pattern="^[a-zA-Z]+$"
                                 value={formData.nombre}
                                 onChange={handleChange}
                                 required
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className={`w-full p-2 border rounded ${errors.nombre ? 'border-red-500' : 'border-gray-300'}`}
                             />
+                            {errors.nombre && <p className="text-red-500 text-xs">{errors.nombre}</p>}
+
                             <input
                                 type="text"
                                 name="apellido"
                                 placeholder="Apellido"
                                 maxLength={12}
-                                pattern="^[a-zA-Z]+$"
                                 value={formData.apellido}
                                 onChange={handleChange}
                                 required
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className={`w-full p-2 border rounded ${errors.apellido ? 'border-red-500' : 'border-gray-300'}`}
                             />
+                            {errors.apellido && <p className="text-red-500 text-xs">{errors.apellido}</p>}
                         </>
                     )}
                     <input
@@ -92,12 +151,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         name="email"
                         placeholder="Email"
                         maxLength={30}
-                        pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className={`w-full p-2 border rounded ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                     />
+                    {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+
                     <input
                         type="password"
                         name="password"
@@ -106,8 +166,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         value={formData.password}
                         onChange={handleChange}
                         required
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className={`w-full p-2 border rounded ${errors.password ? 'border-red-500' : 'border-gray-300'}`}
                     />
+                    {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+
                     {isRegistering && (
                         <>
                             <input
@@ -118,30 +180,35 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 value={formData.repeatPassword}
                                 onChange={handleChange}
                                 required
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className={`w-full p-2 border rounded ${errors.repeatPassword ? 'border-red-500' : 'border-gray-300'}`}
                             />
+                            {errors.repeatPassword && <p className="text-red-500 text-xs">{errors.repeatPassword}</p>}
+
                             <input
                                 type="tel"
                                 name="telefono"
                                 placeholder="Teléfono (0xx xxx xxx)"
-                                pattern="^0\d{2} \d{3} \d{3}$"
                                 value={formData.telefono}
                                 onChange={handleChange}
                                 required
-                                className="w-full p-2 border border-gray-300 rounded"
+                                className={`w-full p-2 border rounded ${errors.telefono ? 'border-red-500' : 'border-gray-300'}`}
                             />
+                            {errors.telefono && <p className="text-red-500 text-xs">{errors.telefono}</p>}
                         </>
                     )}
-                    <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded">
+                    <button type="submit" className="w-full bg-green-300 hover:bg-green-500 text-white p-2 rounded">
                         {isRegistering ? 'Registrarse' : 'Iniciar Sesión'}
                     </button>
                 </form>
-                <button
-                    onClick={() => setIsRegistering(!isRegistering)}
-                    className="mt-4 text-blue-500 underline"
-                >
-                    {isRegistering ? '¿Ya tienes una cuenta? Inicia sesión' : '¿No tienes una cuenta? Regístrate'}
-                </button>
+                <div className="flex justify-center mt-4">
+
+                    <button
+                        onClick={() => setIsRegistering(!isRegistering)}
+                        className="mt-4 text-gray-500 hover:text-green-500"
+                    >
+                        {isRegistering ? '¿Ya tienes una cuenta? Inicia sesión' : '¿No tienes una cuenta? Regístrate'}
+                    </button>
+                </div>
             </div>
         </div>
     );

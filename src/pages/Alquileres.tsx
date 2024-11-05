@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { fetchProperties } from '../services/services';
-import PropertyHorizontalCard from '../components/PropertyHorizontalCard';
-import Title from '../components/Title';
+import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
+import Title from '../components/atomos/Title';
 import { Property } from '../utils/types';
 
 const Alquileres: React.FC = () => {
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const loadProperties = async () => {
@@ -38,10 +42,8 @@ const Alquileres: React.FC = () => {
     if (error) return <Title text={error} />;
 
     return (
-        <div className='mt-14 p-4'>
-            <h1 className="text-3xl font-bold leading-tight">
-                Propiedades en Alquiler
-            </h1>
+        <div className='mt-14 p-4 max-w-full overflow-x-hidden'>
+            <Title text='Propiedades en Alquiler' />
 
             {
                 propiedadesAlquiler.map((property) => (

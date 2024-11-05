@@ -1,3 +1,13 @@
+export interface UserData {
+  id: number;
+  nombre: string;
+  apellido: string;
+  email: string;
+  telefono: string;
+  password: string;
+  repeatPassword: string;
+}
+
 interface LatLng {
   lat: number;
   lng: number;
@@ -8,7 +18,7 @@ export interface PropertyCardProps {
   imageSrc?: string[];
   image?: string[];
   description: string;
-  status: string;
+  state: string;
   price: string;
   type: string;
   dormitorios?: string | number; // Opcional, dependiendo de si siempre se proporciona
@@ -17,8 +27,8 @@ export interface PropertyCardProps {
   piscina?: boolean; // Opcional, dependiendo de si siempre se proporciona
   ubicacion?: string; // Opcional, dependiendo de si siempre se proporciona
   area?: number;
-  yearBuilt?: number;
   lotSize?: number;
+  yearBuilt?: number;
   latitud?: number;
   longitud?: number;
   latLng?: LatLng | null;
@@ -29,7 +39,7 @@ export interface Property {
   title: string;
   imageSrc?: string[];
   description: string;
-  status: string;
+  state: string;
   price: string;
   type: string;
   dormitorios?: string | number;
@@ -38,10 +48,26 @@ export interface Property {
   piscina?: boolean;
   ubicacion?: string;
   area?: number;
-  yearBuilt?: number;
   lotSize?: number;
+  yearBuilt?: number;
   latitud?: number;
   longitud?: number;
   latLng?: LatLng | null;
+}
+
+export interface TextareaFieldProps {
+  label: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  name?: string;
+  error?: string;
+  maxLength?: number;
+  rows?: number;
+}
+
+export interface RecaptchaProps {
+  onError: (error: string) => void;
+  isChecked: boolean;
+  setIsChecked: (checked: boolean) => void;
 }
 

@@ -1,15 +1,17 @@
 import './App.css'
-import Navbar from './components/Navbar';
+import Navbar from './components/atomos/Navbar';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Alquileres from './pages/Alquileres';
 import Home from './pages/Home';
 import Ventas from './pages/Ventas';
 import Contacto from './pages/Contacto';
 import PublicarProp from './pages/PublicarProp';
-import { Footer } from './components/Footer';
+import { Footer } from './components/atomos/Footer';
 import Propiedades from './pages/Propiedades';
 import PropertyDetails from './pages/PropertyDetails';
-
+import Perfil from './pages/Perfil';
+import { MisPropiedades } from './pages/MisPropiedades';
+import { MisFavoritas } from './pages/MisFavoritas';
 function App() {
 
   return (
@@ -25,7 +27,10 @@ function App() {
           <Route path="/Propiedades" element={<Propiedades />} />
           <Route path="/propiedades/:id" element={<PropertyDetails />} />
           <Route path="/Contacto" element={<Contacto />} />
-          <Route path="/login" element={<Home />} />
+          <Route path="/Login" element={<Home />} />
+          <Route path="/Perfil" element={<Perfil />} />
+          <Route path="/Mis-propiedades" element={<MisPropiedades />} />
+          <Route path="/Mis-favoritas" element={<MisFavoritas />} />
           <Route path="/PublicarProp" element={<PublicarProp />} />
         </Routes>
 

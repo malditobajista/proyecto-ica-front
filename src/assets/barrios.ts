@@ -83,5 +83,9 @@ export const Barrios: { value: string; label: string }[] = [
     value: "santa-isabel",
     label: "Santa Isabel",
   },
+  {
+    value: "no-aplica",
+    label: "No aplica",
+  },
 ];
 

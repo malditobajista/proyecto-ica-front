@@ -3,13 +3,20 @@ import { useParams } from 'react-router-dom';
 import { fetchPropertyById } from '../services/services';
 import { Property } from '../utils/types';
 import { FaBed, FaBath, FaCar, FaSwimmingPool, FaRulerCombined, FaCalendarAlt } from 'react-icons/fa';
-import Title from '../components/Title';
+import Title from '../components/atomos/Title';
+import ImageSlider from '../components/atomos/ImageSlider';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const PropertyDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [property, setProperty] = useState<Property | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const loadProperty = async () => {
@@ -34,86 +41,133 @@ const PropertyDetails: React.FC = () => {
     if (error) return <div>{error}</div>;
     if (!property) return <div>No se encontró la propiedad.</div>;
 
-    // Coordenadas de ejemplo para Costa Azul, Uruguay
+    //@ts-ignore
     const costaAzulCoordinates = {
         lat: -34.6500,
         lng: -54.1667
     };
+    console.log(">>> ", property.imageSrc);
 
     return (
         <div className="my-8 p-4">
             {/* Título y Precio */}
-            <div className="flex justify-between items-center mb-4">
-                <Title text={property.title} />
-                <p className="text-xl font-semibold">Precio: <span className='text-green-500'> {property.price}</span></p>
-            </div>
-
-            {/* Imagen de la propiedad */}
-            {property.imageSrc && property.imageSrc.length > 0 && (
-                <div className="flex justify-center mb-4">
-                    <img src={property.imageSrc[0]} alt={property.title} className="w-full h-auto" />
+            <article className={`
+                        bg-white 
+                        rounded
+                        text-surface
+                        shadow-md
+                        dark:bg-surface-dark dark:text-gray-800
+                        px-8
+                        my-8
+                        relative
+                        `}>
+                <div className="flex justify-between items-center mb-4">
+                    <Title text={property.title} />
+                    <p className="text-xl font-semibold">Precio: <span className='text-green-500'> {property.price}</span></p>
                 </div>
-            )}
+            </article>
 
-            {/* Detalles de la propiedad */}
-            {/* Detalles en una sola fila */}
-            <div className="flex flex-wrap justify-center gap-4 mb-4 text-center">
-                {property.dormitorios !== undefined && (
-                    <p><FaBed className="inline-block mr-2 " /> Dormitorios: {property.dormitorios}</p>
-                )}
-                {property.banios !== undefined && (
-                    <p><FaBath className="inline-block mr-2" /> Baños: {property.banios}</p>
-                )}
-                {property.garages !== undefined && (
-                    <p><FaCar className="inline-block mr-2" /> Garages: {property.garages === 0 ? "No" : "Si"}</p>
-                )}
-                {property.piscina !== undefined && (
-                    <p><FaSwimmingPool className="inline-block mr-2" /> Piscina: {property.piscina ? 'Sí' : 'No'}</p>
-                )}
-                {property.area && (
-                    <p><FaRulerCombined className="inline-block mr-2" /> Área en m<sup>2</sup>: {property.area}</p>
-                )}
-                {property.lotSize && (
-                    <p><FaRulerCombined className="inline-block mr-2" /> Lote en m<sup>2</sup>: {property.lotSize}</p>
-                )}
-                {property.yearBuilt && (
-                    <p><FaCalendarAlt className="inline-block mr-2" /> Año de construcción: {property.yearBuilt}</p>
+            {/* Imágenes de la propiedad */}
+            <div className="relative  w-full">
+
+                {/* Imagen de la propiedad */}
+                {property.imageSrc && property.imageSrc.length > 0 && (
+                    <div className="flex justify-center mb-4">
+                        <ImageSlider images={property.imageSrc} />
+                    </div>
                 )}
             </div>
-            {/* <div className="grid grid-cols-2 gap-2 mb-4 text-center">
-                {property.dormitorios !== undefined && (
-                    <p><FaBed className="inline-block mr-2" /> Dormitorios: {property.dormitorios}</p>
-                )}
-                {property.banios !== undefined && (
-                    <p><FaBath className="inline-block mr-2" /> Baños: {property.banios}</p>
-                )}
-                {property.garages !== undefined && (
-                    <p><FaCar className="inline-block mr-2" /> Garages: {property.garages}</p>
-                )}
-                {property.piscina !== undefined && (
-                    <p><FaSwimmingPool className="inline-block mr-2" /> Piscina: {property.piscina ? 'Sí' : 'No'}</p>
-                )}
-                {property.area && (
-                    <p><FaRulerCombined className="inline-block mr-2" /> Área en m<sup>2</sup>: {property.area}</p>
-                )}
-                {property.lotSize && (
-                    <p><FaRulerCombined className="inline-block mr-2" /> Lote en m<sup>2</sup>: {property.lotSize}</p>
-                )}
-                {property.yearBuilt && (
-                    <p><FaCalendarAlt className="inline-block mr-2" /> Año de construcción: {property.yearBuilt}</p>
-                )}
-            </div> */}
+            <div className="flex justify-center">
+                <article className={`
+                        bg-white 
+                        rounded
+                        text-surface
+                        shadow-md
+                        dark:bg-surface-dark dark:text-gray-800
+                        p-4
+                        mb-4
+                        relative
+                        lg:w-1/2
+                        `}>
+                    <div className="flex flex-wrap justify-center gap-4 mb-4 text-center">
+                        {/* Primera fila con 4 elementos */}
+                        <div className="flex flex-wrap justify-center gap-4 w-full">
+                            {property.dormitorios !== undefined && (
+                                <p className="flex items-center text-xl">
+                                    <FaBed className="inline-block  text-blue-500  mr-2" />
+                                    Dormitorios: {property.dormitorios}
+                                </p>
+                            )}
+                            {property.banios !== undefined && (
+                                <p className="flex items-center text-xl">
+                                    <FaBath className="inline-block mr-2 text-blue-500 " />
+                                    Baños: {property.banios}
+                                </p>
+                            )}
+                            {property.garages !== undefined && (
+                                <p className="flex items-center text-xl">
+                                    <FaCar className="inline-block  text-blue-500  mr-2" />
+                                    Garages: {property.garages === 0 ? "No" : "Si"}
+                                </p>
+                            )}
+                            {property.piscina !== undefined && (
+                                <p className="flex items-center text-xl">
+                                    <FaSwimmingPool className="inline-block  text-blue-500  mr-2" />
+                                    Piscina: {property.piscina ? 'Sí' : 'No'}
+                                </p>
+                            )}
+                        </div>
 
+                        {/* Segunda fila con 3 elementos */}
+                        <div className="flex flex-wrap justify-center gap-4 w-full">
+                            {property.area && (
+                                <p className="flex items-center text-xl">
+                                    <FaRulerCombined className="inline-block  text-blue-500  mr-2" />
+                                    Área en m<sup>2</sup>: {property.area}
+                                </p>
+                            )}
+                            {property.lotSize && (
+                                <p className="flex items-center text-xl">
+                                    <FaRulerCombined className="inline-block  text-blue-500  mr-2" />
+                                    Lote en m<sup>2</sup>: {property.lotSize}
+                                </p>
+                            )}
+                            {property.yearBuilt && (
+                                <p className="flex items-center text-xl">
+                                    <FaCalendarAlt className="inline-block  text-blue-500  mr-2" />
+                                    Año de construcción: {property.yearBuilt}
+                                </p>
+                            )}
+                        </div>
+                    </div>
+
+                </article>
+            </div>
             {/* Descripción y Estado */}
-            <div className="grid grid-cols-2 gap-4 mb-4 text-center">
-                <div>
-                    <h2 className="text-xl font-bold">Descripción</h2>
-                    <p>{property.description}</p>
-                </div>
-                <div>
-                    <h2 className="text-xl font-bold">Estado</h2>
-                    <p>{property.status}</p>
-                </div>
+            <div className="flex justify-center">
+
+                <article className={`
+                        bg-white 
+                        rounded
+                        text-surface
+                        shadow-md
+                        dark:bg-surface-dark dark:text-gray-800
+                        p-4
+                        mb-4
+                        relative
+                        lg:w-1/2
+                        `}>
+                    <div className="grid grid-cols-2 gap-4 mb-4 text-center">
+                        <div>
+                            <h2 className="text-xl font-bold">Descripción</h2>
+                            <p>{property.description}</p>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold">Estado</h2>
+                            <p>{property.state}</p>
+                        </div>
+                    </div>
+                </article>
             </div>
 
             {/* Mapa de Google Maps */}
