@@ -4,40 +4,42 @@ import { Property } from "../utils/types";
 // const API_URL = "/api/property/home";
 const MOCKED_PROPERTIES: Property[] = propiedades;
 
-export const fetchProperties = async (filter?: string): Promise<Property[]> => {
+export const fetchProperties = async (): Promise<Property[]> => {
   try {
-    /*
-    // const response = await fetch(API_URL);
-    // if (!response.ok) {
-    //   throw new Error("Error al obtener las propiedades");
-    // }
-    // const data: Property[] = await response.json();
-    // return data;
-    */
-    let filteredProperties = MOCKED_PROPERTIES;
-    if (filter) {
-      switch (filter) {
-        case "for-rent":
-          filteredProperties = MOCKED_PROPERTIES.filter(
-            (property) => property.state === "en alquiler"
-          );
-          break;
-        case "for-sale":
-          filteredProperties = MOCKED_PROPERTIES.filter(
-            (property) => property.state === "en venta"
-          );
-          break;
-        default:
-          console.warn(`Filtro desconocido: ${filter}`);
-      }
-    }
-    return Promise.resolve(filteredProperties);
+    return MOCKED_PROPERTIES; // Retorna todas las propiedades sin filtrar
   } catch (error) {
-    console.error("Error en la llamada a la API:", error);
+    console.error("Error al cargar las propiedades:", error);
     return [];
   }
 };
 
+export const fetchPropertiesByState = async (
+  filter: "all" | "for-rent" | "for-sale"
+): Promise<Property[]> => {
+  try {
+    const allProperties = await fetchProperties(); // Obtener todas las propiedades
+
+    switch (filter) {
+      case "for-rent":
+        return allProperties.filter(
+          (property) => property.state === "en alquiler"
+        );
+
+      case "for-sale":
+        return allProperties.filter(
+          (property) => property.state === "en venta"
+        );
+
+      case "all":
+        return allProperties;
+      default:
+        return allProperties;
+    }
+  } catch (error) {
+    console.error("Error al filtrar las propiedades:", error);
+    return [];
+  }
+};
 // export const fetchPropertyById = async (id: string): Promise<Property> => {
 //   const response = await fetch(`/api/properties/${id}`);
 //   console.log(">>> ", response);

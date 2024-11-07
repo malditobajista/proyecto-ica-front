@@ -22,9 +22,9 @@ const PropertyDetails: React.FC = () => {
         const loadProperty = async () => {
             try {
                 if (id) {
-                    console.log(`Fetching property with id: ${id}`);
+                    // console.log(`Fetching property with id: ${id}`);
                     const propertyData = await fetchPropertyById(id);
-                    console.log('Property data:', propertyData);
+                    // console.log('Property data:', propertyData);
                     setProperty(propertyData);
                 }
             } catch (err) {
@@ -46,7 +46,7 @@ const PropertyDetails: React.FC = () => {
         lat: -34.6500,
         lng: -54.1667
     };
-    console.log(">>> ", property.imageSrc);
+    // console.log(">>> ", property.imageSrc);
 
     return (
         <div className="my-8 p-4">
@@ -63,14 +63,12 @@ const PropertyDetails: React.FC = () => {
                         `}>
                 <div className="flex justify-between items-center mb-4">
                     <Title text={property.title} />
-                    <p className="text-xl font-semibold">Precio: <span className='text-green-500'> {property.price}</span></p>
+                    <p className="text-xl font-semibold text-center">Precio:<br className="block md:hidden" /> <span className='text-green-500'> U$S {Number(property.price).toLocaleString('de-DE')}</span></p>
                 </div>
             </article>
 
-            {/* Imágenes de la propiedad */}
             <div className="relative  w-full">
 
-                {/* Imagen de la propiedad */}
                 {property.imageSrc && property.imageSrc.length > 0 && (
                     <div className="flex justify-center mb-4">
                         <ImageSlider images={property.imageSrc} />
@@ -90,7 +88,7 @@ const PropertyDetails: React.FC = () => {
                         lg:w-1/2
                         `}>
                     <div className="flex flex-wrap justify-center gap-4 mb-4 text-center">
-                        {/* Primera fila con 4 elementos */}
+
                         <div className="flex flex-wrap justify-center gap-4 w-full">
                             {property.dormitorios !== undefined && (
                                 <p className="flex items-center text-xl">
@@ -118,7 +116,6 @@ const PropertyDetails: React.FC = () => {
                             )}
                         </div>
 
-                        {/* Segunda fila con 3 elementos */}
                         <div className="flex flex-wrap justify-center gap-4 w-full">
                             {property.area && (
                                 <p className="flex items-center text-xl">
@@ -143,32 +140,41 @@ const PropertyDetails: React.FC = () => {
 
                 </article>
             </div>
-            {/* Descripción y Estado */}
-            <div className="flex justify-center">
 
-                <article className={`
-                        bg-white 
-                        rounded
-                        text-surface
-                        shadow-md
-                        dark:bg-surface-dark dark:text-gray-800
-                        p-4
-                        mb-4
-                        relative
-                        lg:w-1/2
-                        `}>
-                    <div className="grid grid-cols-2 gap-4 mb-4 text-center">
-                        <div>
-                            <h2 className="text-xl font-bold">Descripción</h2>
-                            <p>{property.description}</p>
-                        </div>
+            <div className="flex justify-center">
+                <article
+                    className={`
+            bg-white 
+            rounded
+            text-surface
+            shadow-md
+            dark:bg-surface-dark dark:text-gray-800
+            p-4
+            mb-4
+            relative
+            lg:w-1/2
+        `}
+                >
+                    <div className="grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
                         <div>
                             <h2 className="text-xl font-bold">Estado</h2>
-                            <p>{property.state}</p>
+                            <p className='capitalize text-red-500 font-bold'> {property.state}</p>
+                            <hr className="m-auto my-2 w-1/2" />
+                            <h2 className="text-xl font-bold">Barrio</h2>
+                            <p>{property.ubicacion}</p>
+                        </div>
+                        <div>
+                            <hr className="m-auto my-2 w-1/2 block md:hidden" />
+                            <h2 className="text-xl font-bold">Breve Descripción</h2>
+                            <p>{property.description}</p>
+                            <hr className="m-auto my-2 w-1/2" />
+                            <h2 className="text-xl font-bold">Descripción completa</h2>
+                            <p>{property.longDescription}</p>
                         </div>
                     </div>
                 </article>
             </div>
+
 
             {/* Mapa de Google Maps */}
             <div className="mt-4 text-center w-full">

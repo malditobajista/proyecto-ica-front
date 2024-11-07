@@ -59,7 +59,7 @@ const ContactDetails: React.FC = () => {
             >
                 <FaMapMarkerAlt className=" inline-block text-blue-400 mb-2 " />
                 <span className=' ml-8 text-green-700 hover:underline'>
-                    Profesor Yaneo esq. Zapicán en Costa Azul, La Paloma, Rocha
+                    Profesor Yaneo esq. Zapicán en Costa Azul
                 </span>
             </a>
         </div>

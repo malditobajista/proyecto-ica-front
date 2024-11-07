@@ -29,11 +29,11 @@ const FormBusqueda = () => {
                 <select name="tipo" id="tipo" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 >
                     <option key="anyType" value="any">Indistinto</option>
-                    <option key="house" value="house">Casa</option>
-                    <option key="apartament" value="apartament">Apartamento</option>
-                    <option key="office" value="office">Oficina</option>
-                    <option key="comerce" value="comerce">Comercio</option>
                     <option key="storage" value="storage">Almacén</option>
+                    <option key="apartament" value="apartament">Apartamento</option>
+                    <option key="house" value="house">Casa</option>
+                    <option key="comerce" value="comerce">Comercio</option>
+                    <option key="office" value="office">Oficina</option>
                     <option key="land" value="land">Terreno</option>
                     <option key="other" value="other">Otros</option>
                 </select>

@@ -18,6 +18,7 @@ export interface PropertyCardProps {
   imageSrc?: string[];
   image?: string[];
   description: string;
+  longDescription: string;
   state: string;
   price: string;
   type: string;
@@ -39,6 +40,7 @@ export interface Property {
   title: string;
   imageSrc?: string[];
   description: string;
+  longDescription: string;
   state: string;
   price: string;
   type: string;
@@ -69,5 +71,16 @@ export interface RecaptchaProps {
   onError: (error: string) => void;
   isChecked: boolean;
   setIsChecked: (checked: boolean) => void;
+}
+
+export interface AgentProps {
+  name: string;
+  phone: string;
+  oficina: string;
+  whatsapp: string;
+  email: string;
+  propertiesListed: number;
+  imageUrl?: string;
+  profileUrl: string;
 }
 

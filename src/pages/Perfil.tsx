@@ -28,11 +28,11 @@ const Perfil: React.FC = () => {
         repeatPassword: '',
     });
 
-    // Obtener datos del usuario desde la API
+    // Obtener datos del usuario desde   API
     useEffect(() => {
         // async function fetchUserData() {
         //     try {
-        //         const response = await fetch('/api/user-profile'); // Ajusta la URL según tu API
+        //         const response = await fetch('/api/user-profile'); //  URL   API
         //         const data = await response.json();
         //         setUserData(data);
         //     } catch (error) {

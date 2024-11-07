@@ -51,14 +51,6 @@ const Ventas: React.FC = () => {
                     </div>
                 ))
             }
-            {/* {
-
-                propiedadesVenta.map((property, index) => (
-                    <div key={index} className='py-4' >
-                        <PropertyHorizontalCard {...property}>  </PropertyHorizontalCard>
-                    </div>
-                ))
-            } */}
 
         </div>
     );

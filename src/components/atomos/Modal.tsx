@@ -80,7 +80,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         e.preventDefault();
         if (validateFields()) {
             // Aquí puedes manejar el envío del formulario
-            console.log(">>> ", formData);
+            // console.log(">>> ", formData);
         }
     };
 

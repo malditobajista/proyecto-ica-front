@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import Button from "./Button";
 
-const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, description, state, price }) => {
+const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, description, state, price, imageSrc }) => {
     const [selectedButtons, setSelectedButtons] = useState<{ heart: boolean; dollar: boolean }>({
         heart: false,
         dollar: false,
@@ -16,7 +16,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, 
         }));
     };
 
-    const image = "https://placehold.co/70x20";
+    // const image = "https://placehold.co/70x20";
 
     const renderstate = (state: string) => {
         switch (state) {
@@ -50,11 +50,13 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, 
                         </button>
                     </div>
                 </figure> */}
+
                 <figure className="w-full md:w-2/5 relative h-32 md:h-auto">
                     <div
                         className="post_thumbnail bg-center bg-cover h-full w-full"
                         style={{
-                            backgroundImage: `url('${image}')`,
+                            //@ts-ignore
+                            backgroundImage: `url('${imageSrc[0]}')`,
                         }}
                     ></div>
                     <div className="absolute bottom-2 right-0 flex">
@@ -73,31 +75,53 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, 
                     </div>
                 </figure>
 
-                <div className="w-full md:w-2/5 p-4 flex flex-col justify-between">
+                <div className="w-full md:w-2/6 p-4 flex flex-col justify-between">
                     <h3 className="text-xl font-medium leading-tight">
                         <span>{title}</span>
                     </h3>
                     <p className="text-gray-500">{description}</p>
                 </div>
-
-                <div className="w-full md:w-1/5 p-4 flex flex-col justify-between">
-                    <div className="flex flex-col mb-4">
+                {/* <div className="w-full md:w-2/6 p-4 flex flex-col items-end">
+                    <div className="flex flex-col mb-4 w-1/2">
                         <div className="flex justify-between">
                             <span className="font-bold">Tipo:</span>
-                            <span>{type}</span>
+                            <span className="capitalize text-right">{type}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-bold">Estado:</span>
-                            <span>{renderstate(state)}</span>
+                            <span className="text-right">{renderstate(state)}</span>
                         </div>
                         <div className="flex justify-between">
                             <span className="font-bold">Precio:</span>
-                            <span className="text-green-700">{price}</span>
+                            <span className="text-green-700 text-right">U$S {Number(price).toLocaleString('de-DE')}</span>
                         </div>
                     </div>
-                    <Button to={`/propiedades/${id}`}>
-                        Ver Propiedad
-                    </Button>
+                    <div className="w-1/2">
+                        <Button clase="text-center w-full" to={`/propiedades/${id}`}>
+                            Ver Propiedad
+                        </Button>
+                    </div>
+                </div> */}
+                <div className="w-full md:w-3/6 p-4 flex flex-col md:items-end">
+                    <div className="flex flex-col mb-4 w-full md:w-1/2">
+                        <div className="flex justify-between md:justify-between">
+                            <span className="font-bold">Tipo:</span>
+                            <span className="capitalize text-right">{type}</span>
+                        </div>
+                        <div className="flex justify-between md:justify-between">
+                            <span className="font-bold">Estado:</span>
+                            <span className="text-right"> <span className="capitalize text-red-500 font-bold"> {renderstate(state)}</span> </span>
+                        </div>
+                        <div className="flex justify-between md:justify-between">
+                            <span className="font-bold">Precio:</span>
+                            <span className="text-green-700 text-right">U$S {Number(price).toLocaleString('de-DE')}</span>
+                        </div>
+                    </div>
+                    <div className="w-full md:w-1/2">
+                        <Button clase="text-center w-full" to={`/propiedades/${id}`}>
+                            Ver Propiedad
+                        </Button>
+                    </div>
                 </div>
             </article>
         </div>

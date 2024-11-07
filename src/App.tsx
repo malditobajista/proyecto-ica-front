@@ -12,31 +12,37 @@ import PropertyDetails from './pages/PropertyDetails';
 import Perfil from './pages/Perfil';
 import { MisPropiedades } from './pages/MisPropiedades';
 import { MisFavoritas } from './pages/MisFavoritas';
+import { PropertyProvider } from "./contexts/PropertyContext";
+
 function App() {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
-      <Router>
-        <Navbar />
+      <PropertyProvider>
+        <Router>
+          <Navbar />
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/Home" element={<Home />} />
-          <Route path="/Ventas" element={<Ventas />} />
-          <Route path="/Alquileres" element={<Alquileres />} />
-          <Route path="/Propiedades" element={<Propiedades />} />
-          <Route path="/propiedades/:id" element={<PropertyDetails />} />
-          <Route path="/Contacto" element={<Contacto />} />
-          <Route path="/Login" element={<Home />} />
-          <Route path="/Perfil" element={<Perfil />} />
-          <Route path="/Mis-propiedades" element={<MisPropiedades />} />
-          <Route path="/Mis-favoritas" element={<MisFavoritas />} />
-          <Route path="/PublicarProp" element={<PublicarProp />} />
-        </Routes>
+          <Routes>
 
-        <Footer />
+            <Route path="/" element={<Home />} />
+            <Route path="/Home" element={<Home />} />
+            <Route path="/Ventas" element={<Ventas />} />
+            <Route path="/Alquileres" element={<Alquileres />} />
+            <Route path="/Propiedades" element={<Propiedades />} />
+            <Route path="/propiedades/:id" element={<PropertyDetails />} />
+            <Route path="/Contacto" element={<Contacto />} />
+            <Route path="/Login" element={<Home />} />
+            <Route path="/Perfil" element={<Perfil />} />
+            <Route path="/Mis-propiedades" element={<MisPropiedades />} />
+            <Route path="/Mis-favoritas" element={<MisFavoritas />} />
+            <Route path="/PublicarProp" element={<PublicarProp />} />
 
-      </Router>
+          </Routes>
+
+          <Footer />
+
+        </Router>
+      </PropertyProvider>
     </div>
   )
 }

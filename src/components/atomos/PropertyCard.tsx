@@ -61,17 +61,33 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
                 </figure>
                 <div className="flex-grow flex flex-col p-4 sm:p-0"> {/* Permitir que este div crezca */}
                     <h3 className="text-center text-xl font-medium leading-tight">
-                        <span >{title}</span>
+                        <span className="capitalize" >{title}</span>
                     </h3>
-                    <h4>{type}</h4>
+                    <h4><span className="capitalize" >{type}</span></h4>
                     <div className="flex-grow p-5"> {/* Esta sección también puede crecer */}
                         <p className="pb-2 text-base text-gray-500 text-left">{description}</p>
                     </div>
                 </div>
-                <div className="pb-4">
-                    <div className="px-4">
-                        <p className="pb-2 text-left font-bold">Propiedad {state}</p>
-                        <p className="pb-2 text-left text-xl text-green-700">{price}</p>
+                {/* <div className="pb-4">
+                    <div className="px-4 mb-4">
+                        <p className="pb-2 text-left font-bold">Propiedad <span className="capitalize text-red-500"> {state}</span></p>
+                        <p className="pb-2 text-left font-bold ">
+                            Precio:<span className="text-green-700 ml-1">U$S {Number(price).toLocaleString('de-DE')}
+                            </span>
+                        </p>
+                    </div>
+                    <Button to={`/propiedades/${id}`}>
+                        Ver Propiedad
+                    </Button>
+                </div> */}
+                <div className="pb-4 flex flex-col items-center">
+                    <div className="px-4 mb-4 text-center">
+                        <p className="pb-2 font-bold">
+                            Propiedad <span className="capitalize text-red-500">{state}</span>
+                        </p>
+                        <p className="pb-2 font-bold">
+                            Precio: <span className="text-green-700 ml-1">U$S {Number(price).toLocaleString('de-DE')}</span>
+                        </p>
                     </div>
                     <Button to={`/propiedades/${id}`}>
                         Ver Propiedad

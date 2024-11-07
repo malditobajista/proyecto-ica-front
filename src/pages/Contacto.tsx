@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import FormContacto from '../components/FormContacto';
-// import Recaptcha from '../components/atomos/Recaptcha';
 import ContactItemsProps from '../components/ContactItemsProps';
 import Gmap from '../components/Gmap';
 import Title from '../components/atomos/Title';

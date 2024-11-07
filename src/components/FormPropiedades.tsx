@@ -17,6 +17,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
         title: '',
         imageSrc: [''],
         description: '',
+        longDescription: '',
         state: '',
         price: '',
         type: '',
@@ -35,6 +36,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
         title: '',
         imageSrc: '',
         description: '',
+        longDescription: '',
         state: '',
         price: '',
         type: '',
@@ -45,7 +47,8 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
     const [newPropertyId, setNewPropertyId] = useState<string | null>(null);
 
     const MAX_TITLE_CHARACTERS = 30;
-    const MAX_DESCRIPTION_CHARACTERS = 500;
+    const MAX_DESCRIPTION_CHARACTERS = 150;
+    const MAX_LONG_DESCRIPTION_CHARACTERS = 400;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -63,7 +66,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                 }
                 break;
             case 'description':
-                if (value.length > MAX_DESCRIPTION_CHARACTERS) {
+                if (value.length > MAX_LONG_DESCRIPTION_CHARACTERS) {
                     setErrors((prev) => ({ ...prev, description: errorMessages.description.maxLength }));
                 } else {
                     setErrors((prev) => ({ ...prev, description: '' }));
@@ -146,6 +149,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                 title: '',
                 imageSrc: [''],
                 description: '',
+                longDescription: '',
                 state: '',
                 price: '',
                 type: '',
@@ -163,6 +167,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                 title: '',
                 imageSrc: '',
                 description: '',
+                longDescription: '',
                 state: '',
                 price: '',
                 type: '',
@@ -424,14 +429,14 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                         `}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700">Descripción</label>
+                            <label className="block text-sm font-medium text-gray-700">Breve descripción</label>
                             <textarea
                                 name="description"
                                 value={formData.description}
                                 onChange={handleChange}
                                 maxLength={MAX_DESCRIPTION_CHARACTERS}
                                 className={`mt-1 block w-full border ${errors.description ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
-                                rows={8}
+                                rows={4}
                                 style={{ resize: 'none' }}
                                 required
                             />
@@ -444,14 +449,39 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                                 </div>
                             )}
                         </div>
-                        <ImageField
-                            imageSrc={formData.imageSrc}
-                            onImageChange={handleImageChange}
-                            addImageField={addImageField}
-                            removeImageField={removeImageField}
-                            error={errors.imageSrc}
-                        />
+                        <div>
+                            <hr className="m-auto my-2 block md:hidden" />
+
+                            <label className="block text-sm font-medium text-gray-700">Descripción completa</label>
+                            <textarea
+                                name="longDescription"
+                                value={formData.longDescription}
+                                onChange={handleChange}
+                                maxLength={MAX_LONG_DESCRIPTION_CHARACTERS}
+                                className={`mt-1 block w-full border ${errors.longDescription ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
+                                rows={8}
+                                style={{ resize: 'none' }}
+                                required
+                            />
+                            <div className="text-sm text-gray-500 mt-1">
+                                {MAX_LONG_DESCRIPTION_CHARACTERS - formData.longDescription.length} caracteres restantes
+                            </div>
+                            {errors.longDescription && (
+                                <div className="text-sm text-red-500 mt-1">
+                                    {errors.longDescription}
+                                </div>
+                            )}
+                        </div>
                     </div>
+                    <hr className="m-auto my-2 block md:hidden" />
+
+                    <ImageField
+                        imageSrc={formData.imageSrc}
+                        onImageChange={handleImageChange}
+                        addImageField={addImageField}
+                        removeImageField={removeImageField}
+                        error={errors.imageSrc}
+                    />
                 </article>
                 <div className="mt-4">
                     <label className="block text-sm font-medium text-gray-700">Selecciona la ubicación en el mapa</label>
