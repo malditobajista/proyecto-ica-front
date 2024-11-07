@@ -94,8 +94,10 @@ const propiedades: PropertyCardProps[] = [
     ),
     description: `Descripción de la propiedad ${String.fromCharCode(
       65 + (i % 26)
-    )}${i + 1}`,
-    longDescription: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis optio blanditiis natus pariatur, explicabo distinctio voluptas voluptate sit labore?  alias suscipit tempore molestias. Tempora a atque quae! Eos corporis quidem tempore repellat rem incidunt possimus similique exercitationem voluptatum nostrum. Alias, hic temporibus velit nulla deserunt reprehenderit officiis magni qui. Dicta rem porro beatae, odio in ratione repellendus, suscipit adipisci, exercitationem itaque enim optio. Iure, eos magni?.`,
+    )}${
+      i + 1
+    } Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto incidunt !`,
+    longDescription: `Lorem ipsum dolor sit, amet consectetur adipisicing elit. Debitis optio blanditiis natus pariatur, explicabo distinctio voluptas voluptate sit labore?  alias suscipit tempore molestias. Tempora a atque quae! Eos corporis quidem tempore repellat rem incidunt possimus similique exercitationem voluptatum nostrum. Alias, hic temporibus velit nulla deserunt reprehenderit officiis magni qui. Dicta rem porro beatae, Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto incidunt reprehenderit quas, sequi obcaecati est aperiam ipsa alias, modi ducimus consequatur aut impedit repellendus hic molestias! Laboriosam accusamus distinctio error, quis quisquam voluptate, quia doloribus perferendis minima facere culpa aspernatur veniam rem unde omnis nihil blanditiis, quibusdam repellat consequuntur esse enim doloremque. Blanditiis exercitationem ipsa ex nisi harum voluptatibus ab officia, neque commodi beatae. Cum, voluptate qui magni omnis inventore voluptatibus praesentium earum reprehenderit, delectus quibusdam cupiditate voluptates possimus molestias dignissimos neque quos quidem sapiente aliquam laudantium itaque et! Temporibus, doloribus reiciendis. At culpa dolorem quam beatae nemo, sapiente rerum! odio in ratione repellendus, suscipit adipisci, exercitationem itaque enim optio. Iure, eos magni?.`,
     state: Math.random() < 0.5 ? "en venta" : "en alquiler", // Estado aleatorio
     price: `${Math.floor(5000 + Math.random() * 145000)}`,
     type: [

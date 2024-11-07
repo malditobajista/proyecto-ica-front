@@ -30,7 +30,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ onFilterChange, currentFi
                 ${currentFilters.length === 0 ? 'bg-green-700' : 'bg-gray-400'} 
                 text-white hover:bg-green-500 focus:outline-none`}
                 >
-                    Todos
+                    Todas
                 </button>
                 {Object.keys(iconMap).map((type) => (
                     <button

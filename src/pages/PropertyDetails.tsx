@@ -14,9 +14,9 @@ const PropertyDetails: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo(0, 0);
+    // }, []);
 
     useEffect(() => {
         const loadProperty = async () => {
@@ -155,20 +155,41 @@ const PropertyDetails: React.FC = () => {
             lg:w-1/2
         `}
                 >
-                    <div className="grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
-                        <div>
-                            <h2 className="text-xl font-bold">Estado</h2>
+                    <div className="grid grid-cols-1 gap-4 mb-4 px-5  md:grid-cols-2 md:hidden">
+                        <div className='text-center'>
+                            <h2 className="text-xl font-bold mb-2">Estado</h2>
                             <p className='capitalize text-red-500 font-bold'> {property.state}</p>
-                            <hr className="m-auto my-2 w-1/2" />
-                            <h2 className="text-xl font-bold">Barrio</h2>
-                            <p>{property.ubicacion}</p>
+                            <hr className="m-auto my-4 w-1/2" />
+                            <h2 className="text-xl font-bold mb-2">Barrio</h2>
+                            <p className='text-blue-600 font-bold'>{property.ubicacion}</p>
                         </div>
                         <div>
                             <hr className="m-auto my-2 w-1/2 block md:hidden" />
-                            <h2 className="text-xl font-bold">Breve Descripción</h2>
+                            <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
                             <p>{property.description}</p>
-                            <hr className="m-auto my-2 w-1/2" />
-                            <h2 className="text-xl font-bold">Descripción completa</h2>
+                            <hr className="m-auto my-4 w-1/2" />
+                            <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>
+                            <p>{property.longDescription}</p>
+                        </div>
+                    </div>
+                    <div className="hidden md:grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
+                        <div>
+                            <h2 className="text-xl font-bold mb-2 ">Estado</h2>
+                            <p className='capitalize text-red-500 font-bold'> {property.state}</p>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold mb-2 ">Barrio</h2>
+                            <p className='text-blue-600 font-bold'>{property.ubicacion}</p>
+                        </div>
+                    </div>
+                    <hr className="m-auto my-4" />
+                    <div className="hidden md:grid grid-cols-2 gap-4 mb-4 px-5 md:grid-cols-2">
+                        <div className="flex flex-col">
+                            <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
+                            <p>{property.description}</p>
+                        </div>
+                        <div>
+                            <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>
                             <p>{property.longDescription}</p>
                         </div>
                     </div>
