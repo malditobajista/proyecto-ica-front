@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { PropertyCardProps } from '../utils/types';
+import { PropertyCardProps, PropertyStatus } from '../utils/types';
 import Button from './atomos/Button';
 import { Barrios } from '../assets/barrios';
 import InputField from './atomos/InputFieldProps';
@@ -7,6 +7,7 @@ import ImageField from './atomos/ImageFieldProps';
 import { errorMessages } from '../utils/errorMessages';
 import MockMap from '../assets/MockMapProps';
 import DateInput from './atomos/DateInput';
+// import Year from 'react-datepicker/dist/year';
 
 interface PropertyFormProps {
     onAddProperty: (property: Omit<PropertyCardProps, 'id'>) => void;
@@ -16,20 +17,22 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
     const [formData, setFormData] = useState({
         title: '',
         imageSrc: [''],
+        address: '',
         description: '',
         longDescription: '',
-        state: '',
+        status: '',
         price: '',
         type: '',
         rooms: '',
         bathrooms: '',
         garage: '',
         piscina: '',
-        ubicacion: '',
+        neighborhood: '',
         latLng: null as { lat: number; lng: number } | null,
         area: '',
         lote: '',
-        anioConstruccion: null as Date | null,
+        contribucion: '',
+        yearBuild: '',
     });
 
     const [errors, setErrors] = useState({
@@ -37,10 +40,10 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
         imageSrc: '',
         description: '',
         longDescription: '',
-        state: '',
+        status: '',
         price: '',
         type: '',
-        ubicacion: '',
+        neighborhood: '',
     });
 
     const [successMessage, setSuccessMessage] = useState(false);
@@ -73,8 +76,8 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                 }
                 break;
             case 'type':
-            case 'state':
-            case 'ubicacion':
+            case 'status':
+            case 'neighborhood':
                 if (value === 'any') {
                     setErrors((prev) => ({ ...prev, [name]: errorMessages[name] }));
                 } else {
@@ -86,6 +89,13 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                     setErrors((prev) => ({ ...prev, price: '' }));
                 } else {
                     setErrors((prev) => ({ ...prev, price: errorMessages.price.invalid }));
+                }
+                break;
+            case 'contribucion':
+                if (!isNaN(Number(value)) && Number(value) >= 0) {
+                    setErrors((prev) => ({ ...prev, price: '' }));
+                } else {
+                    setErrors((prev) => ({ ...prev, price: errorMessages.contribucion.invalid }));
                 }
                 break;
             default:
@@ -111,14 +121,16 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
     };
 
     const validateForm = () => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const newErrors: any = {};
         if (!formData.title) newErrors.title = errorMessages.title.required;
         if (!formData.imageSrc[0]) newErrors.imageSrc = errorMessages.imageSrc;
         if (!formData.description) newErrors.description = errorMessages.description.required;
         if (!formData.price) newErrors.price = errorMessages.price.required;
+        if (!formData.contribucion) newErrors.price = errorMessages.contribucion.invalid;
         if (!formData.type || formData.type === 'any') newErrors.type = errorMessages.type;
-        if (!formData.state || formData.state === 'any') newErrors.state = errorMessages.state;
-        if (!formData.ubicacion || formData.ubicacion === 'any') newErrors.ubicacion = errorMessages.ubicacion;
+        if (!formData.status || formData.status === 'any') newErrors.status = errorMessages.status;
+        if (!formData.neighborhood || formData.neighborhood === 'any') newErrors.neighborhood = errorMessages.neighborhood;
         setErrors(newErrors);
         console.log('Errores de validación:', newErrors);
 
@@ -128,16 +140,38 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (validateForm()) {
+            const priceAsNumber = Number(formData.price);
+            const roomsAsNumber = Number(formData.rooms);
+            const bathroomsAsNumber = Number(formData.bathrooms);
+
+            if (isNaN(priceAsNumber)) {
+                console.error('El precio debe ser un número válido');
+                return;
+            }
+            if (isNaN(roomsAsNumber)) {
+                console.error('El precio debe ser un número válido');
+                return;
+            }
+            if (isNaN(bathroomsAsNumber)) {
+                console.error('El precio debe ser un número válido');
+                return;
+            }
             const newProperty = {
                 ...formData,
+                status: formData.status as PropertyStatus,
                 garage: formData.garage === 'yes',
                 piscina: formData.piscina === 'yes',
                 area: Number(formData.area),
                 lote: Number(formData.lote),
-                anioConstruccion: formData.anioConstruccion ? formData.anioConstruccion.getFullYear() : null,
+                // anioConstruccion: formData.anioConstruccion ? formData.anioConstruccion.getFullYear() : null,
+                yearBuild: formData.yearBuild,
+                price: priceAsNumber,
+                rooms: roomsAsNumber,
+                bathrooms: bathroomsAsNumber,
+                contribucion: formData.contribucion,
             };
 
-            console.log('Datos de la nueva propiedad:', newProperty);
+            console.log('>> Datos de la nueva propiedad:', newProperty);
 
             onAddProperty(newProperty);
 
@@ -148,30 +182,32 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
             setFormData({
                 title: '',
                 imageSrc: [''],
+                address: '',
                 description: '',
                 longDescription: '',
-                state: '',
+                status: '',
                 price: '',
                 type: '',
                 rooms: '',
                 bathrooms: '',
                 garage: '',
                 piscina: '',
-                ubicacion: '',
+                neighborhood: '',
                 latLng: null,
                 area: '',
                 lote: '',
-                anioConstruccion: null,
+                yearBuild: '',
+                contribucion: '',
             });
             setErrors({
                 title: '',
                 imageSrc: '',
                 description: '',
                 longDescription: '',
-                state: '',
+                status: '',
                 price: '',
                 type: '',
-                ubicacion: '',
+                neighborhood: '',
             });
         }
     };
@@ -241,7 +277,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                     </div>
                 </article>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4">
 
                     <div className="space-y-4">
                         <article className={`
@@ -278,13 +314,13 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
 
                             <div>
 
-                                <label className="block text-sm font-medium text-gray-700" htmlFor="ubicacion">Barrio</label>
+                                <label className="block text-sm font-medium text-gray-700" htmlFor="neighborhood">Barrio</label>
                                 <select
-                                    name="ubicacion"
-                                    id="ubicacion"
-                                    value={formData.ubicacion}
+                                    name="neighborhood"
+                                    id="neighborhood"
+                                    value={formData.neighborhood}
                                     onChange={handleChange}
-                                    className={`pl-1 mt-1 block w-full border ${errors.ubicacion ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
+                                    className={`pl-1 mt-1 block w-full border ${errors.neighborhood ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
                                 >
                                     {Barrios.map(({ value, label }) => (
                                         <option key={value} value={value}>{label}</option>
@@ -292,23 +328,23 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                                 </select>
 
                             </div>
-                            {errors.ubicacion && <p className="text-red-500 text-sm">{errors.ubicacion}</p>}
+                            {errors.neighborhood && <p className="text-red-500 text-sm">{errors.neighborhood}</p>}
                             <div >
                                 <label className="block text-sm font-medium text-gray-700" htmlFor="estado">Estado</label>
                                 <select
-                                    name="state"
+                                    name="status"
                                     id="estado"
-                                    value={formData.state}
+                                    value={formData.status}
                                     onChange={handleChange}
-                                    className={`pl-1 mt-1 block w-full border ${errors.state ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
+                                    className={`pl-1 mt-1 block w-full border ${errors.status ? 'border-red-500' : 'border-gray-300'} rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
                                 >
-                                    <option key="anyState" value="any">Indistinto</option>
+                                    <option key="anyStatus" value="any">Indistinto</option>
                                     <option key="brand-new" value="brand-new">A estrenar</option>
                                     <option key="for-sale" value="for-sale">En venta</option>
                                     <option key="for-rent" value="for-rent">En alquiler</option>
                                 </select>
                             </div>
-                            {errors.state && <p className="text-red-500 text-sm">{errors.state}</p>}
+                            {errors.status && <p className="text-red-500 text-sm">{errors.status}</p>}
                         </article>
                     </div>
                     <div className="space-y-4">
@@ -323,7 +359,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                         relative
                         `}>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">rooms</label>
+                                <label className="block text-sm font-medium text-gray-700">Dormitorios</label>
                                 <select
                                     name="rooms"
                                     value={formData.rooms}
@@ -410,9 +446,21 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                                 inputMode="numeric"
                                 pattern="[0-9]*"
                             />
+                            <InputField
+                                label="Contribución"
+                                name="contribucion"
+                                value={formData.contribucion}
+                                onChange={handleChange}
+                                placeholder="Ingrese la contribución en pesos"
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                            />
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Año de construcción</label>
-                                <DateInput />
+                                <DateInput
+                                    selectedYear={formData.yearBuild}
+                                    onChange={(year) => setFormData((prev) => ({ ...prev, yearBuild: year }))}
+                                />
                             </div>
                         </article>
                     </div>
@@ -429,6 +477,9 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                         `}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
+                            <label className="block text-sm font-medium text-gray-700">Dirección</label>
+                            <input type='text' name='address' value={formData.address} onChange={handleChange} className={`mt-1 block w-full border rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`} required />
+                            <hr className="m-auto my-4 pb-2 w-3/4" />
                             <label className="block text-sm font-medium text-gray-700">Breve descripción</label>
                             <textarea
                                 name="description"
@@ -450,7 +501,7 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                             )}
                         </div>
                         <div>
-                            <hr className="m-auto my-2 block md:hidden" />
+                            <hr className="m-auto my-2 pb-2 block md:hidden w-3/4" />
 
                             <label className="block text-sm font-medium text-gray-700">Descripción completa</label>
                             <textarea

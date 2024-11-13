@@ -167,10 +167,28 @@ const PropertyDetails: React.FC = () => {
                             <p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>
                             <hr className="m-auto my-4 w-1/2" />
                             <h2 className="text-xl font-bold mb-2">Barrio</h2>
-                            <p className='text-blue-600 font-bold'>{property.ubicacion}</p>
+                            <p className='text-blue-600 font-bold'>{property.neighborhood}</p>
                         </div>
                         <div>
                             <hr className="m-auto my-2 w-1/2 block md:hidden" />
+                            {property.address &&
+                                <>
+                                    <div className="flex flex-col pb-2">
+                                        <h2 className="text-xl font-bold mb-2 text-center">Direcccion</h2>
+                                        <p>{property.address}</p>
+                                        <hr className="m-auto my-4 w-1/2" />
+                                    </div>
+                                </>
+                            }
+                            {property.contribucion &&
+                                <>
+                                    <div className="flex flex-col pb-2">
+                                        <h2 className="text-xl font-bold mb-2 text-center">Contribución</h2>
+                                        <p>$ {Number(property.contribucion).toLocaleString('de-DE')} por año</p>
+                                        <hr className="m-auto my-4 w-1/2" />
+                                    </div>
+                                </>
+                            }
                             <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
                             <p>{property.description}</p>
                             <hr className="m-auto my-4 w-1/2" />
@@ -185,7 +203,7 @@ const PropertyDetails: React.FC = () => {
                         </div>
                         <div>
                             <h2 className="text-xl font-bold mb-2 ">Barrio</h2>
-                            <p className='text-blue-600 font-bold'>{property.ubicacion}</p>
+                            <p className='text-blue-600 font-bold'>{property.neighborhood}</p>
                         </div>
                     </div>
                     <hr className="m-auto my-4" />
@@ -193,6 +211,24 @@ const PropertyDetails: React.FC = () => {
                         <div className="flex flex-col">
                             <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
                             <p>{property.description}</p>
+                            {property.address &&
+                                <>
+                                    <div className="flex flex-col">
+                                        <hr className="my-4 w-1/2 m-auto" />
+                                        <h2 className="text-xl font-bold mb-2 text-center">Direcccion</h2>
+                                        <p>{property.address}</p>
+                                    </div>
+                                </>
+                            }
+                            {property.contribucion &&
+                                <>
+                                    <div className="flex flex-col">
+                                        <hr className="my-4 w-1/2 m-auto" />
+                                        <h2 className="text-xl font-bold mb-2 text-center">Contribución</h2>
+                                        <p>$ {Number(property.contribucion).toLocaleString('de-DE')} por año</p>
+                                    </div>
+                                </>
+                            }
                         </div>
                         <div>
                             <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>

@@ -15,54 +15,54 @@ interface LatLng {
 export interface PropertyCardProps {
   id: number;
   title: string;
-  imageSrc?: string[];
+  imageSrc: string[];
   image?: string[];
+  address: string;
   description: string;
   longDescription: string;
   status: PropertyStatus;
   price: number;
-  // price: string;
   type: string;
-  rooms?: number; // Opcional, dependiendo de si siempre se proporciona
-  // rooms?: string | number; // Opcional, dependiendo de si siempre se proporciona
-  bathrooms?: number; // Opcional, dependiendo de si siempre se proporciona
-  // bathrooms?: string | number; // Opcional, dependiendo de si siempre se proporciona
-  garages?: boolean; // Opcional, dependiendo de si siempre se proporciona
-  // garages?: string | number; // Opcional, dependiendo de si siempre se proporciona
-  piscina?: boolean; // Opcional, dependiendo de si siempre se proporciona
-  ubicacion?: string; // Opcional, dependiendo de si siempre se proporciona
+  rooms?: number;
+  bathrooms?: number;
+  garages?: boolean;
+  piscina?: boolean;
+  neighborhood?: string;
   area?: number;
   lotSize?: number;
-  yearBuilt?: number;
+  yearBuilt?: string;
   latitud?: number;
   longitud?: number;
   latLng?: LatLng | null;
+  contribucion?: string;
+  pinned?: boolean;
+  approved?: boolean;
 }
 
 export interface Property {
   id: number;
   title: string;
-  imageSrc?: string[];
+  imageSrc: string[];
+  address: string;
   description: string;
   longDescription: string;
   status: PropertyStatus;
   price: number;
-  // price: string;
   type: string;
   rooms?: number;
-  // rooms?: string | number;
   bathrooms?: number;
-  // bathrooms?: string | number;
   garages?: boolean;
-  // garages?: string | number;
   piscina?: boolean;
-  ubicacion?: string;
+  neighborhood?: string;
   area?: number;
   lotSize?: number;
-  yearBuilt?: number;
+  yearBuilt?: string;
   latitud?: number;
   longitud?: number;
   latLng?: LatLng | null;
+  contribucion?: string;
+  pinned?: boolean;
+  approved?: boolean;
 }
 
 export interface TextareaFieldProps {

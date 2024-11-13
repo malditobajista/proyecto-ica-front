@@ -10,12 +10,13 @@ import Garantias from '../components/Garantias';
 import { Property } from '../utils/types';
 import Nosotros from '../components/Nosotros';
 import { useProperties } from "../contexts/PropertyContext";
-import { fetchPropertiesByStatus } from '../services/services';
+import { fetchPinnedProperties, fetchPropertiesByStatus } from '../services/services';
 
 const Home: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
     const [allPropiedades, setAllPropiedades] = useState<Property[]>([]);
+    const [pinnedProperties, setPinnedProperties] = useState<Property[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -31,24 +32,24 @@ const Home: React.FC = () => {
                 const forSale = await fetchPropertiesByStatus("for-sale");
                 const forRent = await fetchPropertiesByStatus("for-rent");
                 const allProperties = await fetchPropertiesByStatus("all");
+                const pinned = await fetchPinnedProperties();
 
                 setAllPropiedades(allProperties);
                 setPropiedadesVenta(forSale);
                 setPropiedadesAlquiler(forRent);
+                setPinnedProperties(pinned);
 
             } catch (err) {
                 setError('Hubo un problema al cargar las propiedades.');
                 console.log(err);
                 console.log(error);
-
-
             } finally {
                 setLoading(false);
             }
         };
         fetchAllProperties();
         loadProperties();
-    }, []);
+    }, [error, fetchAllProperties]);
 
     return (
         <div className="space-y-8  max-w-full bg-white">
@@ -69,7 +70,7 @@ const Home: React.FC = () => {
                     ) : (
                         <Carousel properties={propiedadesVenta.length ? propiedadesVenta : []} />
                     )}
-                    <div className="pb-2">
+                    <div className="py-3">
                         <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
                     </div>
                     <hr />
@@ -86,7 +87,7 @@ const Home: React.FC = () => {
                 <hr />
                 <section className='px-0'>
                     <Title text="Propiedades destacadas" />
-                    <Carousel properties={properties.length ? properties : []} />
+                    <Carousel properties={pinnedProperties.length ? pinnedProperties : []} />
                     <div className="pb-2">
                         <Button to="/Propiedades">Ir a todas las propiedades</Button>
                     </div>

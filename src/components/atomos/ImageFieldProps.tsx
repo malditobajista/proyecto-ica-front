@@ -17,7 +17,7 @@ const ImageField: React.FC<ImageFieldProps> = ({ imageSrc, onImageChange, addIma
                     type="text"
                     value={src}
                     onChange={(e) => onImageChange(index, e.target.value)}
-                    className={`block w-full border ${error ? 'border-red-500' : 'border-gray-300'} pl-1 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm`}
+                    className={`block w-full border ${error ? 'border-red-500' : 'border-gray-300'} pl-1 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm`}
                     required
                     placeholder='https://www.ejemplo.com/image.jpg'
                 />

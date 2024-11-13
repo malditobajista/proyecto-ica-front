@@ -34,6 +34,7 @@ const Propiedades: React.FC = () => {
         const loadProperties = async () => {
             try {
                 const allProps = await fetchPropertiesByStatus("all");
+                console.log('>> Loaded properties:', allProps); // Verifica la estructura de los datos
                 setAllProperties(allProps);
                 setFilteredProperties(allProps);
             } catch (err) {

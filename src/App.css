@@ -47,3 +47,8 @@ section h2 {
 .slides li {
     scroll-snap-align: start; /* Alinea las miniaturas al inicio al hacer scroll */
 }
+
+.react-datepicker__year-wrapper {
+  display: flex;
+  justify-content: center;
+}

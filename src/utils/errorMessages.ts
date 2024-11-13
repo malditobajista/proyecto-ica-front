@@ -11,13 +11,17 @@ export const errorMessages = {
     required: "La descripción es requerida.",
     maxLength: "Has alcanzado el límite de caracteres.",
   },
-  state: "El estado es requerido.",
+  status: "El estado es requerido.",
   price: {
     required: "El precio es requerido.",
     invalid: "Debes ingresar un monto",
   },
+  contribucion: {
+    required: "El precio es requerido.",
+    invalid: "Debes ingresar un monto",
+  },
   type: "El tipo de propiedad es requerido.",
-  ubicacion: "El barrio es requerido.",
+  neighborhood: "El barrio es requerido.",
   latLng: "Debe seleccionar una ubicación en el mapa.",
   name: {
     required: "El nombre es requerido.",

@@ -12,9 +12,9 @@ const FormBusqueda = () => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4 ">
             <div className="flex flex-col">
-                <label htmlFor="ubicacion">Ubicación</label>
-                <select name="ubicacion" id="ubicacion"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <label htmlFor="neighborhood">Ubicación</label>
+                <select name="neighborhood" id="neighborhood"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                 >
                     {
                         Barrios.map(({ value, label }) => (
@@ -26,7 +26,7 @@ const FormBusqueda = () => {
 
             <div className="flex flex-col">
                 <label htmlFor="tipo">Tipo</label>
-                <select name="tipo" id="tipo" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                <select name="tipo" id="tipo" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                 >
                     <option key="anyType" value="any">Indistinto</option>
                     <option key="storage" value="storage">Almacén</option>
@@ -42,7 +42,7 @@ const FormBusqueda = () => {
             <div className="flex flex-col">
                 <label htmlFor="estado">Estado</label>
                 <select name="estado" id="estado"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                 >
                     <option key="anyState" value="any">Indistinto</option>
                     <option key="brand-new" value="brand-new">A estrenar</option>
@@ -54,9 +54,9 @@ const FormBusqueda = () => {
             {mostrarOtrosSelects && (
                 <>
                     <div className="flex flex-col">
-                        <label htmlFor="rooms">rooms</label>
+                        <label htmlFor="rooms">Dormitorios</label>
                         <select name="rooms" id="rooms"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                         >
                             <option key="dormitorio-0" value="0">Indistinto</option>
                             <option key="dormitorio-1" value="1">1</option>
@@ -69,7 +69,7 @@ const FormBusqueda = () => {
                     <div className="flex flex-col">
                         <label htmlFor="bathrooms">Baños</label>
                         <select name="bathrooms" id="bathrooms"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                         >
                             <option key="banio-0" value="0">Indistinto</option>
                             <option key="banio-1" value="1">1</option>
@@ -81,7 +81,7 @@ const FormBusqueda = () => {
 
                     <div className="flex flex-col">
                         <label htmlFor="garages">Garages</label>
-                        <select name="garages" id="garages" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        <select name="garages" id="garages" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                         >
                             <option key="garage-0" value="0">Indistinto</option>
                             <option key="garage-si" value="yes">Si</option>
@@ -91,7 +91,7 @@ const FormBusqueda = () => {
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="piscina">Piscina</label>
-                        <select name="piscina" id="piscina" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        <select name="piscina" id="piscina" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                         >
                             <option key="piscina-0" value="0">Indistinto</option>
                             <option key="piscina-si" value="yes">Si</option>
@@ -101,7 +101,7 @@ const FormBusqueda = () => {
                     </div>
                     <div className="flex flex-col">
                         <label htmlFor="nombre">Nombre de la casa</label>
-                        <input type="text" name="nombre" id="nombre" placeholder='Escriba el nombre' className="pl-1 mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        <input type="text" name="nombre" id="nombre" placeholder='Escriba el nombre' className="pl-1 mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                         />
                     </div>
                 </>

@@ -29,25 +29,25 @@ const ContactDetails: React.FC = () => {
     return (
         <div className="rh_contact__details p-4 rounded-md">
             <ContactItem
-                icon={<FaPhone className="text-blue-400 mb-2 " />}
+                icon={<FaPhone className="text-green-400 mb-2 " />}
                 label="Teléfono"
                 content="(+598) 4479 8463"
                 link="tel:(+598) 4479 8463"
             />
             <ContactItem
-                icon={<FaMobileAlt className="text-blue-400 mb-2 " />}
+                icon={<FaMobileAlt className="text-green-400 mb-2 " />}
                 label="Móvil"
                 content="095786120"
                 link="tel:095786120"
             />
             <ContactItem
-                icon={<FaEnvelope className="text-blue-400 mb-2 " />}
+                icon={<FaEnvelope className="text-green-400 mb-2 " />}
                 label="Correo electrónico"
                 content="consultas@inmobiliariacostaazul.com"
                 link="mailto:consultas@inmobiliariacostaazul.com"
             />
             {/* <ContactItem
-                icon={<FaMapMarkerAlt className="text-blue-400 mb-2 " />}
+                icon={<FaMapMarkerAlt className="text-green-400 mb-2 " />}
                 label="Dirección"
                 content="Profesor Yaneo esq. Zapicán en Costa Azul, La Paloma, Rocha"
             /> */}
@@ -57,7 +57,7 @@ const ContactDetails: React.FC = () => {
                 rel="noopener noreferrer"
                 className='p-4'
             >
-                <FaMapMarkerAlt className=" inline-block text-blue-400 mb-2 " />
+                <FaMapMarkerAlt className=" inline-block text-green-400 mb-2 " />
                 <span className=' ml-8 text-green-700 hover:underline'>
                     Profesor Yaneo esq. Zapicán en Costa Azul
                 </span>

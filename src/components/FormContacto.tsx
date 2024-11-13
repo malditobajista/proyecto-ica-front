@@ -28,7 +28,7 @@ const FormContacto: React.FC = () => {
         setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     };
 
-    //@ts-ignore
+
     const [isChecked, setIsChecked] = useState(false);
     const validateForm = () => {
         const newErrors = {
@@ -60,7 +60,6 @@ const FormContacto: React.FC = () => {
         }
     };
 
-    //@ts-ignore
     const handleRecaptchaError = (error: string) => {
         setErrors((prevErrors) => ({ ...prevErrors, recaptcha: error }));
     };
@@ -134,7 +133,7 @@ const FormContacto: React.FC = () => {
 
                 <Button
                     type="submit"
-                    clase="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    clase="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                 >
                     Enviar
                 </Button>

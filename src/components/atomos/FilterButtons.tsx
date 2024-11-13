@@ -7,13 +7,13 @@ interface FilterButtonsProps {
 }
 
 const iconMap = {
-    apartamento: <FaBuilding />,
-    almacen: <FaCubes />,
-    casa: <FaHome />,
-    comercio: <FaStore />,
-    oficina: <FaWarehouse />,
-    terreno: <FaLandmark />,
-    otro: <FaEllipsisH />,
+    Apartamento: <FaBuilding />,
+    Almacen: <FaCubes />,
+    Casa: <FaHome />,
+    Comercio: <FaStore />,
+    Oficina: <FaWarehouse />,
+    Terreno: <FaLandmark />,
+    Otro: <FaEllipsisH />,
 };
 
 const FilterButtons: React.FC<FilterButtonsProps> = ({ onFilterChange, currentFilters }) => {
