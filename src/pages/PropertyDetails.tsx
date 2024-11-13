@@ -52,7 +52,7 @@ const PropertyDetails: React.FC = () => {
         <div className="my-8 p-4">
             <Button
                 onClick={() => window.history.back()}
-                clase={`mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-4 z-50 `}
+                clase={`mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-6 z-50 `}
             >
                 Volver a la página anterior
             </Button>

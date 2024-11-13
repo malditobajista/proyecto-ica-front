@@ -71,7 +71,7 @@ const Home: React.FC = () => {
                         <Carousel properties={propiedadesVenta.length ? propiedadesVenta : []} />
                     )}
                     <div className="py-3">
-                        <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
+                        <Button to="/ventas">Ir a propiedades en venta</Button>
                     </div>
                     <hr />
                     <Title text="En alquiler" />
@@ -80,23 +80,23 @@ const Home: React.FC = () => {
                     ) : (
                         <Carousel properties={propiedadesAlquiler} />
                     )}
-                    <div className="pb-2">
-                        <Button to="/Alquileres">Ir a todas las propiedades en alquiler</Button>
+                    <div className="py-3">
+                        <Button to="/alquileres">Ir a propiedades en alquiler</Button>
                     </div>
                 </section>
                 <hr />
                 <section className='px-0'>
                     <Title text="Propiedades destacadas" />
                     <Carousel properties={pinnedProperties.length ? pinnedProperties : []} />
-                    <div className="pb-2">
-                        <Button to="/Propiedades">Ir a todas las propiedades</Button>
+                    <div className="py-3">
+                        <Button to="/destacadas">Ir a propiedades destacadas</Button>
                     </div>
                 </section>
                 <hr />
                 <section className='px-0'>
                     <Title text="Tus propiedades favoritas" />
                     <Carousel properties={properties.length ? properties : []} />
-                    <div className="pb-2">
+                    <div className="py-3">
                         <Button to="/">Ir a tus propiedades favoritas</Button>
                     </div>
                 </section>
@@ -104,7 +104,7 @@ const Home: React.FC = () => {
                 <section className='px-0'>
                     <Title text="Tus propiedades" />
                     <Carousel properties={allPropiedades.length ? allPropiedades : []} />
-                    <div className="pb-2">
+                    <div className="py-3">
                         <Button to="/">Ir a tus propiedades</Button>
                     </div>
                 </section>

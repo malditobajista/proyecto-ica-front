@@ -79,8 +79,8 @@ const Propiedades: React.FC = () => {
                     <p className="mt-5">Se están mostrando <span className="text-green-600">{filteredProperties.length}</span> propiedades</p>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-4">
-                    <aside className="hidden mt-4 md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg">
+                <div className="flex flex-col md:flex-row gap-4 px-4">
+                    <aside className="hidden mt-4  md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg">
                         <div className='text-center'>
                             <h2 className='text-lg font-bold'>Filtros de ordenamiento</h2>
                             <hr className='my-2' />

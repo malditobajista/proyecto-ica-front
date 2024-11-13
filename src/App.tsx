@@ -13,6 +13,7 @@ import Perfil from './pages/Perfil';
 import { MisPropiedades } from './pages/MisPropiedades';
 import { MisFavoritas } from './pages/MisFavoritas';
 import { PropertyProvider } from "./contexts/PropertyContext";
+import Destacadas from './pages/Destacadas';
 
 function App() {
 
@@ -30,6 +31,7 @@ function App() {
             <Route path="/alquileres" element={<Alquileres />} />
             <Route path="/propiedades" element={<Propiedades />} />
             <Route path="/propiedades/:id" element={<PropertyDetails />} />
+            <Route path="/destacadas" element={<Destacadas />} />
             <Route path="/contacto" element={<Contacto />} />
             <Route path="/login" element={<Home />} />
             <Route path="/perfil" element={<Perfil />} />

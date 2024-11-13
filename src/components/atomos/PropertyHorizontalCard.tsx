@@ -1,85 +1,3 @@
-// import { useState } from "react";
-// import { PropertyCardProps } from "../../utils/types";
-// // import { PropertyCardProps, PropertyStatus } from "../../utils/types";
-// import Button from "./Button";
-// import { replaceStatus } from "../../utils/replaceStatus";
-
-// const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({ id, title, type, description, status, price, imageSrc }) => {
-//     const [selectedButtons, setSelectedButtons] = useState<{ heart: boolean; dollar: boolean }>({
-//         heart: false,
-//         dollar: false,
-//     });
-
-//     const toggleButton = (button: string) => {
-//         setSelectedButtons((prev) => ({
-//             ...prev,
-//             // @ts-expect-error blabla bla
-//             [button]: !prev[button],
-//         }));
-//     };
-
-//     return (
-//         <div className="flex w-full max-w-full justify-center items-start overflow-hidden rounded-lg">
-//             <article className="bg-white rounded w-full shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row">
-//                 <figure className="w-full md:w-2/5 relative h-32 md:h-auto">
-//                     <div
-//                         className="post_thumbnail bg-center bg-cover h-full w-full rounded-l-lg"
-//                         style={{
-//                             backgroundImage: `url('${imageSrc[0]}')`,
-//                         }}
-//                     ></div>
-//                     <div className="absolute bottom-2 right-0 flex">
-//                         <button
-//                             className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart ? 'text-red-500' : 'hover:text-red-500'}`}
-//                             onClick={() => toggleButton('heart')}
-//                         >
-//                             ♥
-//                         </button>
-//                         <button
-//                             className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.dollar ? 'text-green-500' : 'hover:text-green-500'}`}
-//                             onClick={() => toggleButton('dollar')}
-//                         >
-//                             $
-//                         </button>
-//                     </div>
-//                 </figure>
-
-//                 <div className="w-full md:w-2/6 p-4 flex flex-col justify-between">
-//                     <h3 className="text-xl font-medium leading-tight">
-//                         <span>{title}</span>
-//                     </h3>
-//                     <p className="text-gray-500">{description}</p>
-//                 </div>
-
-//                 <div className="w-full md:w-3/6 p-4 flex flex-col md:items-end">
-//                     <div className="flex flex-col mb-4 w-full md:w-1/2">
-//                         <div className="flex justify-between md:justify-between">
-//                             <span className="font-bold">Tipo:</span>
-//                             <span className="capitalize text-right">{type}</span>
-//                         </div>
-//                         <div className="flex justify-between md:justify-between">
-//                             <span className="font-bold">Estado:</span>
-//                             <span className="text-right">
-//                                 <span className="capitalize text-red-500 font-bold"> {replaceStatus(status)}</span>
-//                             </span>
-//                         </div>
-//                         <div className="flex justify-between md:justify-between">
-//                             <span className="font-bold">Precio:</span>
-//                             <span className="text-green-700 text-right">U$S {Number(price).toLocaleString('de-DE')}</span>
-//                         </div>
-//                     </div>
-//                     <div className="w-full md:w-1/2">
-//                         <Button clase="text-center w-full" to={`/propiedades/${id}`}>
-//                             Ver Propiedad
-//                         </Button>
-//                     </div>
-//                 </div>
-//             </article>
-//         </div>
-//     );
-// };
-
-// export default PropertyHorizontalCard;
 import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import Button from "./Button";
@@ -92,17 +10,15 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
     description,
     status,
     price,
-    imageSrc = [], // Valor predeterminado como un array vacío
+    imageSrc = [],
 }) => {
-    const [selectedButtons, setSelectedButtons] = useState<{
-        heart: boolean;
-        dollar: boolean;
-    }>({
+    const [selectedButtons, setSelectedButtons] = useState({
         heart: false,
         dollar: false,
     });
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleButton = (button: string) => {
         setSelectedButtons((prev) => ({
@@ -113,29 +29,47 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
     };
 
     const handlePrevImage = () => {
+        setIsLoading(true);
         setCurrentImageIndex((prevIndex) =>
             prevIndex === 0 ? imageSrc.length - 1 : prevIndex - 1
         );
     };
 
     const handleNextImage = () => {
+        setIsLoading(true);
         setCurrentImageIndex((prevIndex) =>
             prevIndex === imageSrc.length - 1 ? 0 : prevIndex + 1
         );
+    };
+
+    const handleImageLoad = () => {
+        setIsLoading(false);
     };
 
     const image = "https://placehold.co/300x300";
 
     return (
         <div className="flex w-full max-w-full justify-center items-start overflow-hidden rounded-lg">
-            <article className="bg-white rounded w-full shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row">
-                <figure className="w-full md:w-2/5 relative h-32 md:h-auto group">
+            <article className="bg-white rounded max-w-[1090px] shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row">
+                <figure className="w-full md:w-2/8 relative group  ">
                     <div
-                        className="post_thumbnail bg-center bg-cover h-full w-full rounded-l-lg"
+                        className="post_thumbnail bg-center bg-cover w-full rounded-l-lg aspect-square md:w-[350px] md:h-[350px]"
                         style={{
                             backgroundImage: `url('${imageSrc[currentImageIndex] ?? image}')`,
                         }}
-                    ></div>
+                    >
+                        {isLoading && (
+                            <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
+                                <div className="loader"></div>
+                            </div>
+                        )}
+                        <img
+                            src={imageSrc[currentImageIndex] ?? image}
+                            alt="Property"
+                            className="hidden"
+                            onLoad={handleImageLoad}
+                        />
+                    </div>
                     <div className="absolute inset-0 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <button
                             className="bg-black bg-opacity-20 hover:bg-opacity-50 text-white p-2 rounded-full ml-2"
@@ -150,7 +84,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                             &gt;
                         </button>
                     </div>
-                    <div className="absolute bottom-2 right-0 flex">
+                    <div className="absolute bottom-2 right-2 flex space-x-2">
                         <button
                             className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart
                                 ? "text-red-500"
@@ -172,35 +106,40 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                     </div>
                 </figure>
 
-                <div className="w-full md:w-2/6 p-4 flex flex-col justify-between">
-                    <h3 className="text-xl font-medium leading-tight">
+                <div className="w-full md:w-3/8 p-4 flex flex-col justify-between">
+                    <h3 className="text-xl leading-tight font-bold">
                         <span>{title}</span>
+                        <hr className="m-auto my-4 w-3/4 block md:hidden" />
                     </h3>
-                    <p className="text-gray-500">{description}</p>
+                    <div className="text-lg">
+                        <h4 className="font-bold">Descripción</h4>
+                        <p className="text-gray-500">{description}</p>
+                        <hr className="m-auto mt-4 w-3/4 block md:hidden" />
+                    </div>
                 </div>
 
-                <div className="w-full md:w-3/6 p-4 flex flex-col md:items-end">
-                    <div className="flex flex-col mb-4 w-full md:w-1/2">
-                        <div className="flex justify-between md:justify-between">
+                <div className="w-full md:w-3/8 p-4 flex flex-col items-start md:items-end">
+                    <div className="flex flex-col mb-4 w-full space-y-3 flex-grow">
+                        <div className="flex flex-col sm:flex-row justify-between w-full">
                             <span className="font-bold">Tipo:</span>
-                            <span className="capitalize text-right">{type}</span>
+                            <span className="capitalize text-right sm:text-left w-full sm:w-auto">{type}</span>
                         </div>
-                        <div className="flex justify-between md:justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between w-full">
                             <span className="font-bold">Estado:</span>
-                            <span className="text-right">
+                            <span className="text-right sm:text-left w-full sm:w-auto">
                                 <span className="capitalize text-red-500 font-bold">
                                     {replaceStatus(status)}
                                 </span>
                             </span>
                         </div>
-                        <div className="flex justify-between md:justify-between">
+                        <div className="flex flex-col sm:flex-row justify-between w-full">
                             <span className="font-bold">Precio:</span>
-                            <span className="text-green-700 text-right">
+                            <span className="text-green-700 text-right sm:text-left w-full sm:w-auto">
                                 U$S {Number(price).toLocaleString("de-DE")}
                             </span>
                         </div>
                     </div>
-                    <div className="w-full md:w-1/2">
+                    <div className="w-full mt-4">
                         <Button clase="text-center w-full" to={`/propiedades/${id}`}>
                             Ver Propiedad
                         </Button>
