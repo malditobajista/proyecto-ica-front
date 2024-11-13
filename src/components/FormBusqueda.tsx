@@ -54,8 +54,8 @@ const FormBusqueda = () => {
             {mostrarOtrosSelects && (
                 <>
                     <div className="flex flex-col">
-                        <label htmlFor="dormitorios">Dormitorios</label>
-                        <select name="dormitorios" id="dormitorios"
+                        <label htmlFor="rooms">rooms</label>
+                        <select name="rooms" id="rooms"
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option key="dormitorio-0" value="0">Indistinto</option>
@@ -67,8 +67,8 @@ const FormBusqueda = () => {
                     </div>
 
                     <div className="flex flex-col">
-                        <label htmlFor="banios">Baños</label>
-                        <select name="banios" id="banios"
+                        <label htmlFor="bathrooms">Baños</label>
+                        <select name="bathrooms" id="bathrooms"
                             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         >
                             <option key="banio-0" value="0">Indistinto</option>

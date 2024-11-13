@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+// import { format } from "date-fns";
 
 export const errorMessages = {
   title: {
@@ -21,9 +21,11 @@ export const errorMessages = {
   latLng: "Debe seleccionar una ubicación en el mapa.",
   name: {
     required: "El nombre es requerido.",
+    invalid: "Por favor solo ingrese letras",
   },
   lastname: {
     required: "El apellido es requerido.",
+    invalid: "Por favor solo ingrese letras",
   },
   email: {
     required: "El email es requerido.",

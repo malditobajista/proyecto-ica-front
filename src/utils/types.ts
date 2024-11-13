@@ -19,12 +19,16 @@ export interface PropertyCardProps {
   image?: string[];
   description: string;
   longDescription: string;
-  state: string;
-  price: string;
+  status: PropertyStatus;
+  price: number;
+  // price: string;
   type: string;
-  dormitorios?: string | number; // Opcional, dependiendo de si siempre se proporciona
-  banios?: string | number; // Opcional, dependiendo de si siempre se proporciona
-  garages?: string | number; // Opcional, dependiendo de si siempre se proporciona
+  rooms?: number; // Opcional, dependiendo de si siempre se proporciona
+  // rooms?: string | number; // Opcional, dependiendo de si siempre se proporciona
+  bathrooms?: number; // Opcional, dependiendo de si siempre se proporciona
+  // bathrooms?: string | number; // Opcional, dependiendo de si siempre se proporciona
+  garages?: boolean; // Opcional, dependiendo de si siempre se proporciona
+  // garages?: string | number; // Opcional, dependiendo de si siempre se proporciona
   piscina?: boolean; // Opcional, dependiendo de si siempre se proporciona
   ubicacion?: string; // Opcional, dependiendo de si siempre se proporciona
   area?: number;
@@ -41,12 +45,16 @@ export interface Property {
   imageSrc?: string[];
   description: string;
   longDescription: string;
-  state: string;
-  price: string;
+  status: PropertyStatus;
+  price: number;
+  // price: string;
   type: string;
-  dormitorios?: string | number;
-  banios?: string | number;
-  garages?: string | number;
+  rooms?: number;
+  // rooms?: string | number;
+  bathrooms?: number;
+  // bathrooms?: string | number;
+  garages?: boolean;
+  // garages?: string | number;
   piscina?: boolean;
   ubicacion?: string;
   area?: number;
@@ -82,5 +90,14 @@ export interface AgentProps {
   propertiesListed: number;
   imageUrl?: string;
   profileUrl: string;
+}
+
+export enum PropertyStatus {
+  ForSale = "for_sale",
+  ForRent = "for_rent",
+  Sold = "sold",
+  Rented = "rented",
+  UnderConstruction = "under_construction",
+  Reserved = "reserved",
 }
 

@@ -13,7 +13,7 @@ export const isValidPhoneNumber = (phone: string): boolean => {
 
 export const isValidName = (name: string): boolean => {
   // Expresión regular para nombres que solo permiten letras
-  const nameRegex = /^[a-zA-Z]+$/;
+  const nameRegex = /^[a-zA-Z-ñ_Ñ]+$/;
   return nameRegex.test(name);
 };
 
