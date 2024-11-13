@@ -10,7 +10,7 @@ import Garantias from '../components/Garantias';
 import { Property } from '../utils/types';
 import Nosotros from '../components/Nosotros';
 import { useProperties } from "../contexts/PropertyContext";
-import { fetchPropertiesByState } from '../services/services';
+import { fetchPropertiesByStatus } from '../services/services';
 
 const Home: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
@@ -28,9 +28,9 @@ const Home: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const forSale = await fetchPropertiesByState("for-sale");
-                const forRent = await fetchPropertiesByState("for-rent");
-                const allProperties = await fetchPropertiesByState("all");
+                const forSale = await fetchPropertiesByStatus("for-sale");
+                const forRent = await fetchPropertiesByStatus("for-rent");
+                const allProperties = await fetchPropertiesByStatus("all");
 
                 setAllPropiedades(allProperties);
                 setPropiedadesVenta(forSale);
@@ -38,75 +38,84 @@ const Home: React.FC = () => {
 
             } catch (err) {
                 setError('Hubo un problema al cargar las propiedades.');
+                console.log(err);
+                console.log(error);
+
+
             } finally {
                 setLoading(false);
             }
         };
-
         fetchAllProperties();
         loadProperties();
     }, []);
 
     return (
-        <div className="space-y-8  max-w-full ">
-            <Banner />
-            <section>
-                <FormBusqueda />
-            </section>
-            <hr />
-            <section className='px-0'>
-                <Title text="En venta" />
-                {loading ? (
-                    <Title text="Cargando propiedades..." />
-                ) : (
-                    <Carousel properties={propiedadesVenta.length ? propiedadesVenta : []} />
-                )}
-                <div className="pb-2">
-                    <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
-                </div>
+        <div className="space-y-8  max-w-full bg-white">
+            <div className="lg:max-w-[1400px] mx-auto">
+
+                <Banner />
+            </div>
+
+            <div className="lg:max-w-[1200px] mx-auto">
+                <section>
+                    <FormBusqueda />
+                </section>
                 <hr />
-                <Title text="En alquiler" />
-                {loading ? (
-                    <Title text="Cargando propiedades..." />
-                ) : (
-                    <Carousel properties={propiedadesAlquiler} />
-                )}
-                <div className="pb-2">
-                    <Button to="/Alquileres">Ir a todas las propiedades en alquiler</Button>
-                </div>
-            </section>
-            <hr />
-            <section className='px-0'>
-                <Title text="Propiedades destacadas" />
-                <Carousel properties={properties.length ? properties : []} />
-                <div className="pb-2">
-                    <Button to="/Propiedades">Ir a todas las propiedades</Button>
-                </div>
-            </section>
-            <hr />
-            <section className='px-0'>
-                <Title text="Tus propiedades favoritas" />
-                <Carousel properties={properties.length ? properties : []} />
-                <div className="pb-2">
-                    <Button to="/">Ir a tus propiedades favoritas</Button>
-                </div>
-            </section>
-            <hr />
-            <section className='px-0'>
-                <Title text="Tus propiedades" />
-                <Carousel properties={allPropiedades.length ? allPropiedades : []} />
-                <div className="pb-2">
-                    <Button to="/">Ir a tus propiedades</Button>
-                </div>
-            </section>
-            <hr />
-            <section className='px-0'>
-                <Title text="Nosotros" />
-                <Nosotros />
-            </section>
-            <hr />
-            <Garantias />
-            <hr />
+                <section className='px-0'>
+                    <Title text="En venta" />
+                    {loading ? (
+                        <Title text="Cargando propiedades..." />
+                    ) : (
+                        <Carousel properties={propiedadesVenta.length ? propiedadesVenta : []} />
+                    )}
+                    <div className="pb-2">
+                        <Button to="/Ventas">Ir a todas las propiedades en venta</Button>
+                    </div>
+                    <hr />
+                    <Title text="En alquiler" />
+                    {loading ? (
+                        <Title text="Cargando propiedades..." />
+                    ) : (
+                        <Carousel properties={propiedadesAlquiler} />
+                    )}
+                    <div className="pb-2">
+                        <Button to="/Alquileres">Ir a todas las propiedades en alquiler</Button>
+                    </div>
+                </section>
+                <hr />
+                <section className='px-0'>
+                    <Title text="Propiedades destacadas" />
+                    <Carousel properties={properties.length ? properties : []} />
+                    <div className="pb-2">
+                        <Button to="/Propiedades">Ir a todas las propiedades</Button>
+                    </div>
+                </section>
+                <hr />
+                <section className='px-0'>
+                    <Title text="Tus propiedades favoritas" />
+                    <Carousel properties={properties.length ? properties : []} />
+                    <div className="pb-2">
+                        <Button to="/">Ir a tus propiedades favoritas</Button>
+                    </div>
+                </section>
+                <hr />
+                <section className='px-0'>
+                    <Title text="Tus propiedades" />
+                    <Carousel properties={allPropiedades.length ? allPropiedades : []} />
+                    <div className="pb-2">
+                        <Button to="/">Ir a tus propiedades</Button>
+                    </div>
+                </section>
+                <hr />
+                <section className='px-0'>
+                    <Title text="Nosotros" />
+                    <Nosotros />
+                </section>
+                <hr />
+                <Garantias />
+                <hr />
+            </div>
         </div>
     );
 };

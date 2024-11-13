@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
-import { fetchPropertiesByState } from '../services/services';
+import { fetchPropertiesByStatus } from '../services/services';
 import { Property } from '../utils/types';
 import FilterButtons from '../components/atomos/FilterButtons';
 import SortByPriceButtons from '../components/atomos/SortByPriceButtons';
@@ -16,27 +16,29 @@ const Propiedades: React.FC = () => {
 
     const handleFilterChange = (type: string) => {
         if (type === 'all') {
-            setFilterTypes([]); // "Todos" limpia todos los filtros
+            setFilterTypes([]);
         } else {
             setFilterTypes(prevFilters =>
                 prevFilters.includes(type)
-                    ? prevFilters.filter(filter => filter !== type) // Elimina el filtro si ya está seleccionado
-                    : [...prevFilters, type] // Agrega el filtro si no está seleccionado
+                    ? prevFilters.filter(filter => filter !== type)
+                    : [...prevFilters, type]
             );
         }
     };
 
     const handleSortChange = (order: 'asc' | 'desc') => {
-        setSortOrder(order); // Actualiza el estado del orden
+        setSortOrder(order);
     };
 
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const allProps = await fetchPropertiesByState("all");
+                const allProps = await fetchPropertiesByStatus("all");
                 setAllProperties(allProps);
                 setFilteredProperties(allProps);
             } catch (err) {
+                console.log(err);
+
                 setError('Hubo un problema al cargar las propiedades.');
             } finally {
                 setLoading(false);
@@ -66,7 +68,7 @@ const Propiedades: React.FC = () => {
         });
 
         setFilteredProperties(sortedFilteredProperties);
-    }, [filterTypes, allProperties, sortOrder]); // Agregar `sortOrder` como dependencia
+    }, [filterTypes, allProperties, sortOrder]);
 
     return (
         <div className="mt-14 p-4 min-h-screen">
@@ -77,7 +79,7 @@ const Propiedades: React.FC = () => {
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-4">
-                    <aside className="hidden mt-4 md:block md:w-1/4 w-full bg-white p-4 min-h-full">
+                    <aside className="hidden mt-4 md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg">
                         <div className='text-center'>
                             <h2 className='text-lg font-bold'>Filtros de ordenamiento</h2>
                             <hr className='my-2' />

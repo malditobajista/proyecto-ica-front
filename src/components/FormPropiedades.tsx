@@ -21,8 +21,8 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
         state: '',
         price: '',
         type: '',
-        dormitorios: '',
-        banios: '',
+        rooms: '',
+        bathrooms: '',
         garage: '',
         piscina: '',
         ubicacion: '',
@@ -153,8 +153,8 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                 state: '',
                 price: '',
                 type: '',
-                dormitorios: '',
-                banios: '',
+                rooms: '',
+                bathrooms: '',
                 garage: '',
                 piscina: '',
                 ubicacion: '',
@@ -323,10 +323,10 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                         relative
                         `}>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700">Dormitorios</label>
+                                <label className="block text-sm font-medium text-gray-700">rooms</label>
                                 <select
-                                    name="dormitorios"
-                                    value={formData.dormitorios}
+                                    name="rooms"
+                                    value={formData.rooms}
                                     onChange={handleChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                 >
@@ -340,8 +340,8 @@ const FormPropiedades: React.FC<PropertyFormProps> = ({ onAddProperty }) => {
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">Baños</label>
                                 <select
-                                    name="banios"
-                                    value={formData.banios}
+                                    name="bathrooms"
+                                    value={formData.bathrooms}
                                     onChange={handleChange}
                                     className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
                                 >

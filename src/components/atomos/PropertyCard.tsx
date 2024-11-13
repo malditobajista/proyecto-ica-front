@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { PropertyCardProps } from "../../utils/types";
+import { PropertyCardProps, PropertyStatus } from "../../utils/types";
 import Button from "./Button";
+import { replaceStatus } from "../../utils/replaceStatus";
 
-const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, description, state, price }) => {
+const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, description, status, price }) => {
     const [selectedButtons, setSelectedButtons] = useState<{ heart: boolean; dollar: boolean }>({
         heart: false,
         dollar: false,
@@ -11,7 +12,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
     const toggleButton = (button: string) => {
         setSelectedButtons((prev) => ({
             ...prev,
-            // @ts-ignore
+            // @ts-expect-error blabla bla
             [button]: !prev[button],
         }));
     };
@@ -19,10 +20,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
     const image = "https://placehold.co/300x300";
 
     return (
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full flex justify-center items-center m-3">
             <article className={`
                 bg-white 
-                rounded
                 w-[400px] 
                 h-[700px]
                 text-surface
@@ -32,11 +32,12 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
                 pb-3
                 mx-3
                 relative
+                rounded-lg
             `}>
-                <figure className="w-full  relative">
+                <figure className="w-full relative rounded-lg mb-3">
                     <div className="absolute bottom-2 right-0 flex">
                         <button
-                            className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart ? 'text-red-500' : 'hover:text-red-500'
+                            className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart ? 'text-red-500' : 'hover:text-red-500 rounded-lg'
                                 }`}
                             onClick={() => toggleButton('heart')}
                         >
@@ -50,14 +51,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
                             $
                         </button>
                     </div>
-                    <span className="block w-full h-full">
-                        <img
-                            // @ts-ignore
-                            src={imageSrc[0] ?? image}
-                            alt={title}
-                            className="w-full h-full object-cover mx-auto"
-                        />
-                    </span>
+                    {/* <span className="block w-full h-full rounded-t-lg"> */}
+                    <img
+                        // @ts-expect-error blabla bla
+                        src={imageSrc[0] ?? image}
+                        alt={title}
+                        // className="w-full h-full object-cover mx-auto"
+                        className="w-full h-full object-cover rounded-t-lg"
+                    />
+                    {/* </span> */}
                 </figure>
                 <div className="flex-grow flex flex-col p-4 sm:p-0"> {/* Permitir que este div crezca */}
                     <h3 className="text-center text-xl font-medium leading-tight">
@@ -83,7 +85,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ id, title, imageSrc, type, 
                 <div className="pb-4 flex flex-col items-center">
                     <div className="px-4 mb-4 text-center">
                         <p className="pb-2 font-bold">
-                            Propiedad <span className="capitalize text-red-500">{state}</span>
+                            Propiedad <span className="capitalize text-red-500">{replaceStatus(status)}</span>
                         </p>
                         <p className="pb-2 font-bold">
                             Precio: <span className="text-green-700 ml-1">U$S {Number(price).toLocaleString('de-DE')}</span>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { fetchProperties } from '../services/services';
+import { fetchPropertiesByStatus } from '../services/services';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
 import { Property } from '../utils/types';
@@ -15,14 +15,14 @@ const Ventas: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const properties = await fetchProperties("for-sale");
+                const properties = await fetchPropertiesByStatus("for-sale");
                 setPropiedadesVenta(properties);
 
                 propiedadesVenta.map((property) => {
                     console.log(property);
                 });
-
             } catch (err) {
+                console.log(err);
                 setError('Hubo un problema al cargar las propiedades.');
             } finally {
                 setLoading(false);

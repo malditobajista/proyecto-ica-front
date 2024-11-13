@@ -13,35 +13,35 @@ export const Barrios: { value: string; label: string }[] = [
   },
   {
     value: "anaconda",
-    label: "- Anaconda",
+    label: "Anaconda",
   },
   {
     value: "antoniopolis",
-    label: "- Antoniópolis",
+    label: "Antoniópolis",
   },
   {
     value: "arachania",
-    label: "- Arachania",
+    label: "Arachania",
   },
   {
     value: "barrio-country",
-    label: "- Barrio Country",
+    label: "Barrio Country",
   },
   {
     value: "barrio-parque",
-    label: "- Barrio Parque",
+    label: "Barrio Parque",
   },
   {
     value: "costa-azul",
-    label: "- Costa Azul",
+    label: "Costa Azul",
   },
   {
     value: "la-aguada",
-    label: "- La Aguada",
+    label: "La Aguada",
   },
   {
     value: "playa-serena",
-    label: "- Playa Serena",
+    label: "Playa Serena",
   },
   {
     value: "la-pedrera",
@@ -65,11 +65,11 @@ export const Barrios: { value: string; label: string }[] = [
   },
   {
     value: "cerro-aspero-garzon",
-    label: "- Cerro Aspero Garzon",
+    label: "Cerro Aspero Garzon",
   },
   {
     value: "sierra-de-rocha",
-    label: "- Sierra de Rocha",
+    label: "Sierra de Rocha",
   },
   {
     value: "san-antonio",

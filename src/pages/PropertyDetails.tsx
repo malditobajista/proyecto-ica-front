@@ -7,6 +7,8 @@ import Title from '../components/atomos/Title';
 import ImageSlider from '../components/atomos/ImageSlider';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { replaceStatus } from '../utils/replaceStatus';
+import Button from '../components/atomos/Button';
 
 const PropertyDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,20 +16,19 @@ const PropertyDetails: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    // useEffect(() => {
-    //     window.scrollTo(0, 0);
-    // }, []);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         const loadProperty = async () => {
             try {
                 if (id) {
-                    // console.log(`Fetching property with id: ${id}`);
                     const propertyData = await fetchPropertyById(id);
-                    // console.log('Property data:', propertyData);
                     setProperty(propertyData);
                 }
             } catch (err) {
+                console.log('Error fetching property:', err);
                 setError('Hubo un problema al cargar los detalles de la propiedad.');
             } finally {
                 setLoading(false);
@@ -41,19 +42,24 @@ const PropertyDetails: React.FC = () => {
     if (error) return <div>{error}</div>;
     if (!property) return <div>No se encontró la propiedad.</div>;
 
-    //@ts-ignore
     const costaAzulCoordinates = {
         lat: -34.6500,
         lng: -54.1667
     };
-    // console.log(">>> ", property.imageSrc);
+    console.log(costaAzulCoordinates);
 
     return (
         <div className="my-8 p-4">
+            <Button
+                onClick={() => window.history.back()}
+                clase={`mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-4 z-50 `}
+            >
+                Volver a la página anterior
+            </Button>
             {/* Título y Precio */}
             <article className={`
                         bg-white 
-                        rounded
+                        rounded-lg
                         text-surface
                         shadow-md
                         dark:bg-surface-dark dark:text-gray-800
@@ -70,7 +76,7 @@ const PropertyDetails: React.FC = () => {
             <div className="relative  w-full">
 
                 {property.imageSrc && property.imageSrc.length > 0 && (
-                    <div className="flex justify-center mb-4">
+                    <div className="flex justify-center mb-4 rounded-lg">
                         <ImageSlider images={property.imageSrc} />
                     </div>
                 )}
@@ -78,7 +84,7 @@ const PropertyDetails: React.FC = () => {
             <div className="flex justify-center">
                 <article className={`
                         bg-white 
-                        rounded
+                        rounded-lg
                         text-surface
                         shadow-md
                         dark:bg-surface-dark dark:text-gray-800
@@ -90,22 +96,22 @@ const PropertyDetails: React.FC = () => {
                     <div className="flex flex-wrap justify-center gap-4 mb-4 text-center">
 
                         <div className="flex flex-wrap justify-center gap-4 w-full">
-                            {property.dormitorios !== undefined && (
+                            {property.rooms !== undefined && (
                                 <p className="flex items-center text-xl">
                                     <FaBed className="inline-block  text-blue-500  mr-2" />
-                                    Dormitorios: {property.dormitorios}
+                                    Dormitorios: {property.rooms}
                                 </p>
                             )}
-                            {property.banios !== undefined && (
+                            {property.bathrooms !== undefined && (
                                 <p className="flex items-center text-xl">
                                     <FaBath className="inline-block mr-2 text-blue-500 " />
-                                    Baños: {property.banios}
+                                    Baños: {property.bathrooms}
                                 </p>
                             )}
                             {property.garages !== undefined && (
                                 <p className="flex items-center text-xl">
                                     <FaCar className="inline-block  text-blue-500  mr-2" />
-                                    Garages: {property.garages === 0 ? "No" : "Si"}
+                                    Garage: {property.garages ? "No" : "Si"}
                                 </p>
                             )}
                             {property.piscina !== undefined && (
@@ -158,7 +164,7 @@ const PropertyDetails: React.FC = () => {
                     <div className="grid grid-cols-1 gap-4 mb-4 px-5  md:grid-cols-2 md:hidden">
                         <div className='text-center'>
                             <h2 className="text-xl font-bold mb-2">Estado</h2>
-                            <p className='capitalize text-red-500 font-bold'> {property.state}</p>
+                            <p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>
                             <hr className="m-auto my-4 w-1/2" />
                             <h2 className="text-xl font-bold mb-2">Barrio</h2>
                             <p className='text-blue-600 font-bold'>{property.ubicacion}</p>
@@ -175,7 +181,7 @@ const PropertyDetails: React.FC = () => {
                     <div className="hidden md:grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
                         <div>
                             <h2 className="text-xl font-bold mb-2 ">Estado</h2>
-                            <p className='capitalize text-red-500 font-bold'> {property.state}</p>
+                            <p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>
                         </div>
                         <div>
                             <h2 className="text-xl font-bold mb-2 ">Barrio</h2>
@@ -198,9 +204,9 @@ const PropertyDetails: React.FC = () => {
 
 
             {/* Mapa de Google Maps */}
-            <div className="mt-4 text-center w-full">
+            <div className="mt-4 text-center w-full rounded-lg">
                 <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
-                <div className="flex justify-center">
+                <div className="flex justify-center rounded-lg">
 
                     <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-55.679600661666!3d-34.76329665949181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy"

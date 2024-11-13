@@ -25,17 +25,17 @@ function App() {
           <Routes>
 
             <Route path="/" element={<Home />} />
-            <Route path="/Home" element={<Home />} />
-            <Route path="/Ventas" element={<Ventas />} />
-            <Route path="/Alquileres" element={<Alquileres />} />
-            <Route path="/Propiedades" element={<Propiedades />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/ventas" element={<Ventas />} />
+            <Route path="/alquileres" element={<Alquileres />} />
+            <Route path="/propiedades" element={<Propiedades />} />
             <Route path="/propiedades/:id" element={<PropertyDetails />} />
-            <Route path="/Contacto" element={<Contacto />} />
-            <Route path="/Login" element={<Home />} />
-            <Route path="/Perfil" element={<Perfil />} />
-            <Route path="/Mis-propiedades" element={<MisPropiedades />} />
-            <Route path="/Mis-favoritas" element={<MisFavoritas />} />
-            <Route path="/PublicarProp" element={<PublicarProp />} />
+            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/login" element={<Home />} />
+            <Route path="/perfil" element={<Perfil />} />
+            <Route path="/mis-propiedades" element={<MisPropiedades />} />
+            <Route path="/mis-favoritas" element={<MisFavoritas />} />
+            <Route path="/publicarProp" element={<PublicarProp />} />
 
           </Routes>
 
