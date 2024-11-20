@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 interface ButtonProps {
     to?: string;
     onClick?: () => void;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     clase?: string;
     type?: 'button' | 'submit' | 'reset';
     disabled?: boolean;

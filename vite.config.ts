@@ -7,7 +7,8 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://klsnfms9-3000.brs.devtunnels.ms",
+        target: "http://test2.inmobiliariacostaazul.com",
+        // target: "https://klsnfms9-3000.brs.devtunnels.ms",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

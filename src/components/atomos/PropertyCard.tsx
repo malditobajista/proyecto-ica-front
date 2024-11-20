@@ -2,6 +2,7 @@ import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import Button from "./Button";
 import { replaceStatus } from "../../utils/replaceStatus";
+import { Link } from "react-router-dom";
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
     id,
@@ -23,7 +24,8 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    const toggleButton = (button: string) => {
+    const toggleButton = (button: string, e?: React.MouseEvent) => {
+        e?.stopPropagation();
         setSelectedButtons((prev) => ({
             ...prev,
             // @ts-expect-error blabla bla
@@ -31,14 +33,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         }));
     };
 
-    const handlePrevImage = () => {
+    const handlePrevImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
         setIsLoading(true);
         setCurrentImageIndex((prevIndex) =>
             prevIndex === 0 ? imageSrc.length - 1 : prevIndex - 1
         );
     };
 
-    const handleNextImage = () => {
+    const handleNextImage = (e: React.MouseEvent) => {
+        e.stopPropagation();
         setIsLoading(true);
         setCurrentImageIndex((prevIndex) =>
             prevIndex === imageSrc.length - 1 ? 0 : prevIndex + 1
@@ -53,22 +57,22 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
     return (
         <div className="w-full flex justify-center items-center ">
+
             <article
                 className={`
                 bg-white 
                 w-[400px] 
-                h-[700px]
+                h-[650px]
                 text-surface
                 shadow-md
                 dark:bg-surface-dark dark:text-gray-800
                 flex flex-col
-                pb-3
                 mx-3
                 relative
                 rounded-lg
             `}
             >
-                <figure className="w-full relative rounded-lg mb-3 group">
+                <figure className="w-full relative rounded-lg mb-4 group">
                     <div className="relative w-full h-full">
                         {isLoading && (
                             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
@@ -89,6 +93,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                         >
                             &lt;
                         </button>
+                        <Button to={`/propiedades/${id}`} clase={"bg-white bg-opacity-30 hover:bg-white hover:text-black hover:bg-opacity-100"}>Ver Propiedad</Button>
                         <button
                             className="bg-black bg-opacity-20 hover:bg-opacity-50 text-white p-2 rounded-full mr-2"
                             onClick={handleNextImage}
@@ -98,56 +103,51 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                     </div>
                     <div className="absolute bottom-2 right-0 flex">
                         <button
-                            className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart
+                            className={`text-white text-xl py-2 px-4 rounded transition duration-300  ${selectedButtons.heart
                                 ? "text-red-500"
-                                : "hover:text-red-500 rounded-lg"
+                                : "hover:text-red-500 rounded-xl"
                                 }`}
                             onClick={() => toggleButton("heart")}
                         >
                             ♥
                         </button>
-                        <button
-                            className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.dollar
-                                ? "text-green-500"
-                                : "hover:text-green-500"
-                                }`}
-                            onClick={() => toggleButton("dollar")}
-                        >
-                            $
-                        </button>
+
                     </div>
                 </figure>
-                <div className="flex-grow flex flex-col p-4 sm:p-0">
-                    <h3 className="text-center text-xl font-medium leading-tight">
-                        <span className="capitalize">{title}</span>
-                    </h3>
-                    <h4>
-                        <span className="capitalize">{type}</span>
-                    </h4>
-                    <div className="flex-grow p-5">
-                        <p className="pb-2 text-base text-gray-500 text-left">
-                            {description}
-                        </p>
+                <Link to={`/propiedades/${id}`} className="w-full">
+
+                    <div className="flex-grow flex flex-col p-4 sm:p-0">
+                        <h3 className="text-center text-xl font-medium leading-tight">
+                            <span className="capitalize">{title}</span>
+                        </h3>
+                        <h4>
+                            <span className="capitalize">{type}</span>
+                        </h4>
+                        <div className="flex-grow p-5">
+                            <p className="pb-2 text-base text-gray-500 text-left">
+                                {description}
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div className="pb-4 flex flex-col items-center">
-                    <div className="px-4 mb-4 text-center">
-                        <p className="pb-2 font-bold">
-                            Propiedad{" "}
-                            <span className="capitalize text-red-500">
-                                {replaceStatus(status)}
-                            </span>
-                        </p>
-                        <p className="pb-2 font-bold">
-                            Precio:{" "}
-                            <span className="text-green-700 ml-1">
-                                U$S {Number(price).toLocaleString("de-DE")}
-                            </span>
-                        </p>
+                    <div className="pb-4 flex flex-col items-center">
+                        <div className="px-4 mb-4 text-center">
+                            <p className="pb-2 font-bold">
+                                Propiedad{" "}
+                                <span className="capitalize text-red-500">
+                                    {replaceStatus(status)}
+                                </span>
+                            </p>
+                            <p className="pb-2 font-bold">
+                                Precio:{" "}
+                                <span className="text-green-700 ml-1">
+                                    U$S {Number(price).toLocaleString("de-DE")}
+                                </span>
+                            </p>
+                        </div>
                     </div>
-                    <Button to={`/propiedades/${id}`}>Ver Propiedad</Button>
-                </div>
+                </Link>
             </article>
+
         </div>
     );
 };

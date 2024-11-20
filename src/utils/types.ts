@@ -1,12 +1,23 @@
 export interface UserData {
-  id: number;
-  nombre: string;
-  apellido: string;
-  email: string;
-  telefono: string;
-  password: string;
-  repeatPassword: string;
+  user: {
+    id?: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    password: string;
+    repeatPassword?: string;
+  };
 }
+// export interface UserData {
+//   id?: number;
+//   nombre: string;
+//   apellido: string;
+//   email: string;
+//   telefono: string;
+//   password: string;
+//   repeatPassword: string;
+// }
 
 interface LatLng {
   lat: number;
@@ -33,7 +44,7 @@ export interface PropertyCardProps {
   yearBuilt?: string;
   latitud?: number;
   longitud?: number;
-  latLng?: LatLng | null;
+  geoCoordinates?: LatLng | null;
   contribucion?: string;
   pinned?: boolean;
   approved?: boolean;
@@ -59,7 +70,7 @@ export interface Property {
   yearBuilt?: string;
   latitud?: number;
   longitud?: number;
-  latLng?: LatLng | null;
+  geoCoordinates?: LatLng | null;
   contribucion?: string;
   pinned?: boolean;
   approved?: boolean;

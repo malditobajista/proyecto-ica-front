@@ -22,12 +22,12 @@ export const errorMessages = {
   },
   type: "El tipo de propiedad es requerido.",
   neighborhood: "El barrio es requerido.",
-  latLng: "Debe seleccionar una ubicación en el mapa.",
-  name: {
+  geoCoordinates: "Debe seleccionar una ubicación en el mapa.",
+  firstName: {
     required: "El nombre es requerido.",
     invalid: "Por favor solo ingrese letras",
   },
-  lastname: {
+  lastName: {
     required: "El apellido es requerido.",
     invalid: "Por favor solo ingrese letras",
   },
@@ -35,7 +35,7 @@ export const errorMessages = {
     required: "El email es requerido.",
     invalid: "Formato de email inválido. Formato requerido: nombre@domain.com",
   },
-  telefono: {
+  phone: {
     required: "El teléfono es requerido.",
     invalid: "Número de teléfono inválido.",
     formatos:
