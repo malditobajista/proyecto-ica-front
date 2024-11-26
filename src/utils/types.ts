@@ -37,7 +37,7 @@ export interface PropertyCardProps {
   rooms?: number;
   bathrooms?: number;
   garages?: boolean;
-  piscina?: boolean;
+  pool?: boolean;
   neighborhood?: string;
   area?: number;
   lotSize?: number;

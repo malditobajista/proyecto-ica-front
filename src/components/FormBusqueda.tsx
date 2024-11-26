@@ -1,121 +1,152 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Barrios } from '../assets/barrios';
-import Button from './atomos/Button';
 
-const FormBusqueda = () => {
-    const [mostrarOtrosSelects, setMostrarOtrosSelects] = useState(false);
+const FormBusqueda: React.FC = () => {
+  const [showMoreOptions, setShowMoreOptions] = useState(false);
 
-    const toggleMostrarOtrosSelects = () => {
-        setMostrarOtrosSelects(!mostrarOtrosSelects);
-    };
+  const toggleMoreOptions = () => setShowMoreOptions(!showMoreOptions);
 
-    return (
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 px-4 ">
-            <div className="flex flex-col">
-                <label htmlFor="neighborhood">Ubicación</label>
-                <select name="neighborhood" id="neighborhood"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                >
-                    {
-                        Barrios.map(({ value, label }) => (
-                            <option key={value} value={value}>{label}</option>
-                        ))
-                    }
-                </select>
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="tipo">Tipo</label>
-                <select name="tipo" id="tipo" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                >
-                    <option key="anyType" value="any">Indistinto</option>
-                    <option key="storage" value="storage">Almacén</option>
-                    <option key="apartament" value="apartament">Apartamento</option>
-                    <option key="house" value="house">Casa</option>
-                    <option key="comerce" value="comerce">Comercio</option>
-                    <option key="office" value="office">Oficina</option>
-                    <option key="land" value="land">Terreno</option>
-                    <option key="other" value="other">Otros</option>
-                </select>
-            </div>
-
-            <div className="flex flex-col">
-                <label htmlFor="estado">Estado</label>
-                <select name="estado" id="estado"
-                    className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                >
-                    <option key="anyState" value="any">Indistinto</option>
-                    <option key="brand-new" value="brand-new">A estrenar</option>
-                    <option key="for-sale" value="for-sale">En venta</option>
-                    <option key="for-rent" value="for-rent">En alquiler</option>
-                </select>
-            </div>
-
-            {mostrarOtrosSelects && (
-                <>
-                    <div className="flex flex-col">
-                        <label htmlFor="rooms">Dormitorios</label>
-                        <select name="rooms" id="rooms"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        >
-                            <option key="dormitorio-0" value="0">Indistinto</option>
-                            <option key="dormitorio-1" value="1">1</option>
-                            <option key="dormitorio-2" value="2">2</option>
-                            <option key="dormitorio-3" value="3">3</option>
-                            <option key="dormitorio-+" value="+">+</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <label htmlFor="bathrooms">Baños</label>
-                        <select name="bathrooms" id="bathrooms"
-                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        >
-                            <option key="banio-0" value="0">Indistinto</option>
-                            <option key="banio-1" value="1">1</option>
-                            <option key="banio-2" value="2">2</option>
-                            <option key="banio-3" value="3">3</option>
-                            <option key="banio-+" value="+">+</option>
-                        </select>
-                    </div>
-
-                    <div className="flex flex-col">
-                        <label htmlFor="garages">Garages</label>
-                        <select name="garages" id="garages" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        >
-                            <option key="garage-0" value="0">Indistinto</option>
-                            <option key="garage-si" value="yes">Si</option>
-                            <option key="garage-no" value="no">No</option>
-                            <option key="garage-indistinto" value="3">Indistitno</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col">
-                        <label htmlFor="piscina">Piscina</label>
-                        <select name="piscina" id="piscina" className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        >
-                            <option key="piscina-0" value="0">Indistinto</option>
-                            <option key="piscina-si" value="yes">Si</option>
-                            <option key="piscina-no" value="no">No</option>
-                            <option key="piscina-indistinto" value="3">Indistinto</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col">
-                        <label htmlFor="nombre">Nombre de la casa</label>
-                        <input type="text" name="nombre" id="nombre" placeholder='Escriba el nombre' className="pl-1 mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 sm:text-sm"
-                        />
-                    </div>
-                </>
-            )}
-
-            <div >
-                <Button to='' onClick={toggleMostrarOtrosSelects}>
-                    {mostrarOtrosSelects ? 'Menos opciones' : 'Más opciones'}
-                </Button>
-
-                <Button clase='ml-4' to='/'>Buscar</Button>
-            </div>
+  return (
+    <div className="w-full max-w-4xl mx-auto space-y-4 p-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="space-y-2">
+          <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">Ubicación</label>
+          <select
+            id="neighborhood"
+            defaultValue=""
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          >
+            <option value="" disabled>Seleccione ubicación</option>
+            {Barrios.map(({ value, label }) => (
+              <option key={value} value={value}>{label}</option>
+            ))}
+          </select>
         </div>
-    );
+
+        <div className="space-y-2">
+          <label htmlFor="tipo" className="block text-sm font-medium text-gray-700">Tipo</label>
+          <select
+            id="tipo"
+            defaultValue=""
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          >
+            <option value="" disabled>Seleccione tipo</option>
+            <option value="any">Indistinto</option>
+            <option value="storage">Almacén</option>
+            <option value="apartament">Apartamento</option>
+            <option value="house">Casa</option>
+            <option value="comerce">Comercio</option>
+            <option value="office">Oficina</option>
+            <option value="land">Terreno</option>
+            <option value="other">Otros</option>
+          </select>
+        </div>
+
+        <div className="space-y-2">
+          <label htmlFor="estado" className="block text-sm font-medium text-gray-700">Estado</label>
+          <select
+            id="estado"
+            defaultValue=""
+            className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+          >
+            <option value="" disabled>Seleccione estado</option>
+            <option value="any">Indistinto</option>
+            <option value="brand-new">A estrenar</option>
+            <option value="for-sale">En venta</option>
+            <option value="for-rent">En alquiler</option>
+          </select>
+        </div>
+      </div>
+
+      {showMoreOptions && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className="space-y-2">
+            <label htmlFor="rooms" className="block text-sm font-medium text-gray-700">Dormitorios</label>
+            <select
+              id="rooms"
+              defaultValue=""
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option value="" disabled>Seleccione dormitorios</option>
+              <option value="0">Indistinto</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="+">+</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="bathrooms" className="block text-sm font-medium text-gray-700">Baños</label>
+            <select
+              id="bathrooms"
+              defaultValue=""
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option value="" disabled>Seleccione baños</option>
+              <option value="0">Indistinto</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="+">+</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="garages" className="block text-sm font-medium text-gray-700">Garages</label>
+            <select
+              id="garages"
+              defaultValue=""
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option value="" disabled>Seleccione garages</option>
+              <option value="0">Indistinto</option>
+              <option value="yes">Si</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="piscina" className="block text-sm font-medium text-gray-700">Piscina</label>
+            <select
+              id="piscina"
+              defaultValue=""
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            >
+              <option value="" disabled>Seleccione piscina</option>
+              <option value="0">Indistinto</option>
+              <option value="yes">Si</option>
+              <option value="no">No</option>
+            </select>
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="nombre" className="block text-sm font-medium text-gray-700">Nombre de la casa</label>
+            <input
+              type="text"
+              id="nombre"
+              placeholder="Escriba el nombre"
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+            />
+          </div>
+        </div>
+      )}
+
+      <div className="flex justify-between items-center">
+        <button
+          onClick={toggleMoreOptions}
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          {showMoreOptions ? 'Menos opciones' : 'Más opciones'}
+        </button>
+        <button
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+        >
+          Buscar
+        </button>
+      </div>
+    </div>
+  );
 };
 
 export default FormBusqueda;
