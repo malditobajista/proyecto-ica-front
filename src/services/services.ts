@@ -6,6 +6,7 @@ const MOCKED_PROPERTIES: Property[] = propiedades;
 
 export const fetchProperties = async (): Promise<Property[]> => {
   try {
+    
     return MOCKED_PROPERTIES;
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);

@@ -104,8 +104,8 @@ export interface AgentProps {
 }
 
 export enum PropertyStatus {
-  ForSale = "for_sale",
-  ForRent = "for_rent",
+  ForSale = "for-sale",
+  ForRent = "for-rent",
   Sold = "sold",
   Rented = "rented",
   UnderConstruction = "under_construction",

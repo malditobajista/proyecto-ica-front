@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
-import Button from "./Button";
 import { replaceStatus } from "../../utils/replaceStatus";
 import { Link } from "react-router-dom";
 import FavouriteButton from "./HeartButton";
+import { FaBath, FaBed, FaRulerCombined } from "react-icons/fa";
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
   id,
   title,
   imageSrc,
-  type,
   description,
   status,
+  address,
   price,
+  rooms,
+  bathrooms,
+  area,
 }) => {
-
-
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -42,45 +43,32 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   const image = "https://placehold.co/300x300";
 
   return (
-    <div className="w-full flex justify-center items-center ">
-      <article
-        className={`
-                bg-white 
-                w-[400px] 
-                h-[650px]
-                text-surface
-                shadow-md
-                dark:bg-surface-dark dark:text-gray-800
-                flex flex-col
-                mx-3
-                relative
-                rounded-lg
-            `}
-      >
-        <figure className="w-full relative rounded-lg mb-4 group">
-          <div className="relative w-full h-full">
-            {isLoading && (
-              <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
-                <div className="loader"></div>
-              </div>
-            )}
-            <img
-              src={imageSrc[currentImageIndex] ?? image}
-              alt={title}
-              className="w-full h-full object-cover rounded-t-lg transition duration-300 group-hover:opacity-80 peer-hover:opacity-100 peer-hover:bg-green-500"
-              onLoad={handleImageLoad}
-            />
-          </div>
-          <div className="absolute inset-0 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+    <div className="w-full h-auto flex justify-center items-center">
+<article className="bg-white w-full min-h-[500px] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+{/* Imagen */}
+        <figure className="relative w-full h-[300px] bg-gray-200">
+          {isLoading && (
+            <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
+              <div className="loader"></div>
+            </div>
+          )}
+          <img
+            src={imageSrc[currentImageIndex] ?? image}
+            alt={title}
+            className="w-full h-full object-cover"
+            onLoad={handleImageLoad}
+          />
+          {/* Navegación de imágenes */}
+          <div className="absolute inset-0 flex justify-between items-center px-4">
             <button
-              className="bg-white bg-opacity-40 hover:bg-opacity-80 text-white p-2 rounded-full ml-2"
+              className="bg-white bg-opacity-40 text-white p-2 rounded-full"
               onClick={handlePrevImage}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="grey"
+                stroke="black"
                 className="w-4 h-4"
               >
                 <path
@@ -91,22 +79,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
                 />
               </svg>
             </button>
-            <Button
-              to={`/propiedades/${id}`}
-              clase="bg-primary text-white bg-opacity-30 font-bold hover:bg-gray-200 hover:text-black peer hover:font-bold"
-            >
-              Ver Propiedad
-            </Button>
-
             <button
-              className="bg-white bg-opacity-40 hover:bg-opacity-80 text-white p-2 rounded-full mr-2"
+              className="bg-white bg-opacity-40 text-white p-2 rounded-full"
               onClick={handleNextImage}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke="grey"
+                stroke="black"
                 className="w-4 h-4"
               >
                 <path
@@ -118,42 +99,49 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               </svg>
             </button>
           </div>
-          <div className="absolute bottom-2 right-1 flex">
-          <FavouriteButton />
+          {/* Botón de favoritos */}
+          <div className="absolute top-2 right-2">
+            <FavouriteButton />
           </div>
         </figure>
 
-        <Link to={`/propiedades/${id}`} className="w-full">
-          <div className="flex-grow flex flex-col p-4 sm:p-0">
-            <h3 className="text-center text-xl font-medium leading-tight">
-              <span className="capitalize">{title}</span>
-            </h3>
-            <h4>
-              <span className="capitalize">{type}</span>
-            </h4>
-            <div className="flex-grow p-5">
-              <p className="pb-2 text-base text-gray-500 text-left">
-                {description}
-              </p>
+        {/* Contenido */}
+        <div className="p-4 flex-grow flex flex-col hover:text-secondary">
+          <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary">
+            {/* Título */}
+            <h3 className="text-left hover:text-secondary text-lg font-bold text-gray-800 truncate">Cabaña de Madera en la zona de Punta Rubia de dos dormitorios</h3>
+            {/* Tipo de propiedad */}
+            <p className="text-left text-m text-gray-500 capitalize">{address}</p>
+            {/* Descripción */}
+            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
+          
+
+          {/* Detalles */}
+          <div className="mt-4 flex justify-between text-sm text-gray-700">
+            <div className="flex items-center space-x-1">
+              <FaBed className="text-accent text-2xl" />
+              <span>{rooms} Cuartos</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <FaBath className="text-accent text-2xl" />
+              <span>{bathrooms} Baños</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <FaRulerCombined className="text-accent text-2xl" />
+              <span>{area} m²</span>
             </div>
           </div>
-          <div className="pb-4 flex flex-col items-center">
-            <div className="px-4 mb-4 text-center">
-              <p className="pb-2 font-bold">
-                Propiedad{" "}
-                <span className="capitalize text-red-500">
-                  {replaceStatus(status)}
-                </span>
-              </p>
-              <p className="pb-2 font-bold">
-                Precio:{" "}
-                <span className="text-green-700 ml-1">
-                  U$S {Number(price).toLocaleString("de-DE")}
-                </span>
-              </p>
-            </div>
+          
+          <div className="mt-4 text-left">
+            {/* Texto superior */}
+            <p className="text-sm font-bold text-gray-800">Propiedad {replaceStatus(status)}</p>
+            {/* Precio destacado */}
+            <p className="text-2xl font-bold text-teal-600 mt-1">
+              U$S {Number(price).toLocaleString("de-DE")}
+            </p>
           </div>
-        </Link>
+          </Link>
+        </div>
       </article>
     </div>
   );
