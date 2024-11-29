@@ -3,8 +3,12 @@ import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard'
 import Title from '../components/atomos/Title';
 import { fetchPropertiesByStatus } from '../services/services';
 import { Property } from '../utils/types';
-import FilterButtons from '../components/atomos/FilterButtons';
+import FilterButtons from '../components/Filtros/FilterByType';
 import SortByPriceButtons from '../components/atomos/SortByPriceButtons';
+import FilterByStatus from '../components/Filtros/FilterByStatus';
+import FilterByHood from '../components/Filtros/FilterByHood';
+import FilterByRooms from '../components/Filtros/FilterByRooms';
+import FilterCleaner from '../components/Filtros/FilterCleaner';
 
 const Propiedades: React.FC = () => {
     const [loading, setLoading] = useState(true);
@@ -12,9 +16,12 @@ const Propiedades: React.FC = () => {
     const [allProperties, setAllProperties] = useState<Property[]>([]);
     const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
     const [filterTypes, setFilterTypes] = useState<string[]>([]);
+    const [filterStatus, setFilterStatus] = useState<string[]>([]);
+    const [filterHood, setFilterHood] = useState<string[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
+    const [filterRooms, setFilterRooms] = useState<number[] | null>(null);
 
-    const handleFilterChange = (type: string) => {
+    const handleFilterTypeChange = (type: string) => {
         if (type === 'all') {
             setFilterTypes([]);
         } else {
@@ -26,15 +33,51 @@ const Propiedades: React.FC = () => {
         }
     };
 
+    const handleFilterStatusChange = (type: string) => {
+        if (type === 'all') {
+            setFilterStatus([]);
+        } else {
+            setFilterStatus(prevFilters =>
+                prevFilters.includes(type)
+                    ? prevFilters.filter(filter => filter !== type)
+                    : [...prevFilters, type]
+            );
+        }
+    };
+
+    const handleFilterHoodChange = (neighborhood: string) => {
+        if (neighborhood === "Cualquiera") {
+            setFilterHood([]);
+        } else {
+            setFilterHood((prevFilters) =>
+                prevFilters.includes(neighborhood)
+                    ? prevFilters.filter((filter) => filter !== neighborhood)
+                    : [...prevFilters, neighborhood]
+            );
+        }
+    };
+
+
+    const handleFilterRoomsChange = (rooms: number[] | null) => {
+        setFilterRooms(rooms);
+    };
+
     const handleSortChange = (order: 'asc' | 'desc') => {
         setSortOrder(order);
+    };
+
+    const handleClearFilters = () => {
+        setFilterTypes([]);
+        setFilterStatus([]);
+        setFilterHood([]);
+        setFilterRooms(null);
+        setSortOrder(null);
     };
 
     useEffect(() => {
         const loadProperties = async () => {
             try {
                 const allProps = await fetchPropertiesByStatus("all");
-                console.log('>> Loaded properties:', allProps); // Verifica la estructura de los datos
                 setAllProperties(allProps);
                 setFilteredProperties(allProps);
             } catch (err) {
@@ -51,10 +94,23 @@ const Propiedades: React.FC = () => {
 
     useEffect(() => {
         // Aplica los filtros sobre allProperties
-        const filtered = filterTypes.length === 0
+        let filtered = filterTypes.length === 0
             ? allProperties
             : allProperties.filter(p => filterTypes.includes(p.type));
 
+        if (filterStatus.length > 0) {
+            filtered = filtered.filter(p => filterStatus.includes(p.status));
+        }
+
+        if (filterHood.length > 0) {
+            filtered = filtered.filter(p =>
+                p.neighborhood && filterHood.includes(p.neighborhood)
+            );
+        }
+
+        if (filterRooms !== null) {
+            filtered = filtered.filter(p => p.rooms && filterRooms.includes(p.rooms));
+        }
         // Si ya existe un orden, lo aplicamos al resultado filtrado
         const sortedFilteredProperties = [...filtered].sort((a: Property, b: Property) => {
             const priceA = Number(a.price);
@@ -69,7 +125,7 @@ const Propiedades: React.FC = () => {
         });
 
         setFilteredProperties(sortedFilteredProperties);
-    }, [filterTypes, allProperties, sortOrder]);
+    }, [filterTypes, filterStatus, filterHood, filterRooms, allProperties, sortOrder]);
 
     return (
         <div className="mt-14 p-4 min-h-screen">
@@ -84,9 +140,18 @@ const Propiedades: React.FC = () => {
                         <div className='text-center'>
                             <h2 className='text-lg font-bold'>Filtros de ordenamiento</h2>
                             <hr className='my-2' />
+                            <FilterCleaner onClearFilters={handleClearFilters} /> {/* Botón para limpiar filtros */}
+                            <hr className='my-2' />
                             <SortByPriceButtons onSortChange={handleSortChange} currentOrder={sortOrder} />
                             <hr className='my-2' />
-                            <FilterButtons onFilterChange={handleFilterChange} currentFilters={filterTypes} />
+                            <FilterButtons onFilterChange={handleFilterTypeChange} currentFilters={filterTypes} />
+                            <hr className='my-2' />
+                            <FilterByStatus onFilterChange={handleFilterStatusChange} currentFilters={filterStatus} />
+                            <hr className='my-2' />
+                            <FilterByHood onFilterChange={handleFilterHoodChange} currentFilters={filterHood} />
+                            <hr className='my-2' />
+                            <FilterByRooms onFilterChange={handleFilterRoomsChange} currentFilters={filterRooms} />
+
                         </div>
                     </aside>
 
@@ -94,9 +159,17 @@ const Propiedades: React.FC = () => {
                         <div className="flex flex-col   md:hidden mb-4 text-center">
                             <h2>Filtros de ordenamiento</h2>
                             <hr className='my-2' />
+                            <FilterCleaner onClearFilters={handleClearFilters} /> {/* Botón para limpiar filtros */}
+                            <hr className='my-2' />
                             <SortByPriceButtons onSortChange={handleSortChange} currentOrder={sortOrder} />
                             <hr className='my-2' />
-                            <FilterButtons onFilterChange={handleFilterChange} currentFilters={filterTypes} />
+                            <FilterButtons onFilterChange={handleFilterTypeChange} currentFilters={filterTypes} />
+                            <hr className='my-2' />
+                            <FilterByStatus onFilterChange={handleFilterStatusChange} currentFilters={filterStatus} />
+                            <hr className='my-2' />
+                            <FilterByHood onFilterChange={handleFilterHoodChange} currentFilters={filterHood} />
+                            <hr className='my-2' />
+                            <FilterByRooms onFilterChange={handleFilterRoomsChange} currentFilters={filterRooms} />
                         </div>
 
                         {loading ? (

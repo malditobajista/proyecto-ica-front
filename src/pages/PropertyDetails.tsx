@@ -108,13 +108,16 @@ const PropertyDetails: React.FC = () => {
                                     Baños: {property.bathrooms}
                                 </p>
                             )}
-                            {property.garages !== undefined && (
+
+                            {/* //ocultar si no tiene garaje */}
+                            {property.garages !== undefined || property.garages !== false && (
                                 <p className="flex items-center text-xl">
                                     <FaCar className="inline-block  text-blue-500  mr-2" />
                                     Garage: {property.garages ? "No" : "Si"}
                                 </p>
                             )}
-                            {property.piscina !== undefined && (
+                            {/* //ocultar si no tiene piscina */}
+                            {property.piscina !== undefined || property.piscina !== false && (
                                 <p className="flex items-center text-xl">
                                     <FaSwimmingPool className="inline-block  text-blue-500  mr-2" />
                                     Piscina: {property.piscina ? 'Sí' : 'No'}

@@ -16,7 +16,7 @@ const SortByPriceButtons: React.FC<SortByPriceButtonsProps> = ({ onSortChange, c
                 <button
                     onClick={() => onSortChange('asc')}
                     className={`flex items-center justify-center gap-2 p-2 rounded-md 
-                ${isActive('asc') ? 'bg-green-700' : 'bg-gray-400'} 
+                ${isActive('asc') ? 'bg-green-600' : 'bg-gray-400'} 
                 text-white hover:bg-green-500 focus:outline-none`}
                 >
                     <FaArrowUp />
@@ -25,7 +25,7 @@ const SortByPriceButtons: React.FC<SortByPriceButtonsProps> = ({ onSortChange, c
                 <button
                     onClick={() => onSortChange('desc')}
                     className={`flex items-center justify-center gap-2 p-2 rounded-md 
-                ${isActive('desc') ? 'bg-green-700' : 'bg-gray-400'} 
+                ${isActive('desc') ? 'bg-green-600' : 'bg-gray-400'} 
                 text-white hover:bg-green-500 focus:outline-none`}
                 >
                     <FaArrowDown />

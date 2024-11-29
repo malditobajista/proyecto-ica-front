@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 interface ImageSliderProps {
     images: string[];
@@ -52,15 +53,15 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
                 />
                 <button
                     onClick={prevImage}
-                    className="absolute left-1 md:left-20 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2"
+                    className="absolute left-1 md:left-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
                 >
-                    &lt;
+                    <FaChevronLeft className="w-4 h-4 text-black  " />
                 </button>
                 <button
                     onClick={nextImage}
-                    className="absolute right-1 md:right-20 top-1/2 transform -translate-y-1/2 bg-gray-600 text-white p-2"
+                    className="absolute right-1 md:right-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
                 >
-                    &gt;
+                    <FaChevronRight className="w-4 h-4 text-black" />
                 </button>
             </div>
             <div className="property-detail-slider-carousel-nav flex justify-center items-center mt-4">

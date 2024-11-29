@@ -53,7 +53,7 @@ const Carousel: React.FC<CarouselProps> = ({ properties }) => {
     };
 
     return (
-        <section className="overflow-hidden relative w-full p-4 bg-gray-100 rounded-lg">
+        <section className="overflow-hidden relative w-full py-4 px-6 bg-gray-100 rounded-lg">
             <div className="flex transition-transform duration-300 ease-in-out justify-center">
                 {getPageProperties().map((property, index) => (
                     <div key={index} className="flex-shrink-0 w-full md:w-1/2 lg:w-1/3 px-2">
