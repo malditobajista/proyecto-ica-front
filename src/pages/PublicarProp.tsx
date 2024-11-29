@@ -1,14 +1,13 @@
-import { useEffect, useState } from 'react';
-import Title from '../components/atomos/Title';
-import FormPropiedades from '../components/FormPropiedades';
+import React, { useEffect, useState } from 'react';
+import CreatePropertyForm from '../components/FormPropiedades';
 import { PropertyCardProps } from '../utils/types';
 
 const PublicarProp: React.FC = () => {
+    const [properties, setProperties] = useState<PropertyCardProps[]>([]);
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
-
-    const [properties, setProperties] = useState<PropertyCardProps[]>([]);
 
     const onAddProperty = (newProperty: Omit<PropertyCardProps, 'id'>) => {
         const newId = properties.length + 1;
@@ -17,11 +16,13 @@ const PublicarProp: React.FC = () => {
     };
 
     return (
-        <div className='mt-14'>
-            <Title text='Publicar Propiedades' />
-            <FormPropiedades onAddProperty={onAddProperty} />
+        <div className="my-14 md:p-4 mx-10 ">
+                <div className='lg:max-w-[1300px] mx-auto'>
+                    <CreatePropertyForm onAddProperty={onAddProperty} />
+                </div>
         </div>
     );
 };
 
 export default PublicarProp;
+

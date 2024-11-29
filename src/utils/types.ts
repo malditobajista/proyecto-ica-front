@@ -38,14 +38,12 @@ export interface PropertyCardProps {
   bathrooms?: number;
   garages?: boolean;
   pool?: boolean;
-  neighborhood?: string;
+  neighborhood: string;
   area?: number;
   lotSize?: number;
-  yearBuilt?: string;
-  latitud?: number;
-  longitud?: number;
+  yearBuilt?: number;
   geoCoordinates?: LatLng | null;
-  contribucion?: string;
+  contribution?: number;
   pinned?: boolean;
   approved?: boolean;
 }
@@ -59,7 +57,7 @@ export interface Property {
   longDescription: string;
   status: PropertyStatus;
   price: number;
-  type: string;
+  type: PropertyTypes;
   rooms?: number;
   bathrooms?: number;
   garages?: boolean;
@@ -103,12 +101,20 @@ export interface AgentProps {
   profileUrl: string;
 }
 
-export enum PropertyStatus {
-  ForSale = "for-sale",
-  ForRent = "for-rent",
-  Sold = "sold",
-  Rented = "rented",
-  UnderConstruction = "under_construction",
-  Reserved = "reserved",
+export enum PropertyTypes {
+  HOUSE = 'house',
+  APARTMENT = 'apartment',
+  LAND = 'land',
+  OFFICE = 'office',
+  STORE = 'store',
+  OTHER = 'other',
 }
 
+export enum PropertyStatus{
+  ForSale = 'for_sale',
+  ForRent = 'for_rent',
+  Sold = 'sold',
+  Rented = 'rented',
+  UnderConstruction = 'under_construction',
+  Reserved = 'reserved'
+}

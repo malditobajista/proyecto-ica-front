@@ -109,7 +109,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         <div className="p-4 flex-grow flex flex-col hover:text-secondary">
           <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary">
             {/* Título */}
-            <h3 className="text-left hover:text-secondary text-lg font-bold text-gray-800 truncate">Cabaña de Madera en la zona de Punta Rubia de dos dormitorios</h3>
+            <h3 className="text-left hover:text-secondary text-lg font-bold text-gray-800 truncate">{title}</h3>
             {/* Tipo de propiedad */}
             <p className="text-left text-m text-gray-500 capitalize">{address}</p>
             {/* Descripción */}
