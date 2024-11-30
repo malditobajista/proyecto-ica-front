@@ -10,6 +10,9 @@ export default {
         '350px': '350px',
         '450px': '450px',
       },
+      fontFamily: {
+        sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+      },
       colors: {
         primary: '#038C3E',        // Verde oscuro (Acento)
         secondary: '#92BF4E',      // Verde claro (Acento)

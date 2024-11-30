@@ -80,6 +80,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         </figure>
 
         {/* Contenido */}
+<<<<<<< HEAD
         <div className="p-4 flex-grow flex flex-col  transition-font duration-300 rounded-lg ">
           {/* <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary"> */}
           <Link to={`/propiedades/${id}`} className="w-full  hover:bg-gray-50 transition-bg duration-300 ">
@@ -91,6 +92,17 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               {/* Descripción */}
               <p className="pb-9 text-justify text-sm text-gray-600 line-clamp-2">{description}</p>
             </div>
+=======
+        <div className="p-4 flex-grow flex flex-col hover:text-secondary">
+          <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary">
+            {/* Título */}
+            <h3 className="text-left hover:text-secondary text-lg font-bold text-gray-800 truncate">{title}</h3>
+            {/* Tipo de propiedad */}
+            <p className="text-left text-m text-gray-500 capitalize">{address}</p>
+            {/* Descripción */}
+            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
+          
+>>>>>>> Mariano
 
             <div className="pb-3">
               {/* Detalles */}
