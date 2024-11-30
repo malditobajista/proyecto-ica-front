@@ -122,9 +122,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             <label className="block text-sm font-medium">Imagenes</label>
             <div
               {...getRootProps()}
-              className={`w-full p-6 md:p-10 border rounded-md ${
-                isDragActive ? "bg-blue-100" : "bg-gray-50"
-              }`}
+              className={`w-full p-6 md:p-10 border rounded-md ${isDragActive ? "bg-blue-100" : "bg-gray-50"
+                }`}
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -291,28 +290,29 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
 
 
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-<InputField
-            label="Año de construcción"
-            name="yearBuilt"
-            value={formData.yearBuilt?.toString() || ""}
-            onChange={handleInputChange}
-            placeholder="Ingrese el año de construcción"
-          />
-          <InputField
-            label="Contribución"
-            name="contribution"
-            value={formData.contribution?.toString() || ""}
-            onChange={handleInputChange}
-            placeholder="Cuanto se paga de constribucion"
-            type="number"
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <InputField
+              label="Año de construcción"
+              name="yearBuilt"
+              value={formData.yearBuilt?.toString() || ""}
+              onChange={handleInputChange}
+              placeholder="Ingrese el año de construcción"
+            />
+            <InputField
+              label="Contribución"
+              name="contribution"
+              value={formData.contribution?.toString() || ""}
+              onChange={handleInputChange}
+              placeholder="Cuanto se paga de constribucion"
+              type="number"
+            />
           </div>
 
           <MockMap
             onClick={(latLng) =>
               setFormData({
                 ...formData,
+                // @ts-expect-error aasdas
                 latitud: latLng.lat,
                 longitud: latLng.lng,
               })

@@ -38,7 +38,7 @@ const FilterButtons: React.FC<FilterButtonsProps> = ({ onFilterChange, currentFi
     return (
         <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-                <p className="text-lg font-bold">Ordenar por tipo</p>
+                <p className="text-lg font-bold">Tipo</p>
                 <button
                     onClick={toggleExpand}
                     className="text-gray-600 hover:text-gray-800 focus:outline-none"

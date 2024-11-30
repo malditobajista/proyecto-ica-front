@@ -90,7 +90,7 @@ const FilterByHood: React.FC<FilterByHoodProps> = ({ onFilterChange, currentFilt
     return (
         <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-                <p className="text-lg font-bold">Filtrar por barrio</p>
+                <p className="text-lg font-bold">Barrio</p>
                 <button
                     onClick={toggleExpand}
                     className="text-gray-600 hover:text-gray-800 focus:outline-none"

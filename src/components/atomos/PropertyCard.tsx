@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import { replaceStatus } from "../../utils/replaceStatus";
 import { Link } from "react-router-dom";
-import FavouriteButton from "./HeartButton";
+import FavButton from "./HeartButton";
 import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
@@ -19,6 +19,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -39,7 +40,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   const handleImageLoad = () => {
     setIsLoading(false);
   };
-
+  const handleFavClick = () => {
+    setIsFav((prev) => !prev);
+  };
   const image = "https://placehold.co/300x300";
 
   return (
@@ -74,13 +77,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             </button>
           </div>
           {/* Botón de favoritos */}
-          <div className="absolute top-2 right-2">
-            <FavouriteButton />
-          </div>
+          <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+            <FavButton
+              onClick={handleFavClick}
+              className={isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
+            />          </div>
         </figure>
 
         {/* Contenido */}
-<<<<<<< HEAD
         <div className="p-4 flex-grow flex flex-col  transition-font duration-300 rounded-lg ">
           {/* <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary"> */}
           <Link to={`/propiedades/${id}`} className="w-full  hover:bg-gray-50 transition-bg duration-300 ">
@@ -92,17 +97,6 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               {/* Descripción */}
               <p className="pb-9 text-justify text-sm text-gray-600 line-clamp-2">{description}</p>
             </div>
-=======
-        <div className="p-4 flex-grow flex flex-col hover:text-secondary">
-          <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary">
-            {/* Título */}
-            <h3 className="text-left hover:text-secondary text-lg font-bold text-gray-800 truncate">{title}</h3>
-            {/* Tipo de propiedad */}
-            <p className="text-left text-m text-gray-500 capitalize">{address}</p>
-            {/* Descripción */}
-            <p className="mt-2 text-sm text-gray-600 line-clamp-2">{description}</p>
-          
->>>>>>> Mariano
 
             <div className="pb-3">
               {/* Detalles */}

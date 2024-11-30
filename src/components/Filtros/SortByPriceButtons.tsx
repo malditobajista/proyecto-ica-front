@@ -10,7 +10,7 @@ const SortByPriceButtons: React.FC<SortByPriceButtonsProps> = ({ onSortChange, c
     const isActive = (order: 'asc' | 'desc') => currentOrder === order;
 
     return (
-        <div className='text-center'>
+        <div className='text-center font-bold text-lg'>
             <p>Ordenar por precio</p>
             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2 mb-4">
                 <button

@@ -31,7 +31,7 @@ const FilterByRooms: React.FC<FilterByRoomsProps> = ({ onFilterChange, currentFi
     return (
         <div className="text-center">
             <div className="flex items-center justify-center gap-2 mb-4">
-                <p className="text-lg font-bold">Filtrar por cantidad de habitaciones</p>
+                <p className="text-lg font-bold">Habitaciones</p>
                 <button
                     onClick={toggleExpand}
                     className="text-gray-600 hover:text-gray-800 focus:outline-none"
