@@ -53,7 +53,7 @@ const Home: React.FC = () => {
 
     return (
         <div className="space-y-8  max-w-full bg-white">
-            <div className="lg:max-w-[1400px] mx-auto">
+            <div className="lg:max-w-[1300px] mx-auto">
 
                 <Banner />
             </div>

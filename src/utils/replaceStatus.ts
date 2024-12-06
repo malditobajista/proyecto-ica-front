@@ -3,19 +3,19 @@ import { PropertyStatus } from "./types";
 export const replaceStatus = (status: PropertyStatus): string => {
   switch (status) {
     case PropertyStatus.ForSale:
-      return "En venta";
+      return "en venta";
     case PropertyStatus.ForRent:
-      return "En alquiler";
+      return "en alquiler";
     case PropertyStatus.Reserved:
-      return "Reservada";
+      return "reservada";
     case PropertyStatus.Sold:
-      return "Vendida";
+      return "vendida";
     case PropertyStatus.Rented:
-      return "Alquilada";
+      return "alquilada";
     case PropertyStatus.UnderConstruction:
-      return "En construcción";
+      return "en construcción";
     default:
-      return "Estado no definido";
+      return "estado no definido";
   }
 };
 
