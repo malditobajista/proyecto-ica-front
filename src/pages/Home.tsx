@@ -7,10 +7,11 @@ import Carousel from '../components/CarouselPropiedades';
 import Title from '../components/atomos/Title';
 import Garantias from '../components/Garantias';
 // import { fetchProperties } from '../services/services';
-import { Property } from '../utils/types';
+import { Property, PropertyStatus } from '../utils/types';
 import Nosotros from '../components/Nosotros';
 import { useProperties } from "../contexts/PropertyContext";
 import { fetchPinnedProperties, fetchPropertiesByStatus } from '../services/services';
+import { fetchProperties } from '../services/properties/propertyService';
 
 const Home: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
@@ -29,9 +30,9 @@ const Home: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const forSale = await fetchPropertiesByStatus("for-sale");
-                const forRent = await fetchPropertiesByStatus("for-rent");
-                const allProperties = await fetchPropertiesByStatus("all");
+                const forSale = await fetchPropertiesByStatus(PropertyStatus.ForSale);
+                const forRent = await fetchPropertiesByStatus(PropertyStatus.ForRent);
+                const allProperties = await fetchProperties();
                 const pinned = await fetchPinnedProperties();
 
                 setAllPropiedades(allProperties);

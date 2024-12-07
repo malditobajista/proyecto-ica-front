@@ -32,10 +32,10 @@ const FormContacto: React.FC = () => {
     const [isChecked, setIsChecked] = useState(false);
     const validateForm = () => {
         const newErrors = {
-            name: formData.name ? '' : errorMessages.name.required,
+            name: formData.name ? '' : errorMessages.firstName.required,
             email: formData.email ? '' : errorMessages.email.required,
             message: formData.message ? '' : errorMessages.message.required,
-            telefono: formData.telefono ? '' : errorMessages.telefono.required,
+            telefono: formData.telefono ? '' : errorMessages.phone.required,
             recaptcha: isChecked ? '' : errorMessages.recaptcha.required,
         };
 
@@ -44,7 +44,7 @@ const FormContacto: React.FC = () => {
             newErrors.email = errorMessages.email.invalid;
         }
         if (formData.telefono && !isValidPhoneNumber(formData.telefono)) {
-            newErrors.telefono = errorMessages.telefono.invalid;
+            newErrors.telefono = errorMessages.phone.invalid;
         }
 
         setErrors(newErrors);
