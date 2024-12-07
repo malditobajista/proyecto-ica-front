@@ -2,7 +2,8 @@ import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import { replaceStatus } from "../../utils/replaceStatus";
 import { Link } from "react-router-dom";
-import { FaBath, FaBed, FaRulerCombined } from "react-icons/fa";
+import FavButton from "./HeartButton";
+import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
   id,
@@ -18,6 +19,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFav, setIsFav] = useState(false);
 
   const handlePrevImage = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -38,14 +40,16 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   const handleImageLoad = () => {
     setIsLoading(false);
   };
-
+  const handleFavClick = () => {
+    setIsFav((prev) => !prev);
+  };
   const image = "https://placehold.co/300x300";
 
   return (
-    <div className="w-full h-auto flex justify-center items-center">
-<article className="bg-white w-full min-h-[500px] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
-{/* Imagen */}
-        <figure className="relative w-full h-[300px] bg-gray-200">
+    <div className="w-full h-auto flex justify-center items-center ">
+      <article className="bg-white w-full min-h-[650px] p-4 h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+        {/* Imagen */}
+        <figure className="relative w-full h-[300px] bg-gray-200 group">
           {isLoading && (
             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
               <div className="loader"></div>
@@ -58,44 +62,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             onLoad={handleImageLoad}
           />
           {/* Navegación de imágenes */}
-          <div className="absolute inset-0 flex justify-between items-center px-4">
+          <div className="absolute inset-0 flex justify-between items-center px-4  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
-              className="bg-white bg-opacity-40 text-white p-2 rounded-full"
+              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50  "
               onClick={handlePrevImage}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="black"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M15 19l-7-7 7-7"
-                />
-              </svg>
+              <FaChevronLeft className="w-3 h-3 text-black  " />
             </button>
             <button
-              className="bg-white bg-opacity-40 text-white p-2 rounded-full"
+              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50  "
               onClick={handleNextImage}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="black"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5l7 7-7 7"
-                />
-              </svg>
+              <FaChevronRight className="w-3 h-3 text-black" />
             </button>
           </div>
           {/* Botón de favoritos */}

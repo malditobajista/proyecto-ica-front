@@ -138,9 +138,6 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
               className={`w-full p-6 md:p-10 border rounded-md ${
                 isDragActive ? "bg-blue-100" : "bg-gray-50"
               }`}
-              className={`w-full p-6 md:p-10 border rounded-md ${
-                isDragActive ? "bg-blue-100" : "bg-gray-50"
-              }`}
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -319,6 +316,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             onClick={(latLng) =>
               setFormData({
                 ...formData,
+                // @ts-expect-error aasdas
                 latitud: latLng.lat,
                 longitud: latLng.lng,
               })

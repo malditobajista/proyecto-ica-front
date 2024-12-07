@@ -1,6 +1,6 @@
-// PropertyFilters.tsx
+// futuro componente de filtros
 import React from 'react';
-import FilterButtons from './FilterButtons';
+import FilterButtons from './FilterByType';
 import SortByPriceButtons from './SortByPriceButtons';
 
 interface PropertyFiltersProps {

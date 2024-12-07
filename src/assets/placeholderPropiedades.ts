@@ -30,7 +30,7 @@ const propiedades: PropertyCardProps[] = [
     type: Types[i % Types.length].label,
     neighborhood: Barrios[i % Barrios.length].label,
     bathrooms: Math.floor(Math.random() * 3) + 1,
-    piscina: Math.random() < 0.33,
+    pool: Math.random() < 0.33,
     rooms: Math.floor(Math.random() * 4),
     garages: Math.random() < 0.5,
     area: Math.floor(30 + Math.random() * 120),

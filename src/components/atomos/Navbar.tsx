@@ -27,7 +27,7 @@ const Navbar = () => {
     const isLoggedIn = false;
     const isHomePage = location.pathname === '/' || location.pathname === '/Home';
 
-    const isActive = (path: string) => location.pathname === path ? 'text-green-500' : 'hover:text-green-500';
+    const isActive = (path: string) => location.pathname === path ? 'text-green-500 font-extrabold' : 'hover:text-green-500 transition-text duration-300';
 
     return (
         <>
@@ -74,7 +74,7 @@ const Navbar = () => {
                                 onMouseEnter={() => setIsUserMenuOpen(true)}
                                 onMouseLeave={() => setIsUserMenuOpen(false)}
                             >
-                                <button className="nav-button hover:text-green-500 " onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
+                                <button className="nav-button hover:text-green-500 transition-text duration-300" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
                                     <FontAwesomeIcon icon={faUser} size="sm" />
                                 </button>
                                 {isUserMenuOpen && (
@@ -89,7 +89,7 @@ const Navbar = () => {
                                 )}
                             </div>
                         ) : (
-                            <button className="nav-button hover:text-green-500 " onClick={() => setIsModalOpen(true)}>
+                            <button className="nav-button hover:text-green-500 transition-text duration-300" onClick={() => setIsModalOpen(true)}>
                                 <FontAwesomeIcon icon={faUser} size="sm" />
                             </button>
                         )}
@@ -140,7 +140,7 @@ const Navbar = () => {
                                 )}
                             </div>
                         ) : (
-                            <button className="nav-button hover:text-green-500 text-right" onClick={() => { setIsModalOpen(true); setIsNavOpen(false); }}>
+                            <button className="nav-button hover:text-green-500 text-right " onClick={() => { setIsModalOpen(true); setIsNavOpen(false); }}>
                                 <FontAwesomeIcon icon={faUser} size="sm" />
                             </button>
                         )}

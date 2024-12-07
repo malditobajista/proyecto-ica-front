@@ -2,31 +2,39 @@ import { useState } from "react";
 import { PropertyCardProps } from "../../utils/types";
 import Button from "./Button";
 import { replaceStatus } from "../../utils/replaceStatus";
+import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import FavButton from "./HeartButton";
 
 const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
     id,
     title,
     type,
+    address,
+    neighborhood,
     description,
     status,
     price,
+    rooms,
+    bathrooms,
+    area,
     imageSrc = [],
 }) => {
-    const [selectedButtons, setSelectedButtons] = useState({
-        heart: false,
-        dollar: false,
-    });
+    // const [selectedButtons, setSelectedButtons] = useState({
+    //     heart: false,
+    //     dollar: false,
+    // });
+    const [isFav, setIsFav] = useState(false);
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
 
-    const toggleButton = (button: string) => {
-        setSelectedButtons((prev) => ({
-            ...prev,
-            // @ts-expect-error blabla bla
-            [button]: !prev[button],
-        }));
-    };
+    // const toggleButton = (button: string) => {
+    //     setSelectedButtons((prev) => ({
+    //         ...prev,
+    //         // @ts-expect-error blabla bla
+    //         [button]: !prev[button],
+    //     }));
+    // };
 
     const handlePrevImage = () => {
         setIsLoading(true);
@@ -46,6 +54,9 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
         setIsLoading(false);
     };
 
+    const handleFavClick = () => {
+        setIsFav((prev) => !prev);
+    };
     const image = "https://placehold.co/300x300";
 
     return (
@@ -75,17 +86,17 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                             className="bg-black bg-opacity-20 hover:bg-opacity-50 text-white p-2 rounded-full ml-2"
                             onClick={handlePrevImage}
                         >
-                            &lt;
+                            <FaChevronLeft className="w-3 h-3 text-black  " />
                         </button>
                         <button
                             className="bg-black bg-opacity-20 hover:bg-opacity-50 text-white p-2 rounded-full mr-2"
                             onClick={handleNextImage}
                         >
-                            &gt;
+                            <FaChevronRight className="w-3 h-3 text-black" />
                         </button>
                     </div>
-                    <div className="absolute bottom-2 right-2 flex space-x-2">
-                        <button
+                    {/* <div className="absolute bottom-2 right-2 flex space-x-2"> */}
+                    {/* <button
                             className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.heart
                                 ? "text-red-500"
                                 : "hover:text-red-500"
@@ -93,24 +104,29 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                             onClick={() => toggleButton("heart")}
                         >
                             ♥
-                        </button>
-                        <button
-                            className={`text-white py-2 px-4 rounded transition duration-300 ${selectedButtons.dollar
-                                ? "text-green-500"
-                                : "hover:text-green-500"
-                                }`}
-                            onClick={() => toggleButton("dollar")}
-                        >
-                            $
-                        </button>
+                        </button> */}
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
+                        <FavButton
+                            onClick={handleFavClick}
+                            className={isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
+                        />
+
                     </div>
+                    {/* </div> */}
                 </figure>
 
+                {/* Contenido */}
                 <div className="w-full md:w-3/8 p-4 flex flex-col justify-between">
                     <h3 className="text-xl leading-tight font-bold">
                         <span>{title}</span>
                         <hr className="m-auto my-4 w-3/4 block md:hidden" />
                     </h3>
+                    <div className="text-lg">
+                        <h4 className="font-bold">Dirección</h4>
+                        <p className="text-gray-500">{address}</p>
+                        <hr className="m-auto mt-4 w-3/4 block md:hidden" />
+                    </div>
                     <div className="text-lg">
                         <h4 className="font-bold">Descripción</h4>
                         <p className="text-gray-500">{description}</p>
@@ -137,6 +153,29 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                             <span className="text-green-700 text-right sm:text-left w-full sm:w-auto">
                                 U$S {Number(price).toLocaleString("de-DE")}
                             </span>
+                        </div>
+                        <div className="flex flex-col sm:flex-row justify-between w-full">
+                            <span className="font-bold">Barrio </span>
+                            <span className="text-cyan-700 font-bold text-right sm:text-left w-full sm:w-auto">
+                                {neighborhood}
+                            </span>
+                        </div>
+                    </div>
+                    <div className="pb-3 w-full">
+                        {/* Detalles */}
+                        <div className="mb-6 flex justify-around items-center text-sm text-gray-700">
+                            <div className="flex flex-col items-center space-x-0 space-y-1">
+                                <FaBed className="text-accent text-2xl" />
+                                <span>{rooms} Cuartos</span>
+                            </div>
+                            <div className="flex flex-col items-center space-x-0 space-y-1">
+                                <FaBath className="text-accent text-2xl" />
+                                <span>{bathrooms} Baños</span>
+                            </div>
+                            <div className="flex flex-col items-center space-x-0 space-y-1">
+                                <FaRulerCombined className="text-accent text-2xl" />
+                                <span>{area} m²</span>
+                            </div>
                         </div>
                     </div>
                     <div className="w-full mt-4">
