@@ -78,35 +78,24 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           </div>
           {/* Botón de favoritos */}
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+
             <FavButton
               onClick={handleFavClick}
-              className={
-                isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-              }
-            />{" "}
-          </div>
+              className={isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
+            />          </div>
         </figure>
 
         {/* Contenido */}
         <div className="p-4 flex-grow flex flex-col  transition-font duration-300 rounded-lg ">
           {/* <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary"> */}
-          <Link
-            to={`/propiedades/${id}`}
-            className="w-full  hover:bg-gray-50 transition-bg duration-300 "
-          >
+          <Link to={`/propiedades/${id}`} className="w-full  hover:bg-gray-50 transition-bg duration-300 ">
             <div className="pb-3">
               {/* Título */}
-              <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold transition-font duration-300">
-                {title}
-              </h3>
+              <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold transition-font duration-300">{title}</h3>
               {/* Tipo de propiedad */}
-              <p className="pb-6 text-justify text-m text-gray-500 capitalize   hover:font-bold transition-font duration-300">
-                {address}
-              </p>
+              <p className="pb-6 text-justify text-m text-gray-500 capitalize   hover:font-bold transition-font duration-300">{address}</p>
               {/* Descripción */}
-              <p className="pb-9 text-justify text-sm text-gray-600 line-clamp-2">
-                {description}
-              </p>
+              <p className="pb-9 text-justify text-sm text-gray-600 line-clamp-2">{description}</p>
             </div>
 
             <div className="pb-3">
@@ -128,22 +117,23 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             </div>
 
             <div className="flex justify-around  hover:font-extrabold transition-font duration-300">
-              {/* status */}
-              <div className="flex flex-wrap">
+              {/* Texto superior */}
+             {/* status */}
+             <div className="flex flex-wrap">
                 {status.map((s) => (
                   <span
                     key={s}
-                    className="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                    className="bg-blue-100 capitalize text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
                   >
                     {replaceStatus(s)}
                   </span>
                 ))}
-              </div>{" "}
-              {/* Precio destacado */}
+              </div>{" "}              {/* Precio destacado */}
               <span className="text-2xl font-bold text-teal-600 hover:font-extrabold transition-font duration-300">
                 U$S {Number(price).toLocaleString("de-DE")}
               </span>
             </div>
+
           </Link>
         </div>
       </article>

@@ -74,6 +74,14 @@ export interface Property {
   approved?: boolean;
 }
 
+export interface Home{
+  rent: Property[];
+  sale: Property[];
+  pinned: Property[];
+  favourites?: Property[];
+  created?: Property[];
+}
+
 export interface TextareaFieldProps {
   label: string;
   value: string;

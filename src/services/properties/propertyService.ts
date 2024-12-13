@@ -1,7 +1,12 @@
-import { Property, PropertyCardProps } from "../../utils/types";
+import { Home, Property, PropertyCardProps } from "../../utils/types";
 import axios from "axios";
 
 const BASE_URL = "http://localhost:3000";
+
+const getProperties = () => {
+
+}
+
 export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>, files: File[]) => {
   const formData = new FormData();
 
@@ -27,6 +32,19 @@ export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>
     },
   });
 };
+
+export const fetchHomeClient = async (): Promise<Home> => {
+  try {
+    console.log("fetchHomeClient");
+    const response = await axios.get(`${BASE_URL}/property/home`, {
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnZXJhcmRvQGdtYWlsLmNvbSIsImlhdCI6MTczMzU4MzI0MSwiZXhwIjoxNzMzNjY5NjQxfQ.aUU1PptD4pBIKIxCYndwjAmdXSkf6Qk8GeggXLmIYa4",
+      },
+    });
+
+    const home = response.data;
+    console.log("fetchHomeClient response", home);
 
 export const fetchProperties = async (): Promise<Property[]> => {
   try {

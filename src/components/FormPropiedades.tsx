@@ -313,14 +313,13 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
           </div>
 
           <MockMap
-            onClick={(latLng) =>
-              setFormData({
-                ...formData,
-                // @ts-expect-error aasdas
-                latitud: latLng.lat,
-                longitud: latLng.lng,
-              })
-            }
+            onClick={(latLng) => setFormData((prev) => ({
+              ...prev,
+              geoCordinates: {
+                lat: latLng.lat,
+                lng: latLng.lng,
+              },
+            }))}
           />
 
           <Button type="submit" clase="w-full bg-blue-500 text-white">
