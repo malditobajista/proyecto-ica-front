@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
-interface FilterByRoomsProps {
+// interface FilterByRoomsProps {
+//     onFilterChange: (rooms: number[] | null) => void;
+//     currentFilters: number[] | null; // `null` para indicar "No Aplica"
+// }
+type FilterByRoomsProps = {
+    currentFilters: number[] | null;
     onFilterChange: (rooms: number[] | null) => void;
-    currentFilters: number[] | null; // `null` para indicar "No Aplica"
-}
-
+};
 const FilterByRooms: React.FC<FilterByRoomsProps> = ({ onFilterChange, currentFilters }) => {
     const roomOptions = [1, 2, 3, 4];
     const [isExpanded, setIsExpanded] = useState(false);
