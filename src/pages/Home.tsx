@@ -12,6 +12,11 @@ import Nosotros from '../components/Nosotros';
 import { useProperties } from "../contexts/PropertyContext";
 import { fetchPinnedProperties, fetchPropertiesByStatus } from '../services/services';
 
+import playa1Gif from '../assets/imgs/playas/playa1.gif';
+import playa2Gif from '../assets/imgs/playas/playa3.gif';
+import playaMobile1Gif from '../assets/imgs/playas/playa2-mobile.gif';
+import playaMobile2Gif from '../assets/imgs/playas/playa3-mobile.gif';
+
 const Home: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
@@ -21,6 +26,19 @@ const Home: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { properties, fetchAllProperties } = useProperties();
+
+    // hooks para cambiar las imágenes en parallax
+    const [desktopImage, setDesktopImage] = useState(playa1Gif);
+    const [mobileImage, setMobileImage] = useState(playaMobile1Gif);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setDesktopImage((prevImage) => (prevImage === playa1Gif ? playa2Gif : playa1Gif));
+            setMobileImage((prevImage) => (prevImage === playaMobile1Gif ? playaMobile2Gif : playaMobile1Gif));
+        }, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -64,7 +82,7 @@ const Home: React.FC = () => {
                 </section>
                 <hr />
                 <section className='px-0'>
-                    <Title text="En venta" />
+                    <Title text="En venta" size='large' />
                     {loading ? (
                         <Title text="Cargando propiedades..." />
                     ) : (
@@ -74,9 +92,9 @@ const Home: React.FC = () => {
                         <Button to="/ventas">Ir a propiedades en venta</Button>
                     </div>
                     <hr />
-                    <Title text="En alquiler" />
+                    <Title text="En alquiler" size='large' />
                     {loading ? (
-                        <Title text="Cargando propiedades..." />
+                        <Title text="Cargando propiedades..." size='large' />
                     ) : (
                         <Carousel properties={propiedadesAlquiler} />
                     )}
@@ -85,8 +103,22 @@ const Home: React.FC = () => {
                     </div>
                 </section>
                 <hr />
+                {/* Efecto Parallax */}
+                <section className="relative h-[500px] md:h-[500px] overflow-hidden">
+                    {/* Fondo para escritorio */}
+                    <div
+                        className="hidden md:block absolute inset-0 bg-cover bg-center bg-fixed"
+                        style={{ backgroundImage: `url(${desktopImage})` }}
+                    ></div>
+                    {/* Fondo para móviles */}
+                    <div
+                        className="block md:hidden absolute inset-0 bg-cover bg-center bg-fixed h-[1000px]"
+                        style={{ backgroundImage: `url(${mobileImage})` }}
+                    ></div>
+                </section>
+                <hr />
                 <section className='px-0'>
-                    <Title text="Propiedades destacadas" />
+                    <Title text="Propiedades destacadas" size='large' />
                     <Carousel properties={pinnedProperties.length ? pinnedProperties : []} />
                     <div className="py-3">
                         <Button to="/destacadas">Ir a propiedades destacadas</Button>
@@ -94,7 +126,7 @@ const Home: React.FC = () => {
                 </section>
                 <hr />
                 <section className='px-0'>
-                    <Title text="Tus propiedades favoritas" />
+                    <Title text="Tus propiedades favoritas" size='large' />
                     <Carousel properties={properties.length ? properties : []} />
                     <div className="py-3">
                         <Button to="/">Ir a tus propiedades favoritas</Button>
@@ -102,7 +134,7 @@ const Home: React.FC = () => {
                 </section>
                 <hr />
                 <section className='px-0'>
-                    <Title text="Tus propiedades" />
+                    <Title text="Tus propiedades" size='large' />
                     <Carousel properties={allPropiedades.length ? allPropiedades : []} />
                     <div className="py-3">
                         <Button to="/">Ir a tus propiedades</Button>
@@ -110,7 +142,7 @@ const Home: React.FC = () => {
                 </section>
                 <hr />
                 <section className='px-0'>
-                    <Title text="Nosotros" />
+                    <Title text="Nosotros" size='large' />
                     <Nosotros />
                 </section>
                 <hr />

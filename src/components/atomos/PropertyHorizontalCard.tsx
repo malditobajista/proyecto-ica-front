@@ -123,7 +123,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                         <hr className="m-auto my-4 w-3/4 block md:hidden" />
                     </h3>
                     <div className="text-lg">
-                        <h4 className="font-bold">Dirección</h4>
+                        {/* <h4 className="font-bold">Dirección</h4> */}
                         <p className="text-gray-500">{address}</p>
                         <hr className="m-auto mt-4 w-3/4 block md:hidden" />
                     </div>

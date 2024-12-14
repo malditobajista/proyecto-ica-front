@@ -158,7 +158,7 @@ const Propiedades: React.FC = () => {
         <div className="mt-14 p-4 min-h-screen">
             <div className="grid grid-rows-[auto,1fr] grid-cols-1 gap-4 min-h-full">
                 <div className="flex flex-col md:flex-row md:items-center">
-                    <Title text="Todas las Propiedades" />
+                    <Title text="Todas las Propiedades" size='large' />
                     <p className="mt-3 pt-1 lg:pl-5 md:mt-0 md:ml-4">Se están mostrando <span className="text-green-600">{filteredProperties.length}</span> propiedades</p>
                 </div>
 

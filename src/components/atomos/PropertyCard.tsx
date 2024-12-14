@@ -47,9 +47,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
   return (
     <div className="w-full h-auto flex justify-center items-center ">
-      <article className="bg-white w-full min-h-[650px] p-4 h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+      <article className="bg-white w-full min-h-[650px] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
         {/* Imagen */}
-        <figure className="relative w-full h-[300px] bg-gray-200 group">
+        <figure className="relative w-full h-[300px] bg-gray-200 overflow-hidden rounded-t-lg group">
           {isLoading && (
             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
               <div className="loader"></div>
@@ -62,15 +62,15 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             onLoad={handleImageLoad}
           />
           {/* Navegación de imágenes */}
-          <div className="absolute inset-0 flex justify-between items-center px-4  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 flex justify-between items-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
-              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50  "
+              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
               onClick={handlePrevImage}
             >
-              <FaChevronLeft className="w-3 h-3 text-black  " />
+              <FaChevronLeft className="w-3 h-3 text-black" />
             </button>
             <button
-              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50  "
+              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
               onClick={handleNextImage}
             >
               <FaChevronRight className="w-3 h-3 text-black" />
@@ -78,27 +78,26 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           </div>
           {/* Botón de favoritos */}
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-
             <FavButton
               onClick={handleFavClick}
               className={isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
-            />          </div>
+            />
+          </div>
         </figure>
 
         {/* Contenido */}
-        <div className="p-4 flex-grow flex flex-col  transition-font duration-300 rounded-lg ">
-          {/* <Link to={`/propiedades/${id}`} className="w-full hover:text-secondary"> */}
-          <Link to={`/propiedades/${id}`} className="w-full  hover:bg-gray-50 transition-bg duration-300 ">
-            <div className="pb-3">
+        <div className="  flex-grow flex flex-col  hover:bg-gray-200   transition-font duration-300 rounded-lg ">
+          <Link to={`/propiedades/${id}`} className="w-full transition-bg duration-300 p-4 ">
+            <div className="pb-8">
               {/* Título */}
-              <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold transition-font duration-300">{title}</h3>
+              <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
               {/* Tipo de propiedad */}
-              <p className="pb-6 text-justify text-m text-gray-500 capitalize   hover:font-bold transition-font duration-300">{address}</p>
+              <p className="pb-6 text-justify text-m text-gray-500 capitalize   hover:text-green-600  transition-font duration-300">{address}</p>
               {/* Descripción */}
-              <p className="pb-9 text-justify text-sm text-gray-600 line-clamp-2">{description}</p>
+              <p className="pb-9 text-justify text-sm text-gray-600 hover:text-green-600 line-clamp-2">{description}</p>
             </div>
 
-            <div className="pb-3">
+            <div className="px-4">
               {/* Detalles */}
               <div className="mb-6 flex justify-between text-sm text-gray-700">
                 <div className="flex items-center space-x-1">

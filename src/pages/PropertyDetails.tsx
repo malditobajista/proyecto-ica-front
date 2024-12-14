@@ -54,7 +54,7 @@ const PropertyDetails: React.FC = () => {
                 onClick={() => window.history.back()}
                 clase={`mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-6 z-50 `}
             >
-                Volver a la página anterior
+                Volver
             </Button>
             {/* Título y Precio */}
             <article className={`
@@ -68,7 +68,7 @@ const PropertyDetails: React.FC = () => {
                         relative
                         `}>
                 <div className="flex justify-between items-center mb-4">
-                    <Title text={property.title} />
+                    <Title text={property.title} size='large' />
                     <p className="text-xl font-semibold text-center">Precio:<br className="block md:hidden" /> <span className='text-green-500'> U$S {Number(property.price).toLocaleString('de-DE')}</span></p>
                 </div>
             </article>
@@ -149,16 +149,16 @@ const PropertyDetails: React.FC = () => {
             <div className="flex justify-center">
                 <article
                     className={`
-            bg-white 
-            rounded
-            text-surface
-            shadow-md
-            dark:bg-surface-dark dark:text-gray-800
-            p-4
-            mb-4
-            relative
-            lg:w-1/2
-        `}
+                            bg-white 
+                            rounded
+                            text-surface
+                            shadow-md
+                            dark:bg-surface-dark dark:text-gray-800
+                            p-4
+                            mb-4
+                            relative
+                            lg:w-1/2
+                        `}
                 >
                     <div className="grid grid-cols-1 gap-4 mb-4 px-5  md:grid-cols-2 md:hidden">
                         <div className='text-center'>
@@ -188,9 +188,9 @@ const PropertyDetails: React.FC = () => {
                                     </div>
                                 </>
                             }
-                            <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
-                            <p>{property.description}</p>
-                            <hr className="m-auto my-4 w-1/2" />
+                            {/* <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
+                            <p>{property.description} </p>
+                            <hr className="m-auto my-4 w-1/2" /> */}
                             <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>
                             <p>{property.longDescription}</p>
                         </div>
@@ -208,12 +208,12 @@ const PropertyDetails: React.FC = () => {
                     <hr className="m-auto my-4" />
                     <div className="hidden md:grid grid-cols-2 gap-4 mb-4 px-5 md:grid-cols-2">
                         <div className="flex flex-col">
-                            <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
-                            <p>{property.description}</p>
+                            {/* <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
+                            <p>{property.description}</p> */}
                             {property.address &&
                                 <>
                                     <div className="flex flex-col">
-                                        <hr className="my-4 w-1/2 m-auto" />
+                                        {/* <hr className="my-4 w-1/2 m-auto" /> */}
                                         <h2 className="text-xl font-bold mb-2 text-center">Direcccion</h2>
                                         <p>{property.address}</p>
                                     </div>
