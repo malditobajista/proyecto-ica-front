@@ -44,6 +44,7 @@ const Title: React.FC<TitleProps> = ({ text, clase, size = "medium", align = "ce
         to-blue-600
         hover:from-blue-600 
         hover:to-teal-400
+        my-2
       `}
         >
             {text}
