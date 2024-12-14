@@ -112,7 +112,7 @@ const PropertyDetails: React.FC = () => {
 
                             <p className="flex items-center text-xl">
                                 <FaCar className="inline-block  text-blue-500  mr-2" />
-                                Garage: {property.garages ? "No" : "Si"}
+                                Garage: {property.garages ? "Si" : "No"}
                             </p>
 
                             <p className="flex items-center text-xl">
