@@ -118,3 +118,18 @@ export enum PropertyStatus {
   Reserved = "reserved",
 }
 
+export type Filters = {
+  filterTypes: string[];
+  filterStatus: string[];
+  filterHood: string[];
+  filterRooms: number[] | null;
+  filterGarages: boolean;
+  filterPool: boolean;
+  sortOrder: "asc" | "desc" | null;
+};
+
+export type FiltersPanelProps = {
+  initialFilters: Filters;
+  onFiltersChange: (updatedFilters: Filters) => void;
+};
+
