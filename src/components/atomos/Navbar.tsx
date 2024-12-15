@@ -9,7 +9,7 @@ const Navbar = () => {
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
-    const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+    // const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const handleModalClose = () => {
@@ -47,7 +47,7 @@ const Navbar = () => {
                         {/* Links de navegación para pantallas grandes */}
                         <Link className={`nav-button ${isActive('/home')}`} to="/home">Inicio</Link>
 
-                        <div
+                        {/* <div
                             className="relative"
                             onMouseEnter={() => setIsSubMenuOpen(true)}
                             onMouseLeave={() => setIsSubMenuOpen(false)}
@@ -63,8 +63,10 @@ const Navbar = () => {
                                     <Link className={`block px-4 py-2 ${isActive('/propiedades')}`} to="/propiedades">Todas las Propiedades</Link>
                                 </div>
                             )}
-                        </div>
-
+                        </div> */}
+                        <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades">
+                            Propiedades
+                        </Link>
                         <Link className={`nav-button ${isActive('/contacto')}`} to="/contacto">Contacto</Link>
                         <Link className={`nav-button ${isActive('/publicarProp')}`} to="/publicarProp">Publicar Propiedad</Link>
 
@@ -108,7 +110,7 @@ const Navbar = () => {
                     <div className="md:hidden flex flex-col gap-3 mt-3 text-right">
                         <Link className={`nav-button ${isActive('/home')}`} to="/home" onClick={() => setIsNavOpen(false)}>Inicio</Link>
 
-                        <button className="nav-button text-right" onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
+                        {/* <button className="nav-button text-right" onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
                             Propiedades
                         </button>
                         {isSubMenuOpen && (
@@ -118,8 +120,14 @@ const Navbar = () => {
                                 <Link className={`nav-button ${isActive('/destacadas')}`} to="/destacadas" onClick={() => setIsNavOpen(false)}>Destacadas</Link>
                                 <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades" onClick={() => setIsNavOpen(false)}>Todas las Propiedades</Link>
                             </div>
-                        )}
-
+                        )} */}
+                        <Link
+                            className={`nav-button ${isActive('/propiedades')}`}
+                            to="/propiedades"
+                            onClick={() => setIsNavOpen(false)}
+                        >
+                            Propiedades
+                        </Link>
                         <Link className={`nav-button ${isActive('/contacto')}`} to="/contacto" onClick={() => setIsNavOpen(false)}>Contacto</Link>
                         <Link className={`nav-button ${isActive('/publicarProp')}`} to="/publicarProp" onClick={() => setIsNavOpen(false)}>Publicar Propiedad</Link>
 

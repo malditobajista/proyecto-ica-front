@@ -4,7 +4,7 @@ import Title from './atomos/Title';
 const Garantias: React.FC = () => {
     return (
         <section className=''>
-            <Title text="Nuestras garantías" />
+            <Title text="Nuestras garantías" size='large' />
             <p className='pb-4'>Orgullosos de formar parte de estas instituciones.</p>
             <div className="flex flex-col items-center md:flex-row md:justify-around p-4 gap-8">
                 <img

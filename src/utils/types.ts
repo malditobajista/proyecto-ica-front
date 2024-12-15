@@ -19,7 +19,7 @@ export interface UserData {
 //   repeatPassword: string;
 // }
 
-interface LatLng {
+export interface LatLng {
   lat: number;
   lng: number;
 }
@@ -100,13 +100,12 @@ export interface RecaptchaProps {
 
 export interface AgentProps {
   name: string;
-  phone: string;
   oficina: string;
   whatsapp: string;
   email: string;
   propertiesListed: number;
   imageUrl?: string;
-  profileUrl: string;
+  // profileUrl: string;
 }
 
 export enum PropertyTypes {
@@ -126,4 +125,19 @@ export enum PropertyStatus {
   UnderConstruction = "under_construction",
   Reserved = "reserved",
 }
+
+export type Filters = {
+  filterTypes: string[];
+  filterStatus: string[];
+  filterHood: string[];
+  filterRooms: number[] | null;
+  filterGarages: boolean;
+  filterPool: boolean;
+  sortOrder: "asc" | "desc" | null;
+};
+
+export type FiltersPanelProps = {
+  initialFilters: Filters;
+  onFiltersChange: (updatedFilters: Filters) => void;
+};
 

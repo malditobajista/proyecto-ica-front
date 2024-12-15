@@ -2,6 +2,30 @@ import { PropertyCardProps, PropertyStatus } from "../utils/types";
 import { Barrios } from "./barrios";
 import { Types } from "./types";
 
+// Constructor para generar coordenadas geográficas
+interface LatLng {
+  lat: number;
+  lng: number;
+}
+const generateGeoCoordinates = (count: number): LatLng[] => {
+  const baseLat = -34.757; // Latitud base para Costa Azul
+  const baseLng = -54.358; // Longitud base para Costa Azul
+  const coordinates: LatLng[] = [];
+
+  for (let i = 0; i < count; i++) {
+    // Generar variaciones aleatorias en latitud y longitud
+    const latVariation = (Math.random() - 0.5) * 0.01; // Variación de ±0.01 grados
+    const lngVariation = (Math.random() - 0.5) * 0.01; // Variación de ±0.01 grados
+    coordinates.push({
+      lat: baseLat + latVariation,
+      lng: baseLng + lngVariation,
+    });
+  }
+
+  return coordinates;
+};
+const geoCoordinatesList: LatLng[] = generateGeoCoordinates(100);
+
 const propiedades: PropertyCardProps[] = [
   ...Array.from({ length: 100 }, (_, i) => ({
     id: i + 9,
@@ -38,6 +62,7 @@ const propiedades: PropertyCardProps[] = [
     yearBuilt: String(2000 + Math.floor(Math.random() * 23)),
     lotSize: Math.floor(50 + Math.random() * 200),
     pinned: i < 10,
+    geoCoordinates: geoCoordinatesList[i], // Asignar coordenadas a las propiedades
   })),
 ];
 export default propiedades;

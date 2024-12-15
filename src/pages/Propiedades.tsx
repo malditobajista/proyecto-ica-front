@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
 import { fetchPropertiesByStatus } from '../services/services';
-import { Property } from '../utils/types';
+import { Filters, Property } from '../utils/types';
 import FilterButtons from '../components/Filtros/FilterByType';
 import SortByPriceButtons from '../components/Filtros/SortByPriceButtons';
 import FilterByStatus from '../components/Filtros/FilterByStatus';
@@ -11,11 +11,13 @@ import FilterByRooms from '../components/Filtros/FilterByRooms';
 import FilterCleaner from '../components/Filtros/FilterCleaner';
 import FilterByGarages from '../components/Filtros/FilterByGarages';
 import FilterByPool from '../components/Filtros/FilterByPool';
+import FiltersPanel from '../components/Filtros/FiltersPanel';
+import { useProperties } from '../contexts/PropertyContext';
+
 
 const Propiedades: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [allProperties, setAllProperties] = useState<Property[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
     const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
     const [filterTypes, setFilterTypes] = useState<string[]>([]);
@@ -24,6 +26,19 @@ const Propiedades: React.FC = () => {
     const [filterRooms, setFilterRooms] = useState<number[] | null>(null);
     const [filterGarages, setFilterGarages] = useState<boolean>(false);
     const [filterPool, setFilterPool] = useState<boolean>(false);
+
+    const { properties } = useProperties();
+
+
+    const [filters, setFilters] = useState<Filters>({
+        filterTypes: [],
+        filterStatus: [],
+        filterHood: [],
+        filterRooms: null,
+        filterGarages: false,
+        filterPool: false,
+        sortOrder: null,
+    });
 
     const handleFilterTypeChange = (type: string) => {
         if (type === 'all') {
@@ -61,7 +76,6 @@ const Propiedades: React.FC = () => {
         }
     };
 
-
     const handleFilterRoomsChange = (rooms: number[] | null) => {
         setFilterRooms(rooms);
     };
@@ -91,14 +105,11 @@ const Propiedades: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const allProps = await fetchPropertiesByStatus("all");
-
                 // para cuando se implemente la aprobación de propiedades solo se muestren las q están aprobadas
-                const approvedProps = allProps.filter(property => property.approved === true);
+                const approvedProps = properties.filter(property => property.approved === true);
                 console.log(approvedProps);
                 // y aquí se debería setear el estado con approvedProps
-                setAllProperties(allProps);
-                setFilteredProperties(allProps);
+                setFilteredProperties(properties);
             } catch (err) {
                 console.log(err);
                 setError('Hubo un problema al cargar las propiedades.');
@@ -110,64 +121,98 @@ const Propiedades: React.FC = () => {
         loadProperties();
     }, []);
 
+    // useEffect(() => {
+    //     // Aplica los filtros sobre properties
+    //     let filtered = filterTypes.length === 0
+    //         ? properties
+    //         : properties.filter(p => filterTypes.includes(p.type));
+
+    //     if (filterStatus.length > 0) {
+    //         filtered = filtered.filter(p => filterStatus.includes(p.status));
+    //     }
+
+    //     if (filterHood.length > 0) {
+    //         filtered = filtered.filter(p =>
+    //             p.neighborhood && filterHood.includes(p.neighborhood)
+    //         );
+    //     }
+
+    //     if (filterRooms !== null) {
+    //         filtered = filtered.filter(p => p.rooms && filterRooms.includes(p.rooms));
+    //     }
+
+    //     if (filterGarages) {
+    //         filtered = filtered.filter(p => !p.garages);
+    //     }
+
+    //     if (filterPool) {
+    //         filtered = filtered.filter(p => p.pool);
+    //     }
+
+    //     // Si ya existe un orden, lo aplicamos al resultado filtrado
+    //     const sortedFilteredProperties = [...filtered].sort((a: Property, b: Property) => {
+    //         const priceA = Number(a.price);
+    //         const priceB = Number(b.price);
+
+    //         if (sortOrder === 'asc') {
+    //             return priceA - priceB;
+    //         } else if (sortOrder === 'desc') {
+    //             return priceB - priceA;
+    //         }
+    //         return 0;
+    //     });
+
+    //     setFilteredProperties(sortedFilteredProperties);
+    // }, [filterTypes, filterStatus, filterHood, filterRooms, filterGarages, properties, sortOrder, filterPool]);
     useEffect(() => {
-        // Aplica los filtros sobre allProperties
-        let filtered = filterTypes.length === 0
-            ? allProperties
-            : allProperties.filter(p => filterTypes.includes(p.type));
+        const applyFilters = () => {
+            let filtered = [...properties];
 
-        if (filterStatus.length > 0) {
-            filtered = filtered.filter(p => filterStatus.includes(p.status));
-        }
-
-        if (filterHood.length > 0) {
-            filtered = filtered.filter(p =>
-                p.neighborhood && filterHood.includes(p.neighborhood)
-            );
-        }
-
-        if (filterRooms !== null) {
-            filtered = filtered.filter(p => p.rooms && filterRooms.includes(p.rooms));
-        }
-
-        if (filterGarages) {
-            filtered = filtered.filter(p => !p.garages);
-        }
-
-        if (filterPool) {
-            filtered = filtered.filter(p => p.pool);
-        }
-
-        // Si ya existe un orden, lo aplicamos al resultado filtrado
-        const sortedFilteredProperties = [...filtered].sort((a: Property, b: Property) => {
-            const priceA = Number(a.price);
-            const priceB = Number(b.price);
-
-            if (sortOrder === 'asc') {
-                return priceA - priceB;
-            } else if (sortOrder === 'desc') {
-                return priceB - priceA;
+            if (filters.filterTypes.length > 0) {
+                filtered = filtered.filter(p => filters.filterTypes.includes(p.type));
             }
-            return 0;
-        });
+            if (filters.filterStatus.length > 0) {
+                filtered = filtered.filter(p => p.status.map(s => filters.filterStatus.includes(s)).includes(true));
+            }
+            if (filters.filterHood.length > 0) {
+                filtered = filtered.filter(p => p.neighborhood && filters.filterHood.includes(p.neighborhood));
+            }
+            if (filters.filterRooms) {
+                filtered = filtered.filter(p => filters.filterRooms!.includes(p.rooms ? p.rooms : 0));
+            }
+            if (filters.filterGarages) {
+                filtered = filtered.filter(p => p.garages);
+            }
+            if (filters.filterPool) {
+                filtered = filtered.filter(p => p.pool);
+            }
+            if (filters.sortOrder) {
+                filtered.sort((a, b) =>
+                    filters.sortOrder === 'asc'
+                        ? Number(a.price) - Number(b.price)
+                        : Number(b.price) - Number(a.price)
+                );
+            }
+            setFilteredProperties(filtered);
+        };
 
-        setFilteredProperties(sortedFilteredProperties);
-    }, [filterTypes, filterStatus, filterHood, filterRooms, filterGarages, allProperties, sortOrder, filterPool]);
+        applyFilters();
+    }, [filters, properties]);
 
     return (
         <div className="mt-14 p-4 min-h-screen">
             <div className="grid grid-rows-[auto,1fr] grid-cols-1 gap-4 min-h-full">
                 <div className="flex flex-col md:flex-row md:items-center">
-                    <Title text="Todas las Propiedades" />
+                    <Title text="Todas las Propiedades" size='large' />
                     <p className="mt-3 pt-1 lg:pl-5 md:mt-0 md:ml-4">Se están mostrando <span className="text-green-600">{filteredProperties.length}</span> propiedades</p>
                 </div>
 
                 <div className="flex flex-col md:flex-row gap-4 px-4">
                     <aside className="hidden mt-4  md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg">
                         <div className='text-center'>
-                            <h2 className='text-lg font-bold'>Filtros de ordenamiento</h2>
+                            {/* <h2 className='text-lg font-bold'>Filtros de ordenamiento</h2>
                             <hr className='my-2' />
-                            <FilterCleaner onClearFilters={handleClearFilters} /> {/* Botón para limpiar filtros */}
+                            <FilterCleaner onClearFilters={handleClearFilters} />  
                             <hr className='my-2' />
                             <SortByPriceButtons onSortChange={handleSortChange} currentOrder={sortOrder} />
                             <hr className='my-2' />
@@ -182,7 +227,11 @@ const Propiedades: React.FC = () => {
                             <div className="flex gap-8 justify-center mt-2">
                                 <FilterByGarages onFilterChange={handleGaragesFilterChange} isChecked={filterGarages} />
                                 <FilterByPool onFilterChange={handlePoolFilterChange} isChecked={filterPool} />
-                            </div>
+                            </div> */}
+                            <FiltersPanel
+                                initialFilters={filters}
+                                onFiltersChange={(updatedFilters) => setFilters(updatedFilters)}
+                            />
                         </div>
                     </aside>
 

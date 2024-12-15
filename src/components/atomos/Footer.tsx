@@ -46,11 +46,11 @@ export const Footer = () => {
                 <section id="nav_menu-1" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Home">Inicio</Link>
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Alquileres">Alquileres</Link>
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Ventas">Ventas</Link>
+                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Propiedades/">Propiedades</Link>
+                        {/* <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Alquileres">Alquileres</Link>
+                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Ventas">Ventas</Link> */}
                     </div>
                     <div className="flex flex-col">
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Propiedades/">Propiedades</Link>
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Contacto/">Contacto</Link>
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/PublicarProp/">Publicar propiedad</Link>
                     </div>
