@@ -19,7 +19,7 @@ export interface UserData {
 //   repeatPassword: string;
 // }
 
-interface LatLng {
+export interface LatLng {
   lat: number;
   lng: number;
 }
@@ -92,13 +92,12 @@ export interface RecaptchaProps {
 
 export interface AgentProps {
   name: string;
-  phone: string;
   oficina: string;
   whatsapp: string;
   email: string;
   propertiesListed: number;
   imageUrl?: string;
-  profileUrl: string;
+  // profileUrl: string;
 }
 
 export enum PropertyTypes {

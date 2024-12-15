@@ -3,10 +3,8 @@ import Banner from '../components/atomos/Banner';
 import Button from '../components/atomos/Button';
 import FormBusqueda from '../components/FormBusqueda';
 import Carousel from '../components/CarouselPropiedades';
-// import placeholderPropiedades from '../assets/placeholderPropiedades';
 import Title from '../components/atomos/Title';
 import Garantias from '../components/Garantias';
-// import { fetchProperties } from '../services/services';
 import { Property } from '../utils/types';
 import Nosotros from '../components/Nosotros';
 import { useProperties } from "../contexts/PropertyContext";
@@ -16,6 +14,7 @@ import playa1Gif from '../assets/imgs/playas/playa1.gif';
 import playa2Gif from '../assets/imgs/playas/playa3.gif';
 import playaMobile1Gif from '../assets/imgs/playas/playa2-mobile.gif';
 import playaMobile2Gif from '../assets/imgs/playas/playa3-mobile.gif';
+// import MapaHome from '../components/atomos/MapaHome';
 
 const Home: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
@@ -140,6 +139,16 @@ const Home: React.FC = () => {
                         <Button to="/">Ir a tus propiedades</Button>
                     </div>
                 </section>
+
+                {/* <hr />
+                // mapa con todas las propiedades, hay q terminar de setear las apiKey de google en el componente
+                <div className="lg:max-w-[1200px] mx-auto">
+                    <section className="px-0">
+                        <Title text="Propiedades en el mapa" size="large" />
+                        <MapaHome properties={allPropiedades} /> 
+                    </section>
+                 </div> */}
+
                 <hr />
                 <section className='px-0'>
                     <Title text="Nosotros" size='large' />

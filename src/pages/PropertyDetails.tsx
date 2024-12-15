@@ -10,6 +10,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import { replaceStatus } from '../utils/replaceStatus';
 import Button from '../components/atomos/Button';
 
+// Google Maps
+// import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
 const PropertyDetails: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [property, setProperty] = useState<Property | null>(null);
@@ -37,6 +40,23 @@ const PropertyDetails: React.FC = () => {
 
         loadProperty();
     }, [id]);
+    // para mapa de google maps
+    // useEffect(() => {
+    //     if (property && property.geoCoordinates) {
+    //         const { lat, lng } = property.geoCoordinates;
+    //         const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
+    //             center: { lat, lng },
+    //             zoom: 15,
+    //         });
+
+    //         new google.maps.Marker({
+    //             position: { lat, lng },
+    //             map,
+    //             title: property.title,
+    //         });
+    //     }
+    // }, [property]);
+
 
     if (loading) return <div>Cargando detalles de la propiedad...</div>;
     if (error) return <div>{error}</div>;
@@ -47,7 +67,7 @@ const PropertyDetails: React.FC = () => {
         lng: -54.1667
     };
     console.log(costaAzulCoordinates);
-
+    console.log(property);
     return (
         <div className="my-8 p-4">
             <Button
@@ -67,7 +87,7 @@ const PropertyDetails: React.FC = () => {
                         my-8
                         relative
                         `}>
-                <div className="flex justify-between items-center mb-4">
+                <div className="flex flex-col md:flex-row justify-between items-center mb-4">
                     <Title text={property.title} size='large' />
                     <p className="text-xl font-semibold text-center">Precio:<br className="block md:hidden" /> <span className='text-green-500'> U$S {Number(property.price).toLocaleString('de-DE')}</span></p>
                 </div>
@@ -239,12 +259,38 @@ const PropertyDetails: React.FC = () => {
 
 
             {/* Mapa de Google Maps */}
+            {/* <div className="mt-4 text-center w-full rounded-lg">
+                <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
+                <div className="flex justify-center rounded-lg">
+                    <LoadScript
+                        googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY"  // Asegúrate de reemplazar con tu API key
+                    >
+                        <GoogleMap
+                            mapContainerStyle={{ width: '600px', height: '450px' }}
+                            center={{
+                                lat: property.geoCoordinates?.lat || 0,
+                                lng: property.geoCoordinates?.lng || 0
+                            }}
+                            zoom={15}
+                        >
+                            <Marker
+                                position={{
+                                    lat: property.geoCoordinates?.lat || 0,
+                                    lng: property.geoCoordinates?.lng || 0
+                                }}
+                            />
+                        </GoogleMap>
+                    </LoadScript>
+                </div>
+            </div> */}
+
             <div className="mt-4 text-center w-full rounded-lg">
                 <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
                 <div className="flex justify-center rounded-lg">
 
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-55.679600661666!3d-34.76329665949181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy"
+                        src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-${property.geoCoordinates?.lng}!3d-${property.geoCoordinates?.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy`}
+                        // src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-55.679600661666!3d-34.76329665949181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy"
                         width="600"
                         height="450"
                         loading="lazy"
@@ -253,7 +299,7 @@ const PropertyDetails: React.FC = () => {
                     ></iframe>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 
