@@ -117,8 +117,17 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
             <div className="flex justify-around  hover:font-extrabold transition-font duration-300">
               {/* Texto superior */}
-              <span className="text-sm font-bold text-gray-800 mt-2 hover:font-extrabold transition-font duration-300">Propiedad {replaceStatus(status)}</span>
-              {/* Precio destacado */}
+             {/* status */}
+             <div className="flex flex-wrap">
+                {status.map((s) => (
+                  <span
+                    key={s}
+                    className="bg-blue-100 capitalize text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+                  >
+                    {replaceStatus(s)}
+                  </span>
+                ))}
+              </div>{" "}              {/* Precio destacado */}
               <span className="text-2xl font-bold text-teal-600 hover:font-extrabold transition-font duration-300">
                 U$S {Number(price).toLocaleString("de-DE")}
               </span>

@@ -15,20 +15,20 @@ export const fetchProperties = async (): Promise<Property[]> => {
 };
 
 export const fetchPropertiesByStatus = async (
-  filter: "all" | "for-rent" | "for-sale"
+  filter: "all" | "for_rent" | "for_sale"
 ): Promise<Property[]> => {
   try {
     const allProperties = await fetchProperties();
 
     switch (filter) {
-      case "for-rent":
+      case "for_rent":
         return allProperties.filter(
-          (property) => property.status === PropertyStatus.ForRent
+          (property) => property.status.includes(PropertyStatus.ForRent)
         );
 
-      case "for-sale":
+      case "for_sale":
         return allProperties.filter(
-          (property) => property.status === PropertyStatus.ForSale
+          (property) => property.status.includes(PropertyStatus.ForSale)
         );
 
       case "all":

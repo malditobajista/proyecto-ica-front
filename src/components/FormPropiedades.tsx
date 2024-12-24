@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import Button from "./atomos/Button";
 import InputField from "./atomos/InputFieldProps";
 import MockMap from "../assets/MockMapProps";
+import { useNavigate } from "react-router-dom";
 import {
   PropertyStatus,
   PropertyTypes,
@@ -9,11 +10,13 @@ import {
 } from "../utils/types";
 import Title from "./atomos/Title";
 import { replaceType } from "../utils/replaceType";
-import { replaceStatus } from "../utils/replaceStatus";
 import PropertyCard from "./atomos/PropertyCard";
 import { useDropzone } from "react-dropzone";
 import { createProperty } from "../services/properties/propertyService";
 import { Barrios } from "../assets/barrios";
+import { PropertyStatusSelect } from "./atomos/PropertyStatusSelect";
+import ModalTerms from "./atomos/ModalTerms";
+import TextareaField from "./atomos/TextareaField";
 
 interface CreatePropertyFormProps {
   onAddProperty: (newProperty: Omit<PropertyCardProps, "id">) => void;
@@ -25,7 +28,7 @@ const inicializarPropiedad = {
   longDescription: "",
   price: 0,
   type: "" as PropertyTypes,
-  status: "" as PropertyStatus,
+  status: [] as PropertyStatus[],
   lotSize: 0,
   area: 0,
   rooms: 0,
@@ -48,6 +51,8 @@ const inicializarPropiedad = {
 const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
   onAddProperty,
 }) => {
+  const [isModalOpen, setModalOpen] = useState(true); // Estado para controlar la visibilidad del modal
+  const navigate = useNavigate();
   const [formData, setFormData] =
     useState<Omit<PropertyCardProps, "id">>(inicializarPropiedad);
   const [files, setFiles] = useState<File[]>([]); // Nuevo estado para almacenar los archivos
@@ -66,6 +71,10 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
     setFormData((prev) => ({ ...prev, [name]: checked }));
   };
 
+  const handleStatusChange = (selectedStatus: PropertyStatus[]) => {
+    setFormData((prev) => ({ ...prev, status: selectedStatus }));
+  };
+
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newImageSrc = acceptedFiles.map((file) => URL.createObjectURL(file));
     setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]); // Guardar archivos reales
@@ -77,19 +86,23 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      // Llamada al servicio para crear la propiedad
-      console.log("Formulario de propiedad:", formData);
-      console.log("files de propiedad:", files);
+    setModalOpen(true); // Abrir el modal al enviar el formulario
+  };
 
-      await createProperty(formData, files);
-      // Añadir la propiedad al estado de la lista de propiedades
+  const handleModalClose = () => {
+    setModalOpen(false); // Cerrar el modal
+  };
+
+  const handleModalAccept = async () => {
+    setModalOpen(false); // Cerrar el modal
+    try {
+      const prop = await createProperty(formData, files);
       onAddProperty(formData);
-      // Restablecer el formulario y los archivos después de la creación exitosa
       setFormData(inicializarPropiedad);
-      setFiles([]); // Limpiar archivos
+      setFiles([]);
+      navigate(`/propiedades/${prop.data.id}`);
     } catch (error) {
       console.error("Error al enviar la propiedad:", error);
     }
@@ -122,8 +135,9 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             <label className="block text-sm font-medium">Imagenes</label>
             <div
               {...getRootProps()}
-              className={`w-full p-6 md:p-10 border rounded-md ${isDragActive ? "bg-blue-100" : "bg-gray-50"
-                }`}
+              className={`w-full p-6 md:p-10 border rounded-md ${
+                isDragActive ? "bg-blue-100" : "bg-gray-50"
+              }`}
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -144,7 +158,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
               onChange={handleInputChange}
               placeholder="Ingrese la dirección de la propiedad"
             />
-            <div >
+            <div>
               <label className="block text-sm">Barrio</label>
 
               <select
@@ -182,12 +196,11 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             placeholder="Ingrese una descripción corta"
           />
 
-          <InputField
+          <TextareaField
             label="Descripción larga"
             name="longDescription"
             value={formData.longDescription}
             onChange={handleInputChange}
-            placeholder="Ingrese una descripción larga"
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -209,28 +222,19 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                 ))}
               </select>
             </div>
+
             <div>
-              <label className="block text-sm font-medium">
-                Estado de la propiedad
-              </label>
-              <select
-                name="status"
-                value={formData.status}
-                onChange={handleInputChange}
-                className="w-full p-2 capitalize border rounded-md"
-              >
-                <option disabled value="">
-                  Seleccione un estado
-                </option>
-                {Object.values(PropertyStatus).map((status) => (
-                  <option key={status} value={status}>
-                    {replaceStatus(status)}
-                  </option>
-                ))}
-              </select>
+              <div>
+                <label className="block text-sm font-medium">
+                  Estado de la propiedad
+                </label>
+                <PropertyStatusSelect
+                  value={formData.status}
+                  onChange={handleStatusChange}
+                />
+              </div>
             </div>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputField
               label="Habitaciones"
@@ -309,14 +313,13 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
           </div>
 
           <MockMap
-            onClick={(latLng) =>
-              setFormData({
-                ...formData,
-                // @ts-expect-error aasdas
-                latitud: latLng.lat,
-                longitud: latLng.lng,
-              })
-            }
+            onClick={(latLng) => setFormData((prev) => ({
+              ...prev,
+              geoCordinates: {
+                lat: latLng.lat,
+                lng: latLng.lng,
+              },
+            }))}
           />
 
           <Button type="submit" clase="w-full bg-blue-500 text-white">
@@ -340,6 +343,12 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
           </div>
         </div>
       </div>
+      <ModalTerms
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        onAccept={handleModalAccept}
+      />{" "}
+      {/* Agregar el modal */}
     </div>
   );
 };

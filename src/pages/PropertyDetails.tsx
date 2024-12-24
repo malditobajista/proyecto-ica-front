@@ -7,7 +7,6 @@ import Title from '../components/atomos/Title';
 import ImageSlider from '../components/atomos/ImageSlider';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { replaceStatus } from '../utils/replaceStatus';
 import Button from '../components/atomos/Button';
 
 // Google Maps
@@ -183,7 +182,7 @@ const PropertyDetails: React.FC = () => {
                     <div className="grid grid-cols-1 gap-4 mb-4 px-5  md:grid-cols-2 md:hidden">
                         <div className='text-center'>
                             <h2 className="text-xl font-bold mb-2">Estado</h2>
-                            <p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>
+                            {/*<p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>*/}
                             <hr className="m-auto my-4 w-1/2" />
                             <h2 className="text-xl font-bold mb-2">Barrio</h2>
                             <p className='text-blue-600 font-bold'>{property.neighborhood}</p>
@@ -218,7 +217,7 @@ const PropertyDetails: React.FC = () => {
                     <div className="hidden md:grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
                         <div>
                             <h2 className="text-xl font-bold mb-2 ">Estado</h2>
-                            <p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>
+                            <p className='capitalize text-red-500 font-bold'> {/*{replaceStatus(property.status)}*/}</p>
                         </div>
                         <div>
                             <h2 className="text-xl font-bold mb-2 ">Barrio</h2>

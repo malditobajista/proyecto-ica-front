@@ -31,7 +31,7 @@ export interface PropertyCardProps {
   address: string;
   description: string;
   longDescription: string;
-  status: PropertyStatus;
+  status: PropertyStatus[];
   price: number;
   type: string;
   rooms?: number;
@@ -55,7 +55,7 @@ export interface Property {
   address: string;
   description: string;
   longDescription: string;
-  status: PropertyStatus;
+  status: PropertyStatus[];
   price: number;
   type: PropertyTypes;
   rooms?: number;
@@ -72,6 +72,14 @@ export interface Property {
   contribucion?: string;
   pinned?: boolean;
   approved?: boolean;
+}
+
+export interface Home{
+  rent: Property[];
+  sale: Property[];
+  pinned: Property[];
+  favourites?: Property[];
+  created?: Property[];
 }
 
 export interface TextareaFieldProps {

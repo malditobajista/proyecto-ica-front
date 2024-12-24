@@ -12,12 +12,12 @@ import FilterCleaner from '../components/Filtros/FilterCleaner';
 import FilterByGarages from '../components/Filtros/FilterByGarages';
 import FilterByPool from '../components/Filtros/FilterByPool';
 import FiltersPanel from '../components/Filtros/FiltersPanel';
+import { useProperties } from '../contexts/PropertyContext';
 
 
 const Propiedades: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [allProperties, setAllProperties] = useState<Property[]>([]);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc' | null>(null);
     const [filteredProperties, setFilteredProperties] = useState<Property[]>([]);
     const [filterTypes, setFilterTypes] = useState<string[]>([]);
@@ -26,6 +26,9 @@ const Propiedades: React.FC = () => {
     const [filterRooms, setFilterRooms] = useState<number[] | null>(null);
     const [filterGarages, setFilterGarages] = useState<boolean>(false);
     const [filterPool, setFilterPool] = useState<boolean>(false);
+
+    const { properties } = useProperties();
+
 
     const [filters, setFilters] = useState<Filters>({
         filterTypes: [],
@@ -102,14 +105,11 @@ const Propiedades: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const allProps = await fetchPropertiesByStatus("all");
-
                 // para cuando se implemente la aprobación de propiedades solo se muestren las q están aprobadas
-                const approvedProps = allProps.filter(property => property.approved === true);
+                const approvedProps = properties.filter(property => property.approved === true);
                 console.log(approvedProps);
                 // y aquí se debería setear el estado con approvedProps
-                setAllProperties(allProps);
-                setFilteredProperties(allProps);
+                setFilteredProperties(properties);
             } catch (err) {
                 console.log(err);
                 setError('Hubo un problema al cargar las propiedades.');
@@ -122,10 +122,10 @@ const Propiedades: React.FC = () => {
     }, []);
 
     // useEffect(() => {
-    //     // Aplica los filtros sobre allProperties
+    //     // Aplica los filtros sobre properties
     //     let filtered = filterTypes.length === 0
-    //         ? allProperties
-    //         : allProperties.filter(p => filterTypes.includes(p.type));
+    //         ? properties
+    //         : properties.filter(p => filterTypes.includes(p.type));
 
     //     if (filterStatus.length > 0) {
     //         filtered = filtered.filter(p => filterStatus.includes(p.status));
@@ -163,22 +163,22 @@ const Propiedades: React.FC = () => {
     //     });
 
     //     setFilteredProperties(sortedFilteredProperties);
-    // }, [filterTypes, filterStatus, filterHood, filterRooms, filterGarages, allProperties, sortOrder, filterPool]);
+    // }, [filterTypes, filterStatus, filterHood, filterRooms, filterGarages, properties, sortOrder, filterPool]);
     useEffect(() => {
         const applyFilters = () => {
-            let filtered = [...allProperties];
+            let filtered = [...properties];
 
             if (filters.filterTypes.length > 0) {
                 filtered = filtered.filter(p => filters.filterTypes.includes(p.type));
             }
             if (filters.filterStatus.length > 0) {
-                filtered = filtered.filter(p => filters.filterStatus.includes(p.status));
+                filtered = filtered.filter(p => p.status.map(s => filters.filterStatus.includes(s)).includes(true));
             }
             if (filters.filterHood.length > 0) {
                 filtered = filtered.filter(p => p.neighborhood && filters.filterHood.includes(p.neighborhood));
             }
             if (filters.filterRooms) {
-                filtered = filtered.filter(p => filters.filterRooms!.includes(p.rooms));
+                filtered = filtered.filter(p => filters.filterRooms!.includes(p.rooms ? p.rooms : 0));
             }
             if (filters.filterGarages) {
                 filtered = filtered.filter(p => p.garages);
@@ -197,7 +197,7 @@ const Propiedades: React.FC = () => {
         };
 
         applyFilters();
-    }, [filters, allProperties]);
+    }, [filters, properties]);
 
     return (
         <div className="mt-14 p-4 min-h-screen">
