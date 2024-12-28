@@ -207,7 +207,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             <input
                                 type="text"
                                 name="firstName"
-                                placeholder="firstName"
+                                placeholder="Nombre"
                                 maxLength={20}
                                 value={formData.firstName}
                                 onChange={handleChange}
@@ -219,7 +219,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                             <input
                                 type="text"
                                 name="lastName"
-                                placeholder="lastName"
+                                placeholder="Apellidos"
                                 maxLength={20}
                                 value={formData.lastName}
                                 onChange={handleChange}

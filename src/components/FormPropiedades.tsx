@@ -116,7 +116,7 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
           onSubmit={handleSubmit}
           className="space-y-8 border-2 border-grey p-4 md:p-8 mt-10 rounded-md"
         >
-          <Title clase="text-2xl" text="Agregar propiedad" />
+          <Title size="medium" text="Datos de la propiedad" />
           <p className="text-gray-500 m-0 font-sans">
             Ingrese los detalles de las propiedades.
           </p>
@@ -135,9 +135,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             <label className="block text-sm font-medium">Imagenes</label>
             <div
               {...getRootProps()}
-              className={`w-full p-6 md:p-10 border rounded-md ${
-                isDragActive ? "bg-blue-100" : "bg-gray-50"
-              }`}
+              className={`w-full p-6 md:p-10 border rounded-md ${isDragActive ? "bg-blue-100" : "bg-gray-50"
+                }`}
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -329,8 +328,9 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
         <div className="space-y-8 mt-10 rounded-md">
           <div className="border-2 border-grey p-4 md:p-8 rounded-md">
-            <Title clase="text-xl mb-4" text="Vista de la propiedad" />
-            {formData.title.trim() || formData.imageSrc ? (
+            <Title clase="mb-4" size="medium" text="Vista previa de la propiedad" />
+            {formData.title.trim() ? (
+              // {formData.title.trim() || formData.imageSrc ? (
               <PropertyCard
                 {...{ ...formData, id: 0 }} // Pasamos los datos del estado.
               />

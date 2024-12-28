@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaFacebookSquare, FaYoutube, FaWhatsapp, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import '../../utils/Footer.css';
+import logo from '../../assets/imgs/logo.png';
 
 export const Footer = () => {
     const [hasScrolled, setHasScrolled] = useState(false);
@@ -26,11 +27,11 @@ export const Footer = () => {
                 <div className="flex-shrink-0 mb-4 md:mb-0">
                     <Link title="Inmobiliaria Costa Azul" to="/Home">
                         <img
-                            src="https://www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/logo-1.png"
+                            src={logo}
                             alt="Inmobiliaria Costa Azul"
                             width="100"
                             height="60"
-                            className="bg-black"
+                            className="bg-gray-700"
                         />
                     </Link>
                 </div>
@@ -52,8 +53,6 @@ export const Footer = () => {
                     <div className="flex flex-col">
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Home">Inicio</Link>
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Propiedades/">Propiedades</Link>
-                        {/* <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Alquileres">Alquileres</Link>
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Ventas">Ventas</Link> */}
                     </div>
                     <div className="flex flex-col">
                         <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Contacto/">Contacto</Link>
@@ -61,7 +60,7 @@ export const Footer = () => {
                     </div>
                 </section>
 
-                <section id="contact-info" className="flex flex-col gap-4">
+                <section id="contact-info" className="flex flex-col gap-4 sm:pb-4">
                     <div className="contact-item hover:text-green-500 transition-text duration-300">
                         <FaMapMarkerAlt className="icon" />
                         <p className="content">

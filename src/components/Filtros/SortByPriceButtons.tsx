@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaSortNumericDownAlt, FaSortNumericDown } from 'react-icons/fa';
 
 interface SortByPriceButtonsProps {
     onSortChange: (order: 'asc' | 'desc') => void;
@@ -19,7 +19,8 @@ const SortByPriceButtons: React.FC<SortByPriceButtonsProps> = ({ onSortChange, c
                 ${isActive('asc') ? 'bg-green-600' : 'bg-gray-400'} 
                 text-white hover:bg-green-500 focus:outline-none`}
                 >
-                    <FaArrowUp />
+                    <FaSortNumericDown />
+
                     <span>Ascendente</span>
                 </button>
                 <button
@@ -28,7 +29,8 @@ const SortByPriceButtons: React.FC<SortByPriceButtonsProps> = ({ onSortChange, c
                 ${isActive('desc') ? 'bg-green-600' : 'bg-gray-400'} 
                 text-white hover:bg-green-500 focus:outline-none`}
                 >
-                    <FaArrowDown />
+                    <FaSortNumericDownAlt />
+
                     <span>Descendente</span>
                 </button>
             </div>

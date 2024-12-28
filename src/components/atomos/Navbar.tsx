@@ -3,13 +3,13 @@ import { Link, useLocation } from 'react-router-dom';
 import Modal from './Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import logo from '../../assets/imgs/logo.png';
 
 const Navbar = () => {
     const location = useLocation();
     const [isNavOpen, setIsNavOpen] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hasScrolled, setHasScrolled] = useState(false);
-    // const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
 
     const handleModalClose = () => {
@@ -30,45 +30,29 @@ const Navbar = () => {
     }, [location]);
 
     const isLoggedIn = false;
-    const isHomePage = location.pathname === '/' || location.pathname === '/Home';
+    const isHomePage = location.pathname === '/' || location.pathname.toLowerCase() === '/home';
 
     const isActive = (path: string) => location.pathname === path ? 'text-green-500 font-extrabold' : 'hover:text-green-500 transition-text duration-300';
 
     return (
         <>
-            <nav className={`fixed top-0 left-0 right-0 z-40 p-5 mb-3 transition-colors duration-300 
+            <nav className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 transition-colors duration-300 
                 ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gray-600 text-white'}`}>
                 <div className="flex justify-between items-center">
                     <Link to="/home">
                         <img
-                            src="https://www.inmobiliariacostaazul.com/wp-content/uploads/2019/09/logo-1.png"
+                            src={logo}
                             alt="Logo"
-                            width="80"
-                            height="40"
-                            className="mr-4"
+                            width="120"
+                            height="50"
+                            // className="mr-4"
+                            className={`mr-4 rounded-md p-1 transition-colors duration-300 
+                            ${isHomePage && !hasScrolled ? 'bg-gray-600  text-black' : 'bg-gray-600 text-white'}`}
                         />
                     </Link>
                     <div className="hidden md:flex gap-3">
                         {/* Links de navegación para pantallas grandes */}
                         <Link className={`nav-button ${isActive('/home')}`} to="/home">Inicio</Link>
-
-                        {/* <div
-                            className="relative"
-                            onMouseEnter={() => setIsSubMenuOpen(true)}
-                            onMouseLeave={() => setIsSubMenuOpen(false)}
-                        >
-                            <button className={`nav-button ${isActive('/propiedades')}`} onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
-                                Propiedades
-                            </button>
-                            {isSubMenuOpen && (
-                                <div className="absolute top-full left-0 bg-gray-600 text-white shadow-lg rounded-md py-2">
-                                    <Link className={`block px-4 py-2 ${isActive('/ventas')}`} to="/ventas">Ventas</Link>
-                                    <Link className={`block px-4 py-2 ${isActive('/alquileres')}`} to="/alquileres">Alquileres</Link>
-                                    <Link className={`block px-4 py-2 ${isActive('/destacadas')}`} to="/destacadas">Destacadas</Link>
-                                    <Link className={`block px-4 py-2 ${isActive('/propiedades')}`} to="/propiedades">Todas las Propiedades</Link>
-                                </div>
-                            )}
-                        </div> */}
                         <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades">
                             Propiedades
                         </Link>
@@ -114,18 +98,6 @@ const Navbar = () => {
                 {isNavOpen && (
                     <div className="md:hidden flex flex-col gap-3 mt-3 text-right">
                         <Link className={`nav-button ${isActive('/home')}`} to="/home" onClick={() => setIsNavOpen(false)}>Inicio</Link>
-
-                        {/* <button className="nav-button text-right" onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}>
-                            Propiedades
-                        </button>
-                        {isSubMenuOpen && (
-                            <div className="flex flex-col gap-2 pl-4">
-                                <Link className={`nav-button ${isActive('/ventas')}`} to="/ventas" onClick={() => setIsNavOpen(false)}>Ventas</Link>
-                                <Link className={`nav-button ${isActive('/alquileres')}`} to="/alquileres" onClick={() => setIsNavOpen(false)}>Alquileres</Link>
-                                <Link className={`nav-button ${isActive('/destacadas')}`} to="/destacadas" onClick={() => setIsNavNavOpen(false)}>Destacadas</Link>
-                                <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades" onClick={() => setIsNavOpen(false)}>Todas las Propiedades</Link>
-                            </div>
-                        )} */}
                         <Link
                             className={`nav-button ${isActive('/propiedades')}`}
                             to="/propiedades"

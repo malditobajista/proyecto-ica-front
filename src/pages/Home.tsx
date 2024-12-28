@@ -38,6 +38,8 @@ const Home: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const isLoggedIn = false;
+
   return (
     <div className="space-y-8  max-w-full bg-white">
       <div className="lg:max-w-[75%] mx-auto">
@@ -100,34 +102,37 @@ const Home: React.FC = () => {
           )}
         </section>
 
-        <section className="px-0">
-          {home.favourites && home.favourites.length > 0 && (
-            <>
-              <Title text="Tus propiedades favoritas" size="large" />
-              <Carousel
-                properties={home.favourites.length ? home.favourites : []}
-              />
-              <div className="py-3">
-                <Button to="/">Ir a tus propiedades favoritas</Button>
-              </div>
-              <hr />
-            </>
-          )}
-        </section>
+        {isLoggedIn && (
 
-        <section className="px-0">
-          {home.created && home.created.length > 0 && (
-            <>
-              <Title text="Tus propiedades" size="large" />
-              <Carousel properties={home.created.length ? home.created : []} />
-              <div className="py-3">
-                <Button to="/">Ir a tus propiedades</Button>
-              </div>
-              <hr />
-            </>
-          )}
-        </section>
-
+          <section className="px-0">
+            {home.favourites && home.favourites.length > 0 && (
+              <>
+                <Title text="Tus propiedades favoritas" size="large" />
+                <Carousel
+                  properties={home.favourites.length ? home.favourites : []}
+                />
+                <div className="py-3">
+                  <Button to="/">Ir a tus propiedades favoritas</Button>
+                </div>
+                <hr />
+              </>
+            )}
+          </section>
+        )}
+        {isLoggedIn && (
+          <section className="px-0">
+            {home.created && home.created.length > 0 && (
+              <>
+                <Title text="Tus propiedades" size="large" />
+                <Carousel properties={home.created.length ? home.created : []} />
+                <div className="py-3">
+                  <Button to="/">Ir a tus propiedades</Button>
+                </div>
+                <hr />
+              </>
+            )}
+          </section>
+        )}
         {/* <hr />
                 // mapa con todas las propiedades, hay q terminar de setear las apiKey de google en el componente
                 <div className="lg:max-w-[1200px] mx-auto">

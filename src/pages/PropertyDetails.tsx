@@ -11,6 +11,7 @@ import ContactForm from "../components/atomos/ContactForm"
 import { useProperties } from "../contexts/PropertyContext"
 import PropertyHeader from "../components/atomos/PropertyHeader"
 import PropertyInfo from "../components/atomos/PropertyInfo"
+import Title from "../components/atomos/Title"
 
 
 
@@ -50,7 +51,7 @@ const PropertyDetails: React.FC = () => {
   }, [id, properties])
 
   if (loading) return <div>Cargando detalles de la propiedad...</div>
-  if (error) return <div>{error}</div>
+  if (error) return <Title size="large" text={error} clase="h-screen mt-9" />
   if (!property) return <div>No se encontró la propiedad.</div>
 
   return (

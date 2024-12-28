@@ -4,6 +4,7 @@ import Title from '../components/atomos/Title';
 import { Filters, Property } from '../utils/types';
 import FiltersPanel from '../components/Filtros/FiltersPanel';
 import { useProperties } from '../contexts/PropertyContext';
+import FiltersPanelMovil from '../components/Filtros/FiltersPanelMovil';
 
 const Propiedades: React.FC = () => {
     const [loading, setLoading] = useState(true);
@@ -76,15 +77,15 @@ const Propiedades: React.FC = () => {
     }, [filters, properties]);
 
     return (
-        <div className="mt-14 p-4 min-h-screen">
-            <div className="grid grid-rows-[auto,1fr] grid-cols-1 gap-4 min-h-full">
-                <div className="flex flex-col md:flex-row md:items-center">
+        <div className="p-4 h-full">
+            <div className="grid grid-rows-[auto,1fr] grid-cols-1 gap-4 h-full">
+                <div className="flex flex-col md:flex-row md:items-center md:pl-2">
                     <Title text="Todas las Propiedades" size='large' />
                     <p className="mt-3 pt-1 lg:pl-5 md:mt-0 md:ml-4">Se están mostrando <span className="text-green-600">{filteredProperties.length}</span> propiedades</p>
                 </div>
 
-                <div className="flex flex-col md:flex-row gap-4 px-4">
-                    <aside className="hidden mt-4  md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg">
+                <div className="flex flex-col md:flex-row gap-4 ">
+                    <aside className="hidden mt-4  md:block md:w-1/4 w-full bg-white p-4 min-h-full rounded-lg sticky top-5 z-20">
                         <div className='text-center'>
                             <FiltersPanel
                                 initialFilters={filters}
@@ -93,12 +94,13 @@ const Propiedades: React.FC = () => {
                         </div>
                     </aside>
 
-                    <div className="flex-1">
+                    <div className="flex-1 ">
                         <div className="flex flex-col   md:hidden mb-4 text-center">
-                            <FiltersPanel
+                            {/* <FiltersPanel
                                 initialFilters={filters}
                                 onFiltersChange={(updatedFilters) => setFilters(updatedFilters)}
-                            />
+                            /> */}
+                            <FiltersPanelMovil initialFilters={filters} onFiltersChange={(updatedFilters) => setFilters(updatedFilters)} />
                         </div>
 
                         {loading ? (
@@ -106,7 +108,7 @@ const Propiedades: React.FC = () => {
                         ) : error ? (
                             <p>{error}</p>
                         ) : (
-                            <>
+                            <div className=''>
                                 {filteredProperties.length > 0 ? (
                                     filteredProperties.map((property, index) => (
                                         <div key={index} className="py-4">
@@ -116,7 +118,7 @@ const Propiedades: React.FC = () => {
                                 ) : (
                                     <Title text="Lo sentimos, pero no hay propiedades para mostrar de ese tipo" />
                                 )}
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
