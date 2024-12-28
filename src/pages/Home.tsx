@@ -40,11 +40,11 @@ const Home: React.FC = () => {
 
   return (
     <div className="space-y-8  max-w-full bg-white">
-      <div className="lg:max-w-[1300px] mx-auto">
+      <div className="lg:max-w-[75%] mx-auto">
         <Banner />
       </div>
 
-      <div className="lg:max-w-[1200px] mx-auto">
+      <div className="lg:max-w-[65%] mx-auto">
         <section>
           <FormBusqueda />
         </section>
@@ -60,7 +60,7 @@ const Home: React.FC = () => {
               <hr />
             </>
           )}
-          
+
           {home.rent && home.rent.length > 0 && (
             <>
               <Title text="En alquiler" />
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
             </>
           )}
         </section>
-        
+
         {/* Efecto Parallax */}
         <section className="relative h-[500px] md:h-[500px] overflow-hidden">
           {/* Fondo para escritorio */}
@@ -88,7 +88,7 @@ const Home: React.FC = () => {
         </section>
         <hr />
         <section className="px-0">
-        {home.pinned && home.pinned.length > 0 && (
+          {home.pinned && home.pinned.length > 0 && (
             <>
               <Title text="Propiedades destacadas" />
               <Carousel properties={home.pinned.length ? home.pinned : []} />
@@ -99,9 +99,9 @@ const Home: React.FC = () => {
             </>
           )}
         </section>
-        
+
         <section className="px-0">
-        {home.favourites && home.favourites.length > 0 && (
+          {home.favourites && home.favourites.length > 0 && (
             <>
               <Title text="Tus propiedades favoritas" size="large" />
               <Carousel
@@ -114,11 +114,11 @@ const Home: React.FC = () => {
             </>
           )}
         </section>
-        
+
         <section className="px-0">
-        {home.created && home.created.length > 0 && (
+          {home.created && home.created.length > 0 && (
             <>
-              <Title text="Tus propiedades"  size="large"/>
+              <Title text="Tus propiedades" size="large" />
               <Carousel properties={home.created.length ? home.created : []} />
               <div className="py-3">
                 <Button to="/">Ir a tus propiedades</Button>
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
                     </section>
                  </div> */}
 
-        
+
         <section className="px-0">
           <Title text="Nosotros" size="large" />
           <Nosotros />

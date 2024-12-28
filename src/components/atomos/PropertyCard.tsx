@@ -47,10 +47,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
   return (
     <div className="w-full h-auto flex justify-center items-center ">
-      <article className="bg-white w-full min-h-[650px] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+      <article className="bg-white w-full min-h-[75vh] shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
         {/* Imagen */}
         <figure className="relative w-full h-[300px] bg-gray-200 overflow-hidden rounded-t-lg group">
-          {isLoading && (
+          {isLoading && imageSrc.length > 1 && (
             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
               <div className="loader"></div>
             </div>
@@ -62,20 +62,22 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
             onLoad={handleImageLoad}
           />
           {/* Navegación de imágenes */}
-          <div className="absolute inset-0 flex justify-between items-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            <button
-              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
-              onClick={handlePrevImage}
-            >
-              <FaChevronLeft className="w-3 h-3 text-black" />
-            </button>
-            <button
-              className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
-              onClick={handleNextImage}
-            >
-              <FaChevronRight className="w-3 h-3 text-black" />
-            </button>
-          </div>
+          {imageSrc.length > 1 && (
+            <div className="absolute inset-0 flex justify-between items-center px-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button
+                className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
+                onClick={handlePrevImage}
+              >
+                <FaChevronLeft className="w-3 h-3 text-black" />
+              </button>
+              <button
+                className="bg-white bg-opacity-20 text-white p-2 rounded-full hover:bg-opacity-50"
+                onClick={handleNextImage}
+              >
+                <FaChevronRight className="w-3 h-3 text-black" />
+              </button>
+            </div>
+          )}
           {/* Botón de favoritos */}
           <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <FavButton
@@ -88,7 +90,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         {/* Contenido */}
         <div className="  flex-grow flex flex-col  hover:bg-gray-200   transition-font duration-300 rounded-lg ">
           <Link to={`/propiedades/${id}`} className="w-full transition-bg duration-300 p-4 ">
-            <div className="pb-8">
+            <div className="pb-8 h-[25vh]">
               {/* Título */}
               <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
               {/* Tipo de propiedad */}
@@ -97,7 +99,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               <p className="pb-9 text-justify text-sm text-gray-600 hover:text-green-600 line-clamp-2">{description}</p>
             </div>
 
-            <div className="px-4">
+            <div className="px-4 h-[10vh]">
               {/* Detalles */}
               <div className="mb-6 flex justify-between text-sm text-gray-700">
                 <div className="flex items-center space-x-1">
@@ -117,13 +119,18 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
             <div className="flex justify-around  hover:font-extrabold transition-font duration-300">
               {/* Texto superior */}
-             {/* status */}
-             <div className="flex flex-wrap">
-                {status.map((s) => (
+              {/* status */}
+              <div className="flex flex-wrap bg-blue-100 capitalize pt-2 py-2 text-blue-800 text-xs font-semibold mr-2 px-2.5  rounded">
+                {/* {status.map((s) => (
                   <span
                     key={s}
-                    className="bg-blue-100 capitalize text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
                   >
+                    {replaceStatus(s)}
+                  </span>
+                ))} */}
+                {status.map((s, index) => (
+                  <span key={s}>
+                    {index > 0 && " -"}
                     {replaceStatus(s)}
                   </span>
                 ))}
