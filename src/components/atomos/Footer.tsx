@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FaFacebookSquare, FaYoutube, FaWhatsapp, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import '../../utils/Footer.css';
 
 export const Footer = () => {
     const [hasScrolled, setHasScrolled] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -14,6 +15,10 @@ export const Footer = () => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
+
+    useEffect(() => {
+        setHasScrolled(false);
+    }, [location]);
 
     return (
         <footer className={`sticky top-[100vh] p-5 transition-colors duration-300 ${hasScrolled ? 'bg-gray-700' : 'bg-gray-600'} text-white`}>

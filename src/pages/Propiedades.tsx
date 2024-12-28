@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
-import { fetchPropertiesByStatus } from '../services/services';
 import { Filters, Property } from '../utils/types';
 import FilterButtons from '../components/Filtros/FilterByType';
 import SortByPriceButtons from '../components/Filtros/SortByPriceButtons';

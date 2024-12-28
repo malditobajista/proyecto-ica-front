@@ -141,3 +141,11 @@ export type FiltersPanelProps = {
   onFiltersChange: (updatedFilters: Filters) => void;
 };
 
+export type SendEmail = {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
+  id: number;
+};
+

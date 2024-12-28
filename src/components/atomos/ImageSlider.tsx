@@ -9,7 +9,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [startIndex, setStartIndex] = useState(0);
+    const [startIndex] = useState(0);
     const maxVisibleThumbnails = 10;
 
     const openModal = (image: string) => {
@@ -77,73 +77,74 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
     }, [images.length]);
 
     return (
-        <div className="property-detail-slider-wrapper clearfix w-full">
-            <div className="property-detail-slider-two flex overflow-hidden h-[calc(100vh-500px)] md:h-screen justify-center relative">
-                <img
-                    src={images[currentIndex]}
-                    alt={`Image ${currentIndex + 1}`}
-                    className="w-full h-full object-fill"
-                    draggable="false"
-                    onClick={() => openModal(images[currentIndex])}
-                />
+<div className="property-detail-slider-wrapper clearfix w-full overflow-hidden">
+    <div className="property-detail-slider-two flex overflow-hidden justify-center relative" style={{ height: '75vh' }}>
+        <img
+            src={images[currentIndex]}
+            alt={`Image ${currentIndex + 1}`}
+            className="w-auto h-full object-contain"
+            draggable="false"
+            onClick={() => openModal(images[currentIndex])}
+        />
+        <button
+            onClick={prevImage}
+            className="absolute left-1 md:left-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
+        >
+            <FaChevronLeft className="w-4 h-4 text-black" />
+        </button>
+        <button
+            onClick={nextImage}
+            className="absolute right-1 md:right-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
+        >
+            <FaChevronRight className="w-4 h-4 text-black" />
+        </button>
+    </div>
+    <div className="property-detail-slider-carousel-nav flex justify-center items-center mt-4">
+        <ul className="slides flex overflow-x-auto">
+            {images.slice(startIndex, startIndex + maxVisibleThumbnails).map((image, index) => (
+                <li
+                    key={index + startIndex}
+                    className={`flex-none w-20 mr-2 cursor-pointer ${index + startIndex === currentIndex ? "border-2 border-green-500" : ""
+                        }`}
+                    onClick={() => {
+                        setCurrentIndex(index + startIndex);
+                        openModal(image);
+                    }}
+                >
+                    <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-auto object-cover" draggable="false" />
+                </li>
+            ))}
+        </ul>
+    </div>
+
+    {/* Modal */}
+    {isModalOpen && selectedImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="relative w-full h-full flex items-center justify-center">
+                <button
+                    className="absolute top-0 right-0 m-4 text-white text-2xl"
+                    onClick={closeModal}
+                >
+                    &times;
+                </button>
+                <img src={selectedImage} alt="Selected" className="w-full h-full object-contain" />
                 <button
                     onClick={prevImage}
-                    className="absolute left-1 md:left-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
                 >
-                    <FaChevronLeft className="w-4 h-4 text-black" />
+                    <FaChevronLeft className="w-4 h-4 text-white" />
                 </button>
                 <button
                     onClick={nextImage}
-                    className="absolute right-1 md:right-20 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
                 >
-                    <FaChevronRight className="w-4 h-4 text-black" />
+                    <FaChevronRight className="w-4 h-4 text-white" />
                 </button>
             </div>
-            <div className="property-detail-slider-carousel-nav flex justify-center items-center mt-4">
-                <ul className="slides flex overflow-x-auto">
-                    {images.slice(startIndex, startIndex + maxVisibleThumbnails).map((image, index) => (
-                        <li
-                            key={index + startIndex}
-                            className={`flex-none w-20 mr-2 cursor-pointer ${index + startIndex === currentIndex ? "border-2 border-green-500" : ""
-                                }`}
-                            onClick={() => {
-                                setCurrentIndex(index + startIndex);
-                                openModal(image);
-                            }}
-                        >
-                            <img src={image} alt={`Thumbnail ${index + 1}`} className="w-full h-auto object-cover" draggable="false" />
-                        </li>
-                    ))}
-                </ul>
-            </div>
-
-            {/* Modal */}
-            {isModalOpen && selectedImage && (
-                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-                    <div className="relative w-full h-full flex items-center justify-center">
-                        <button
-                            className="absolute top-0 right-0 m-4 text-white text-2xl"
-                            onClick={closeModal}
-                        >
-                            &times;
-                        </button>
-                        <img src={selectedImage} alt="Selected" className="w-full h-full object-contain" />
-                        <button
-                            onClick={prevImage}
-                            className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
-                        >
-                            <FaChevronLeft className="w-4 h-4 text-white" />
-                        </button>
-                        <button
-                            onClick={nextImage}
-                            className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-400 bg-opacity-40 text-white p-2 rounded-full hover:bg-opacity-70"
-                        >
-                            <FaChevronRight className="w-4 h-4 text-white" />
-                        </button>
-                    </div>
-                </div>
-            )}
         </div>
+    )}
+</div>
+
     );
 };
 
