@@ -1,305 +1,115 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchPropertyById } from '../services/services';
-import { Property } from '../utils/types';
-import { FaBed, FaBath, FaCar, FaSwimmingPool, FaRulerCombined, FaCalendarAlt } from 'react-icons/fa';
-import Title from '../components/atomos/Title';
-import ImageSlider from '../components/atomos/ImageSlider';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Button from '../components/atomos/Button';
+import React, { useEffect, useState } from "react"
+import { useParams } from "react-router-dom"
+import { fetchPropertyById } from "../services/services"
+import { Property } from "../utils/types"
+import ImageSlider from "../components/atomos/ImageSlider"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import Button from "../components/atomos/Button"
+import PropertyFeatures from "../components/atomos/CaracteristicCarrusel"
+import ContactForm from "../components/atomos/ContactForm"
+import { useProperties } from "../contexts/PropertyContext"
+import PropertyHeader from "../components/atomos/PropertyHeader"
+import PropertyInfo from "../components/atomos/PropertyInfo"
 
-// Google Maps
-// import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+
 
 const PropertyDetails: React.FC = () => {
-    const { id } = useParams<{ id: string }>();
-    const [property, setProperty] = useState<Property | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
+  const { id } = useParams<{ id: string }>()
+  const [property, setProperty] = useState<Property | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
+  const { properties } = useProperties()
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, []);
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
-    useEffect(() => {
-        const loadProperty = async () => {
-            try {
-                if (id) {
-                    const propertyData = await fetchPropertyById(id);
-                    setProperty(propertyData);
-                }
-            } catch (err) {
-                console.log('Error fetching property:', err);
-                setError('Hubo un problema al cargar los detalles de la propiedad.');
-            } finally {
-                setLoading(false);
-            }
-        };
+  useEffect(() => {
+    const loadProperty = async () => {
+      try {
+        // if (properties.length > 0 && id) {
+        //   const propertyData = properties.find(p => p.id === parseInt(id))
+        //   if (propertyData) {
+        //     setProperty(propertyData)
+        //     return
+        //   }
+        // }
+        if (id) {
+          const propertyData = await fetchPropertyById(id)
+          setProperty(propertyData)
+        }
+      } catch (err) {
+        console.error("Error fetching property:", err)
+        setError("Hubo un problema al cargar los detalles de la propiedad.")
+      } finally {
+        setLoading(false)
+      }
+    }
+    loadProperty()
+  }, [id, properties])
 
-        loadProperty();
-    }, [id]);
-    // para mapa de google maps
-    // useEffect(() => {
-    //     if (property && property.geoCoordinates) {
-    //         const { lat, lng } = property.geoCoordinates;
-    //         const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
-    //             center: { lat, lng },
-    //             zoom: 15,
-    //         });
+  if (loading) return <div>Cargando detalles de la propiedad...</div>
+  if (error) return <div>{error}</div>
+  if (!property) return <div>No se encontró la propiedad.</div>
 
-    //         new google.maps.Marker({
-    //             position: { lat, lng },
-    //             map,
-    //             title: property.title,
-    //         });
-    //     }
-    // }, [property]);
+  return (
+    <div className="w-full bg-white mt-8 my-8 overflow-hidden">
+      <Button
+        onClick={() => window.history.back()}
+        clase="mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-6 z-50"
+      >
+        Volver
+      </Button>
 
+      <PropertyHeader title={property.title} price={property.price} />
 
-    if (loading) return <div>Cargando detalles de la propiedad...</div>;
-    if (error) return <div>{error}</div>;
-    if (!property) return <div>No se encontró la propiedad.</div>;
+      <div className="w-full mb-8">
+        {property.imageSrc && property.imageSrc.length > 0 && (
+          <div className="flex justify-center items-center w-full">
+            <ImageSlider images={property.imageSrc} />
+          </div>
+        )}
+      </div>
 
-    const costaAzulCoordinates = {
-        lat: -34.6500,
-        lng: -54.1667
-    };
-    console.log(costaAzulCoordinates);
-    console.log(property);
-    return (
-        <div className="my-8 p-4">
-            <Button
-                onClick={() => window.history.back()}
-                clase={`mb-4 bg-green-300 hover:bg-green-500 fixed bottom-4 left-6 z-50 `}
-            >
-                Volver
-            </Button>
-            {/* Título y Precio */}
-            <article className={`
-                        bg-white 
-                        rounded-lg
-                        text-surface
-                        shadow-md
-                        dark:bg-surface-dark dark:text-gray-800
-                        px-8
-                        my-8
-                        relative
-                        `}>
-                <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-                    <Title text={property.title} size='large' />
-                    <p className="text-xl font-semibold text-center">Precio:<br className="block md:hidden" /> <span className='text-green-500'> U$S {Number(property.price).toLocaleString('de-DE')}</span></p>
-                </div>
-            </article>
+      <div className="w-full mb-8">
+        <PropertyFeatures
+          property={{
+            rooms: property.rooms,
+            bathrooms: property.bathrooms,
+            garages: property.garages,
+            pool: property.pool,
+            area: property.area,
+            lotSize: property.lotSize,
+            yearBuilt: property.yearBuilt,
+          }}
+        />
+      </div>
 
-            <div className="relative  w-full">
+      <div className="flex flex-col md:flex-row w-full justify-center">
+        <PropertyInfo property={property} />
 
-                {property.imageSrc && property.imageSrc.length > 0 && (
-                    <div className="flex justify-center mb-4 rounded-lg">
-                        <ImageSlider images={property.imageSrc} />
-                    </div>
-                )}
-            </div>
-            <div className="flex justify-center">
-                <article className={`
-                        bg-white 
-                        rounded-lg
-                        text-surface
-                        shadow-md
-                        dark:bg-surface-dark dark:text-gray-800
-                        p-4
-                        mb-4
-                        relative
-                        lg:w-1/2
-                        `}>
-                    <div className="flex flex-wrap justify-center gap-4 mb-4 text-center">
+        <div className="w-full h-full md:h-2/5 md:w-1/4 rounded-xl shadow-xl p-4 mb-4">
+          <ContactForm inRent={false} />
+        </div>
+      </div>
 
-                        <div className="flex flex-wrap justify-center gap-4 w-full">
-                            {property.rooms !== undefined && (
-                                <p className="flex items-center text-xl">
-                                    <FaBed className="inline-block  text-blue-500  mr-2" />
-                                    Dormitorios: {property.rooms}
-                                </p>
-                            )}
-                            {property.bathrooms !== undefined && (
-                                <p className="flex items-center text-xl">
-                                    <FaBath className="inline-block mr-2 text-blue-500 " />
-                                    Baños: {property.bathrooms}
-                                </p>
-                            )}
+      <div className="mt-4 text-center w-full rounded-lg">
+        <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
+        <div className="flex justify-center rounded-lg">
+          <iframe
+            src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-${property.geoCoordinates?.lng}!3d-${property.geoCoordinates?.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy`}
+            width="600"
+            height="450"
+            loading="lazy"
+            style={{ border: 0 }}
+            allowFullScreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+  )
+}
 
+export default PropertyDetails
 
-                            <p className="flex items-center text-xl">
-                                <FaCar className="inline-block  text-blue-500  mr-2" />
-                                Garage: {property.garages ? "Si" : "No"}
-                            </p>
-
-                            <p className="flex items-center text-xl">
-                                <FaSwimmingPool className="inline-block  text-blue-500  mr-2" />
-                                Piscina: {property.pool ? 'Sí' : 'No'}
-                            </p>
-                        </div>
-
-                        <div className="flex flex-wrap justify-center gap-4 w-full">
-                            {property.area && (
-                                <p className="flex items-center text-xl">
-                                    <FaRulerCombined className="inline-block  text-blue-500  mr-2" />
-                                    Área en m<sup>2</sup>: {property.area}
-                                </p>
-                            )}
-                            {property.lotSize && (
-                                <p className="flex items-center text-xl">
-                                    <FaRulerCombined className="inline-block  text-blue-500  mr-2" />
-                                    Lote en m<sup>2</sup>: {property.lotSize}
-                                </p>
-                            )}
-                            {property.yearBuilt && (
-                                <p className="flex items-center text-xl">
-                                    <FaCalendarAlt className="inline-block  text-blue-500  mr-2" />
-                                    Año de construcción: {property.yearBuilt}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
-                </article>
-            </div>
-
-            <div className="flex justify-center">
-                <article
-                    className={`
-                            bg-white 
-                            rounded
-                            text-surface
-                            shadow-md
-                            dark:bg-surface-dark dark:text-gray-800
-                            p-4
-                            mb-4
-                            relative
-                            lg:w-1/2
-                        `}
-                >
-                    <div className="grid grid-cols-1 gap-4 mb-4 px-5  md:grid-cols-2 md:hidden">
-                        <div className='text-center'>
-                            <h2 className="text-xl font-bold mb-2">Estado</h2>
-                            {/*<p className='capitalize text-red-500 font-bold'> {replaceStatus(property.status)}</p>*/}
-                            <hr className="m-auto my-4 w-1/2" />
-                            <h2 className="text-xl font-bold mb-2">Barrio</h2>
-                            <p className='text-blue-600 font-bold'>{property.neighborhood}</p>
-                        </div>
-                        <div>
-                            <hr className="m-auto my-2 w-1/2 block md:hidden" />
-                            {property.address &&
-                                <>
-                                    <div className="flex flex-col pb-2">
-                                        <h2 className="text-xl font-bold mb-2 text-center">Direcccion</h2>
-                                        <p>{property.address}</p>
-                                        <hr className="m-auto my-4 w-1/2" />
-                                    </div>
-                                </>
-                            }
-                            {property.contribucion &&
-                                <>
-                                    <div className="flex flex-col pb-2">
-                                        <h2 className="text-xl font-bold mb-2 text-center">Contribución</h2>
-                                        <p>$ {Number(property.contribucion).toLocaleString('de-DE')} por año</p>
-                                        <hr className="m-auto my-4 w-1/2" />
-                                    </div>
-                                </>
-                            }
-                            {/* <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
-                            <p>{property.description} </p>
-                            <hr className="m-auto my-4 w-1/2" /> */}
-                            <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>
-                            <p>{property.longDescription}</p>
-                        </div>
-                    </div>
-                    <div className="hidden md:grid grid-cols-1 gap-4 mb-4 text-center md:grid-cols-2">
-                        <div>
-                            <h2 className="text-xl font-bold mb-2 ">Estado</h2>
-                            <p className='capitalize text-red-500 font-bold'> {/*{replaceStatus(property.status)}*/}</p>
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold mb-2 ">Barrio</h2>
-                            <p className='text-blue-600 font-bold'>{property.neighborhood}</p>
-                        </div>
-                    </div>
-                    <hr className="m-auto my-4" />
-                    <div className="hidden md:grid grid-cols-2 gap-4 mb-4 px-5 md:grid-cols-2">
-                        <div className="flex flex-col">
-                            {/* <h2 className="text-xl font-bold mb-2 text-center">Breve Descripción</h2>
-                            <p>{property.description}</p> */}
-                            {property.address &&
-                                <>
-                                    <div className="flex flex-col">
-                                        {/* <hr className="my-4 w-1/2 m-auto" /> */}
-                                        <h2 className="text-xl font-bold mb-2 text-center">Direcccion</h2>
-                                        <p>{property.address}</p>
-                                    </div>
-                                </>
-                            }
-                            {property.contribucion &&
-                                <>
-                                    <div className="flex flex-col">
-                                        <hr className="my-4 w-1/2 m-auto" />
-                                        <h2 className="text-xl font-bold mb-2 text-center">Contribución</h2>
-                                        <p>$ {Number(property.contribucion).toLocaleString('de-DE')} por año</p>
-                                    </div>
-                                </>
-                            }
-                        </div>
-                        <div>
-                            <h2 className="text-xl font-bold mb-2 text-center">Descripción completa</h2>
-                            <p>{property.longDescription}</p>
-                        </div>
-                    </div>
-                </article>
-            </div>
-
-
-            {/* Mapa de Google Maps */}
-            {/* <div className="mt-4 text-center w-full rounded-lg">
-                <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
-                <div className="flex justify-center rounded-lg">
-                    <LoadScript
-                        googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY"  // Asegúrate de reemplazar con tu API key
-                    >
-                        <GoogleMap
-                            mapContainerStyle={{ width: '600px', height: '450px' }}
-                            center={{
-                                lat: property.geoCoordinates?.lat || 0,
-                                lng: property.geoCoordinates?.lng || 0
-                            }}
-                            zoom={15}
-                        >
-                            <Marker
-                                position={{
-                                    lat: property.geoCoordinates?.lat || 0,
-                                    lng: property.geoCoordinates?.lng || 0
-                                }}
-                            />
-                        </GoogleMap>
-                    </LoadScript>
-                </div>
-            </div> */}
-
-            <div className="mt-4 text-center w-full rounded-lg">
-                <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
-                <div className="flex justify-center rounded-lg">
-
-                    <iframe
-                        src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-${property.geoCoordinates?.lng}!3d-${property.geoCoordinates?.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy`}
-                        // src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d26221.553173625896!2d-55.679600661666!3d-34.76329665949181!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x959ff9ef8a098c7b%3A0xc8f665ead8bd8256!2s15300%20Costa%20Azul%2C%20Canelones%20Department!5e0!3m2!1sen!2suy!4v1730582767438!5m2!1sen!2suy"
-                        width="600"
-                        height="450"
-                        loading="lazy"
-                        style={{ border: 0 }}
-                        allowFullScreen
-                    ></iframe>
-                </div>
-            </div>
-        </div >
-    );
-};
-
-export default PropertyDetails;

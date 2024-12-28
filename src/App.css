@@ -53,6 +53,13 @@ section h2 {
   justify-content: center;
 }
 
+h2 {
+  color: #92BF4E; 
+}
+
+.main-content {
+  padding-top: 70px; /* Ajusta este valor según la altura de tu navbar */
+}
 
 /* loader */
 .loader {

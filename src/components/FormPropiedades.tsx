@@ -51,7 +51,7 @@ const inicializarPropiedad = {
 const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
   onAddProperty,
 }) => {
-  const [isModalOpen, setModalOpen] = useState(true); // Estado para controlar la visibilidad del modal
+  const [isModalOpen, setModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
   const navigate = useNavigate();
   const [formData, setFormData] =
     useState<Omit<PropertyCardProps, "id">>(inicializarPropiedad);

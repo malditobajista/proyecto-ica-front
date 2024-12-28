@@ -18,11 +18,11 @@ import Destacadas from './pages/Destacadas';
 function App() {
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div>
       <PropertyProvider>
         <Router>
           <Navbar />
-
+          <div className="main-content">
           <Routes>
 
             <Route path="/" element={<Home />} />
@@ -40,6 +40,8 @@ function App() {
             <Route path="/publicarProp" element={<PublicarProp />} />
 
           </Routes>
+
+          </div>
 
           <Footer />
 

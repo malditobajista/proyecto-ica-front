@@ -24,6 +24,11 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    useEffect(() => {
+        setIsNavOpen(false);
+        setIsUserMenuOpen(false);
+    }, [location]);
+
     const isLoggedIn = false;
     const isHomePage = location.pathname === '/' || location.pathname === '/Home';
 
@@ -31,7 +36,7 @@ const Navbar = () => {
 
     return (
         <>
-            <nav className={`fixed top-0 left-0 right-0 z-50 p-3 mb-3 transition-colors duration-300 
+            <nav className={`fixed top-0 left-0 right-0 z-40 p-5 mb-3 transition-colors duration-300 
                 ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gray-600 text-white'}`}>
                 <div className="flex justify-between items-center">
                     <Link to="/home">
@@ -117,7 +122,7 @@ const Navbar = () => {
                             <div className="flex flex-col gap-2 pl-4">
                                 <Link className={`nav-button ${isActive('/ventas')}`} to="/ventas" onClick={() => setIsNavOpen(false)}>Ventas</Link>
                                 <Link className={`nav-button ${isActive('/alquileres')}`} to="/alquileres" onClick={() => setIsNavOpen(false)}>Alquileres</Link>
-                                <Link className={`nav-button ${isActive('/destacadas')}`} to="/destacadas" onClick={() => setIsNavOpen(false)}>Destacadas</Link>
+                                <Link className={`nav-button ${isActive('/destacadas')}`} to="/destacadas" onClick={() => setIsNavNavOpen(false)}>Destacadas</Link>
                                 <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades" onClick={() => setIsNavOpen(false)}>Todas las Propiedades</Link>
                             </div>
                         )} */}

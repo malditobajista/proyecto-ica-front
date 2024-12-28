@@ -47,7 +47,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
   return (
     <div className="w-full h-auto flex justify-center items-center ">
-      <article className="bg-white w-full min-h-[75vh] shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+      <article className="bg-white w-full min-h-[75vh] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
         {/* Imagen */}
         <figure className="relative w-full h-[300px] bg-gray-200 overflow-hidden rounded-t-lg group">
           {isLoading && imageSrc.length > 1 && (
@@ -92,11 +92,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
           <Link to={`/propiedades/${id}`} className="w-full transition-bg duration-300 p-4 ">
             <div className="pb-8 h-[25vh]">
               {/* Título */}
-              <h3 className="pb-6 text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
+              <h3 className="text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
               {/* Tipo de propiedad */}
-              <p className="pb-6 text-justify text-m text-gray-500 capitalize   hover:text-green-600  transition-font duration-300">{address}</p>
+              <p className="pb-3 text-justify text-sm text-gray-500 capitalize   hover:text-green-600  transition-font duration-300">{address}</p>
               {/* Descripción */}
-              <p className="pb-9 text-justify text-sm text-gray-600 hover:text-green-600 line-clamp-2">{description}</p>
+              <p className="pb-4 text-justify text-sm text-gray-600 hover:text-green-600 line-clamp-2">{description}</p>
             </div>
 
             <div className="px-4 h-[10vh]">
