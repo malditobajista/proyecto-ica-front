@@ -37,7 +37,8 @@ const Navbar = () => {
     return (
         <>
             <nav className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 transition-colors duration-300 
-                ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gray-600 text-white'}`}>
+                ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gradient-to-b from-gray-800 to-gray-400 text-white'}`}>
+                {/* ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gray-600 text-white'}`}> */}
                 <div className="flex justify-between items-center">
                     <Link to="/home">
                         <img
@@ -45,9 +46,7 @@ const Navbar = () => {
                             alt="Logo"
                             width="120"
                             height="50"
-                            // className="mr-4"
-                            className={`mr-4 rounded-md p-1 transition-colors duration-300 
-                            ${isHomePage && !hasScrolled ? 'bg-gray-600  text-black' : 'bg-gray-600 text-white'}`}
+                            className="mr-4"
                         />
                     </Link>
                     <div className="hidden md:flex gap-3">

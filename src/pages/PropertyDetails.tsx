@@ -12,6 +12,7 @@ import { useProperties } from "../contexts/PropertyContext"
 import PropertyHeader from "../components/atomos/PropertyHeader"
 import PropertyInfo from "../components/atomos/PropertyInfo"
 import Title from "../components/atomos/Title"
+import WhatsappButton from "../components/atomos/WhatsappButton"
 
 
 
@@ -21,6 +22,9 @@ const PropertyDetails: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
   const { properties } = useProperties()
+
+  // para mandar por whatsapp
+  const currentUrl = window.location.href;
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -108,6 +112,9 @@ const PropertyDetails: React.FC = () => {
           ></iframe>
         </div>
       </div>
+
+      <WhatsappButton urlMessage={currentUrl} />
+
     </div>
   )
 }

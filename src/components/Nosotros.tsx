@@ -3,6 +3,7 @@ import { FaBuilding, FaWhatsapp, FaEnvelope, FaArrowRight } from 'react-icons/fa
 import { AgentProps } from '../utils/types';
 import Marcela from '../assets/imgs/equipo/Marcela.jpeg';
 import Gerardo from '../assets/imgs/equipo/Gerardo.jpeg';
+import { Link } from 'react-router-dom';
 
 const agentsData: AgentProps[] = [
     {
@@ -64,9 +65,9 @@ const Nosotros: React.FC = () => {
                                 <p className="text-sm text-gray-600">Propiedades Listadas</p>
                             </div>
                         </div>
-                        <a href={"contacto"} target="_blank" rel="noopener noreferrer" className="text-green-300 hover:text-green-500 text-2xl">
+                        <Link to={"/contacto"} rel="noopener noreferrer" className="text-green-300 hover:text-green-500 text-2xl">
                             <FaArrowRight />
-                        </a>
+                        </Link>
                     </article>
                 ))}
             </div>

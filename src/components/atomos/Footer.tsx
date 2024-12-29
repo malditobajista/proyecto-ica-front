@@ -5,24 +5,25 @@ import '../../utils/Footer.css';
 import logo from '../../assets/imgs/logo.png';
 
 export const Footer = () => {
-    const [hasScrolled, setHasScrolled] = useState(false);
-    const location = useLocation();
+    // const [hasScrolled, setHasScrolled] = useState(false);
+    // const location = useLocation();
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setHasScrolled(window.scrollY > 0);
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         setHasScrolled(window.scrollY > 0);
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    //     window.addEventListener('scroll', handleScroll);
+    //     return () => window.removeEventListener('scroll', handleScroll);
+    // }, []);
 
-    useEffect(() => {
-        setHasScrolled(false);
-    }, [location]);
+    // useEffect(() => {
+    //     setHasScrolled(false);
+    // }, [location]);
 
     return (
-        <footer className={`sticky top-[100vh] p-5 transition-colors duration-300 ${hasScrolled ? 'bg-gray-700' : 'bg-gray-600'} text-white`}>
+        <footer className={`sticky top-[100vh] p-5 bg-gradient-to-b to-gray-800 from-gray-400 text-white`}>
+            {/* <footer className={`sticky top-[100vh] p-5 transition-colors duration-300 ${hasScrolled ? 'bg-gray-700' : 'bg-gray-600 '} text-white`}> */}
             <div className="flex flex-col md:flex-row justify-between items-center px-5">
                 <div className="flex-shrink-0 mb-4 md:mb-0">
                     <Link title="Inmobiliaria Costa Azul" to="/Home">
@@ -31,7 +32,6 @@ export const Footer = () => {
                             alt="Inmobiliaria Costa Azul"
                             width="100"
                             height="60"
-                            className="bg-gray-700"
                         />
                     </Link>
                 </div>

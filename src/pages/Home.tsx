@@ -12,6 +12,7 @@ import playa1Gif from "../assets/imgs/playas/playa1.gif";
 import playa2Gif from "../assets/imgs/playas/playa3.gif";
 import playaMobile1Gif from "../assets/imgs/playas/playa2-mobile.gif";
 import playaMobile2Gif from "../assets/imgs/playas/playa3-mobile.gif";
+import WhatsappButton from "../components/atomos/WhatsappButton";
 // import MapaHome from '../components/atomos/MapaHome';
 
 const Home: React.FC = () => {
@@ -151,6 +152,7 @@ const Home: React.FC = () => {
         <Garantias />
         <hr />
       </div>
+      <WhatsappButton />
     </div>
   );
 };
