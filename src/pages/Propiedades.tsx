@@ -108,7 +108,7 @@ const Propiedades: React.FC = () => {
                         ) : error ? (
                             <p>{error}</p>
                         ) : (
-                            <div className=''>
+                            <div>
                                 {filteredProperties.length > 0 ? (
                                     filteredProperties.map((property, index) => (
                                         <div key={index} className="py-4">

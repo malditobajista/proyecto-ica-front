@@ -39,7 +39,7 @@ export const errorMessages = {
     required: "El teléfono es requerido.",
     invalid: "Número de teléfono inválido.",
     formatos:
-      "Formatos validos: 0xx xxx xxx | 598 xx xxx xxx | 54 xxx xxx xxx | 55 xxx xxx xxx",
+      "Formatos validos: 09x xxx xxx",
   },
   message: {
     required: "El mensaje es requerido.",

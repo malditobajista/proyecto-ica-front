@@ -1,140 +1,224 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import Modal from './Modal';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../assets/imgs/logo.png';
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import LoginRegisterModal from "./Modal";
+import { FaUser, FaBars, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import logo from "../../assets/imgs/logo.png";
+import { hasCookie } from "../../utils/cookie";
+import { logoutUser } from "../../services/users/userService";
+import { HiMenuAlt3 } from "react-icons/hi";
 
 const Navbar = () => {
-    const location = useLocation();
-    const [isNavOpen, setIsNavOpen] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [hasScrolled, setHasScrolled] = useState(false);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(hasCookie("sessionIndicator"));
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
-    const handleModalClose = () => {
-        setIsModalOpen(false);
+  const handleModalClose = useCallback(() => {
+    setIsModalOpen(false);
+  }, []);
+
+  const handleLogout = async () => {
+    console.log("Logging out");
+    await logoutUser();
+    setIsLoggedIn(false);
+    setIsNavOpen(false);
+    setIsUserMenuOpen(false);
+    navigate("/home");
+  };
+
+  const toggleUserMenu = useCallback(() => {
+    if (isLoggedIn) {
+      setIsUserMenuOpen(prev => !prev);
+    } else {
+      setIsModalOpen(true);
+    }
+  }, [isLoggedIn]);
+
+  const closeMenus = useCallback(() => {
+    setIsNavOpen(false);
+    setIsUserMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    setIsLoggedIn(hasCookie("sessionIndicator"));
+  }, []);
+
+  useEffect(() => {
+    setIsLoggedIn(hasCookie("sessionIndicator"));
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target as Node) &&
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        closeMenus();
+      }
     };
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setHasScrolled(window.scrollY > 0);
-        };
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 0);
+    };
 
-    useEffect(() => {
-        setIsNavOpen(false);
-        setIsUserMenuOpen(false);
-    }, [location]);
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
 
-    const isLoggedIn = false;
-    const isHomePage = location.pathname === '/' || location.pathname.toLowerCase() === '/home';
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [closeMenus]);
 
-    const isActive = (path: string) => location.pathname === path ? 'text-green-500 font-extrabold' : 'hover:text-green-500 transition-text duration-300';
+  useEffect(() => {
+    closeMenus();
+  }, [location, closeMenus]);
 
-    return (
-        <>
-            <nav className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 transition-colors duration-300 
-                ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gradient-to-b from-gray-800 to-gray-400 text-white'}`}>
-                {/* ${isHomePage && !hasScrolled ? 'bg-transparent' : 'bg-gray-600 text-white'}`}> */}
-                <div className="flex justify-between items-center">
-                    <Link to="/home">
-                        <img
-                            src={logo}
-                            alt="Logo"
-                            width="120"
-                            height="50"
-                            className="mr-4"
-                        />
-                    </Link>
-                    <div className="hidden md:flex gap-3">
-                        {/* Links de navegación para pantallas grandes */}
-                        <Link className={`nav-button ${isActive('/home')}`} to="/home">Inicio</Link>
-                        <Link className={`nav-button ${isActive('/propiedades')}`} to="/propiedades">
-                            Propiedades
-                        </Link>
-                        <Link className={`nav-button ${isActive('/contacto')}`} to="/contacto">Contacto</Link>
-                        <Link className={`nav-button ${isActive('/publicarProp')}`} to="/publicarProp">Publicar Propiedad</Link>
+  const isHomePage =
+    location.pathname === "/" || location.pathname.toLowerCase() === "/home";
 
-                        {isLoggedIn ? (
-                            <div
-                                className="relative"
-                                onMouseEnter={() => setIsUserMenuOpen(true)}
-                                onMouseLeave={() => setIsUserMenuOpen(false)}
-                            >
-                                <button className="nav-button hover:text-green-500 transition-text duration-300" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
-                                    <FontAwesomeIcon icon={faUser} size="sm" />
-                                </button>
-                                {isUserMenuOpen && (
-                                    <div className="absolute top-full right-0 bg-gray-600 text-white shadow-lg rounded-md py-2">
-                                        <Link className={`block px-4 py-2 ${isActive('/perfil')}`} to="/perfil">Perfil</Link>
-                                        <Link className={`block px-4 py-2 ${isActive('/mis-propiedades')}`} to="/mis-propiedades">Mis Propiedades</Link>
-                                        <Link className={`block px-4 py-2 ${isActive('/mis-favoritas')}`} to="/mis-favoritas">Mis Favoritas</Link>
-                                        <button className="block w-full text-left px-4 py-2 hover:bg-green-500" onClick={() => {/* Lógica para cerrar sesión */ }}>
-                                            Cerrar Sesión
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <button className="nav-button hover:text-green-500 transition-text duration-300" onClick={() => setIsModalOpen(true)}>
-                                <FontAwesomeIcon icon={faUser} size="sm" />
-                            </button>
-                        )}
-                    </div>
+  const isActive = useCallback(
+    (path: string) =>
+      location.pathname === path
+        ? "text-green-500 font-extrabold"
+        : "hover:text-green-500 transition-text duration-300",
+    [location.pathname]
+  );
 
-                    {/* Botón de hamburguesa */}
-                    <button className="md:hidden" onClick={() => setIsNavOpen(!isNavOpen)}>
-                        <svg className="w-6 h-6 " fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                        </svg>
-                    </button>
-                </div>
+  const navLinks = [
+    { path: "/home", label: "Inicio" },
+    { path: "/properties", label: "Propiedades" },
+    { path: "/contact", label: "Contacto" },
+    { path: "/properties/create", label: "Publicar Propiedad" },
+  ];
 
-                {/* Menú desplegable para móviles */}
-                {isNavOpen && (
-                    <div className="md:hidden flex flex-col gap-3 mt-3 text-right">
-                        <Link className={`nav-button ${isActive('/home')}`} to="/home" onClick={() => setIsNavOpen(false)}>Inicio</Link>
-                        <Link
-                            className={`nav-button ${isActive('/propiedades')}`}
-                            to="/propiedades"
-                            onClick={() => setIsNavOpen(false)}
-                        >
-                            Propiedades
-                        </Link>
-                        <Link className={`nav-button ${isActive('/contacto')}`} to="/contacto" onClick={() => setIsNavOpen(false)}>Contacto</Link>
-                        <Link className={`nav-button ${isActive('/publicarProp')}`} to="/publicarProp" onClick={() => setIsNavOpen(false)}>Publicar Propiedad</Link>
+  const userMenuItems = [
+    { path: "/profile", label: "Perfil" },
+    { path: "/properties/created", label: "Mis Propiedades" },
+    { path: "/properties/favourites", label: "Mis Favoritas" },
+  ];
 
-                        {isLoggedIn ? (
-                            <div>
-                                <button className="nav-button hover:text-green-500" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
-                                    <FontAwesomeIcon icon={faUser} size="sm" />
-                                </button>
-                                {isUserMenuOpen && (
-                                    <div className="flex flex-col gap-2 pl-4">
-                                        <Link className={`nav-button ${isActive('/perfil')}`} to="/perfil" onClick={() => setIsNavOpen(false)}>Perfil</Link>
-                                        <Link className={`nav-button ${isActive('/mis-propiedades')}`} to="/mis-propiedades" onClick={() => setIsNavOpen(false)}>Mis Propiedades</Link>
-                                        <Link className={`nav-button ${isActive('/mis-favoritas')}`} to="/mis-favoritas" onClick={() => setIsNavOpen(false)}>Mis Favoritas</Link>
-                                        <button className="nav-button hover:bg-green-500 text-right" onClick={() => { /* Lógica para cerrar sesión */ }}>
-                                            Cerrar Sesión
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <button className="nav-button hover:text-green-500 text-right " onClick={() => { setIsModalOpen(true); setIsNavOpen(false); }}>
-                                <FontAwesomeIcon icon={faUser} size="sm" />
-                            </button>
-                        )}
-                    </div>
-                )}
+  return (
+    <nav
+      ref={navRef}
+      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 transition-colors duration-300 
+            ${
+              isHomePage && !hasScrolled
+                ? "bg-transparent"
+                : "bg-gradient-to-b from-gray-800 to-gray-400 text-white"
+            }`}
+    >
+      <div className="flex justify-between items-center">
+        <Link to="/home">
+          <img src={logo} alt="Logo" width="120" height="50" className="mr-4" />
+        </Link>
+        <div className="hidden md:flex gap-3 items-center">
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              className={`nav-button ${isActive(path)}`}
+              to={path}
+            >
+              {label}
+            </Link>
+          ))}
+          <div className="relative" ref={userMenuRef}>
+            <button
+              className={`nav-button hover:text-green-500 transition-text duration-300 flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+              onClick={toggleUserMenu}
+              aria-label="Perfil de usuario"
+            >
+              <FaUser className="mr-2" />
+              {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
+              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" /> }
+            </button>
+            {isUserMenuOpen && isLoggedIn && (
+              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                {userMenuItems.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                      path
+                    )}`}
+                    to={path}
+                    onClick={closeMenus}
+                  >
+                    {label}
+                  </Link>
+                ))}
+                <button
+                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  onClick={handleLogout}
+                >
+                  Cerrar Sesión
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+        <button
+          className="md:hidden nav-button text-2xl"
+          onClick={() => setIsNavOpen((prev) => !prev)}
+          aria-label="Toggle navigation menu"
+        >
+            <HiMenuAlt3 />
+        </button>
+      </div>
 
-                <Modal isOpen={isModalOpen} onClose={handleModalClose} />
-            </nav>
-        </>
-    );
+      {isNavOpen && (
+        <div className="md:hidden flex flex-col gap-3 mt-3">
+          {navLinks.map(({ path, label }) => (
+            <Link
+              key={path}
+              className={`nav-button ${isActive(path)}`}
+              to={path}
+              onClick={closeMenus}
+            >
+              {label}
+            </Link>
+          ))}
+          <button
+            className={`nav-button hover:text-green-500 transition-text duration-300 text-left flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+            onClick={toggleUserMenu}
+            aria-label="Perfil de usuario"
+          >
+            <FaUser className="mr-2" />
+            {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
+            <FaChevronDown className="ml-2" />
+          </button>
+          {isLoggedIn && isUserMenuOpen && (
+            <>
+              {userMenuItems.map(({ path, label }) => (
+                <Link
+                  key={path}
+                  className={`nav-button ${isActive(path)} pl-8`}
+                  to={path}
+                  onClick={closeMenus}
+                >
+                  {label}
+                </Link>
+              ))}
+              <button
+                className="nav-button hover:bg-green-500 text-left pl-8"
+                onClick={handleLogout}
+              >
+                Cerrar Sesión
+              </button>
+            </>
+          )}
+        </div>
+      )}
+      <LoginRegisterModal isOpen={isModalOpen} onClose={handleModalClose} />
+    </nav>
+  );
 };
 
 export default Navbar;
+

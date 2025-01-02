@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaFacebookSquare, FaYoutube, FaWhatsapp, FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from 'react-icons/fa';
 import '../../utils/Footer.css';
 import logo from '../../assets/imgs/logo.png';

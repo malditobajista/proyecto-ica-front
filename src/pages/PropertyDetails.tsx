@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
-import { fetchPropertyById } from "../services/services"
 import { Property } from "../utils/types"
 import ImageSlider from "../components/atomos/ImageSlider"
 import "slick-carousel/slick/slick.css"
@@ -33,16 +32,12 @@ const PropertyDetails: React.FC = () => {
   useEffect(() => {
     const loadProperty = async () => {
       try {
-        // if (properties.length > 0 && id) {
-        //   const propertyData = properties.find(p => p.id === parseInt(id))
-        //   if (propertyData) {
-        //     setProperty(propertyData)
-        //     return
-        //   }
-        // }
-        if (id) {
-          const propertyData = await fetchPropertyById(id)
-          setProperty(propertyData)
+        if (properties.length > 0 && id) {
+          const propertyData = properties.find(p => p.id === parseInt(id))
+          if (propertyData) {
+            setProperty(propertyData)
+            return
+          }
         }
       } catch (err) {
         console.error("Error fetching property:", err)

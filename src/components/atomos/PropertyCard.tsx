@@ -90,13 +90,13 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
         {/* Contenido */}
         <div className="  flex-grow flex flex-col  hover:bg-gray-200   transition-font duration-300 rounded-lg ">
           <Link to={`/propiedades/${id}`} className="w-full transition-bg duration-300 p-4 ">
-            <div className="pb-8 h-[25vh]">
+            <div className="pb-8">
               {/* Título */}
-              <h3 className="text-left pb-4  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
+              <h3 className="text-left  text-lg font-bold text-gray-800 truncate hover:font-extrabold hover:text-green-600  transition-font duration-300">{title}</h3>
               {/* Tipo de propiedad */}
               <p className="pb-3 text-justify text-sm text-gray-500 capitalize   hover:text-green-600  transition-font duration-300">{address}</p>
               {/* Descripción */}
-              <p className="pb-4 text-justify text-sm text-gray-600 hover:text-green-600 line-clamp-2">{description}</p>
+              <p className="pb-4 text-left text-sm text-gray-600 hover:text-green-600">{description}</p>
             </div>
 
             <div className="px-4 h-[10vh]">

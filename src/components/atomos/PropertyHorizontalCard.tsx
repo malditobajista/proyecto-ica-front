@@ -99,16 +99,14 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                 </div>
             </figure>
 
-            {/* Contenido */}
             <div className="w-full md:w-3/8 p-4 flex flex-col justify-between">
-                {/* <div className="w-full p-4 flex flex-col justify-between"> */}
-                <h3 className="text-xl leading-tight font-bold">
-                    <span>{title}</span>
-                    <hr className="m-auto my-4 w-3/4 block md:hidden" />
-                </h3>
-                <div className="text-lg">
-                    <p className="text-gray-500">{address}</p>
-                    <hr className="m-auto mt-4 w-3/4 block md:hidden" />
+                <div>
+                    <h3 className="text-xl leading-tight font-bold">
+                        <span>{title}</span>
+                        <hr className="m-auto my-4 w-3/4 block md:hidden" />
+                    </h3>
+                    <p className="text-gray-500 text-m">{address}</p>
+                    <hr className="m-auto w-3/4 block md:hidden" />
                 </div>
                 <div className="text-lg">
                     <h4 className="font-bold">Descripción</h4>

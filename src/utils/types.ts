@@ -1,23 +1,16 @@
 export interface UserData {
-  user: {
     id?: number;
     firstName: string;
     lastName: string;
     email: string;
     phone: string;
-    password: string;
+    password?: string;
     repeatPassword?: string;
-  };
 }
-// export interface UserData {
-//   id?: number;
-//   nombre: string;
-//   apellido: string;
-//   email: string;
-//   telefono: string;
-//   password: string;
-//   repeatPassword: string;
-// }
+export interface ChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
 
 export interface LatLng {
   lat: number;

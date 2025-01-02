@@ -6,47 +6,68 @@ const BASE_URL = "http://localhost:3000";
 export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>, files: File[]) => {
   const formData = new FormData();
 
-  console.log('propertyData:', propertyData);
-  console.log('files:', files);
-
-  // Agregar campos de datos
   formData.append("property", JSON.stringify(propertyData));
 
-  // Agregar archivos de imagen
   files.forEach((file) => formData.append("files", file));
 
-  // Mostrar el contenido del formData para depuración
-  console.log('Contenido de formData:');
   for (const pair of formData.entries()) {
     console.log(`${pair[0]}: ${pair[1]}`);
   }
 
-  return await axios.post(`${BASE_URL}/property/create`, formData, {
-    headers: {
-      "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnZXJhcmRvQGdtYWlsLmNvbSIsImlhdCI6MTczMzI1MTcxNiwiZXhwIjoxNzMzMzM4MTE2fQ.myfbketR6yJveJijgAf1zAUIDdnlDGLHfsGPKro8FT4",
-      "Content-Type": "multipart/form-data"
-    },
+  const res = await fetch(`${BASE_URL}/property/create`, {
+    method: 'POST',
+    credentials: 'include',
+    body: formData,
   });
+
+  if (!res.ok) throw new Error('Error creating property');
+  return await res.json();
 };
+
 
 export const fetchHomeClient = async (): Promise<Home> => {
   try {
     console.log("fetchHomeClient");
-    const response = await axios.get(`${BASE_URL}/property/home`, {
-      headers: {
-        // Authorization:
-        //   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJnZXJhcmRvQGdtYWlsLmNvbSIsImlhdCI6MTczMzU4MzI0MSwiZXhwIjoxNzMzNjY5NjQxfQ.aUU1PptD4pBIKIxCYndwjAmdXSkf6Qk8GeggXLmIYa4",
-      },
+    const res = await fetch(`${BASE_URL}/property/home`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
     });
-
-    const home = response.data;
-    console.log("fetchHomeClient response", home);
-    return home;
+    return await res.json();
   }catch(error){
     console.error("Error al cargar las propiedades:", error);
     return {rent: [], sale: [], pinned: []};
   }
 }
+
+export const fetchCreated = async (): Promise<Property[]> => {
+  try {
+    const res = await fetch(`${BASE_URL}/property/createdProperties`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return [];
+  }
+};
+
+export const fetchFavourites = async (): Promise<Property[]> => {
+  try {
+    const res = await fetch(`${BASE_URL}/property/favorites`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return await res.json();
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return [];
+  }
+};
+
 
 export const fetchProperties = async (): Promise<Property[]> => {
   try {

@@ -1,8 +1,16 @@
-import { get, post } from "../api";
-import { UserData } from "../../utils/types";
+import { ChangePassword, UserData } from "../../utils/types";
+
+const BASE_URL = "http://localhost:3000";
 
 export const getUsers = async () => {
-  return await get("/users");
+  const res = await fetch(`${BASE_URL}/user/profile`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  if (res.status !== 200) throw new Error('Error get users');
+  const data = await res.json();
+  return data;
 };
 
 // export const createUser = async (userData: UserData) => {
@@ -34,15 +42,64 @@ export const getUsers = async () => {
 
 // };
 
-export const loginUser = async (email: string, password: string) => {
-  const endpoint = "user/login";
-  const userData = { user: { email, password } };
-  return await post<typeof userData>(endpoint, userData);
-};
+export async function loginUser(email:string, password:string) {
+  const res = await fetch(`${BASE_URL}/user/login`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({user:{ email, password }}),
+  });
+  console.log('res',res);
+  if (res.status !== 200) throw new Error('Error login');
+  return res;
+}
+
+export async function updateUser(userData: UserData) {
+  const res = await fetch(`${BASE_URL}/user/update`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({user:{ userData }}),
+  });
+  console.log('res',res);
+  if (res.status !== 200) throw new Error('Error update');
+  return res;
+}
+
+export async function changePassword( passwordData: ChangePassword) {
+  console.log('passwordData',passwordData);
+  const res = await fetch(`${BASE_URL}/user/changePassword`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({...passwordData}),
+  });
+  console.log('res',res);
+  if (res.status !== 200) throw new Error('Error cambio de contraseña');
+  return res;
+}
 
 export const registerUser = async (userData: UserData) => {
   const endpoint = "user/create";
   const dataToSend = { user: { ...userData } };
-  return await post<typeof dataToSend>(endpoint, dataToSend);
+  const res = await fetch(`${BASE_URL}/${endpoint}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(dataToSend),
+  });
+  return await res.json();
 };
+
+export const logoutUser = async () => {
+  console.log('logoutUser');
+  const res = await fetch(`${BASE_URL}/user/logout`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  console.log('res',res);
+  if (res.status !== 200) throw new Error('Error logout');
+}
 

@@ -26,8 +26,16 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
 
     const fetchHome = async () => {
         try {
-
             const data = await fetchHomeClient();
+            if (data.created && data.created.length > 0) {
+                localStorage.setItem('createdProperties', JSON.stringify(data.created));
+            }
+            if (data.pinned && data.pinned.length > 0) {
+                localStorage.setItem('pinnedProperties', JSON.stringify(data.pinned));
+            }
+            if (data.favourites && data.favourites.length > 0) {
+                localStorage.setItem('favouritesProperties', JSON.stringify(data.favourites));
+            }
             console.log('fetchHome Contest',data);
             setHome(data);
         } catch (error) {
