@@ -34,12 +34,12 @@ export const errorMessages = {
   email: {
     required: "El email es requerido.",
     invalid: "Formato de email inválido. Formato requerido: nombre@domain.com",
-  },
+  },  
   phone: {
-    required: "El teléfono es requerido.",
-    invalid: "Número de teléfono inválido.",
+    required: 'El número de teléfono es obligatorio.',
+    invalid: 'Ingrese un número de teléfono válido en el formato +59895385147 o 095385147.',
     formatos:
-      "Formatos validos: 09x xxx xxx",
+      "Formatos validos: 09x xxx xxx o +598 9x xxx xxx",
   },
   message: {
     required: "El mensaje es requerido.",

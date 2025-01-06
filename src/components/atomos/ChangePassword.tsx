@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
-import CustomButton from './ButtonProfile';
-import { errorMessages } from '../../utils/errorMessages';
-import { changePassword } from '../../services/users/userService';
-
+import React, { useState } from "react";
+import { FaInfoCircle } from "react-icons/fa";
+import CustomButton from "./ButtonProfile";
+import { errorMessages } from "../../utils/errorMessages";
+import { changePassword } from "../../services/users/userService";
+import { useAlert } from "../../contexts/AlertContext";
 
 const ChangePassword: React.FC = () => {
+  const { showAlert } = useAlert();
   const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const [errors, setErrors] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: '',
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPasswordData(prev => ({ ...prev, [name]: value }));
-    setErrors(prev => ({ ...prev, [name]: '' }));
+    setPasswordData((prev) => ({ ...prev, [name]: value }));
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validatePasswordFields = () => {
@@ -40,7 +41,7 @@ const ChangePassword: React.FC = () => {
     }
 
     setErrors(newErrors);
-    return Object.values(newErrors).every(error => error === '');
+    return Object.values(newErrors).every((error) => error === "");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,17 +50,17 @@ const ChangePassword: React.FC = () => {
       try {
         const response = await changePassword(passwordData);
         if (response.ok) {
-          alert('Contraseña actualizada correctamente');
+          showAlert("success", "Contraseña actualizada correctamente");
           setPasswordData({
-            currentPassword: '',
-            newPassword: '',
-            confirmPassword: '',
+            currentPassword: "",
+            newPassword: "",
+            confirmPassword: "",
           });
         } else {
-          alert('Error al actualizar la contraseña');
+          showAlert("error", "Error al actualizar la contraseña");
         }
-      } catch (error) {
-        console.error('Error changing password:', error);
+      } catch {
+        showAlert("error", "Error al actualizar la contraseña");
       }
     }
   };
@@ -69,7 +70,10 @@ const ChangePassword: React.FC = () => {
       <h2 className="text-2xl font-semibold mb-6">Cambiar Contraseña</h2>
       <form onSubmit={handleSubmit} className="space-y-6" noValidate>
         <div>
-          <label className="block text-sm font-medium text-gray-700" htmlFor="currentPassword">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="currentPassword"
+          >
             Contraseña actual
           </label>
           <input
@@ -79,14 +83,21 @@ const ChangePassword: React.FC = () => {
             value={passwordData.currentPassword}
             onChange={handleChange}
             className={`mt-1 block px-1 py-2 w-full rounded-md shadow-sm ${
-              errors.currentPassword ? 'border-red-500' : 'border-gray-300'
+              errors.currentPassword ? "border-red-500" : "border-gray-300"
             } focus:border-indigo-500 focus:ring-indigo-500`}
           />
-          {errors.currentPassword && <p className="mt-2 text-sm text-red-600">{errors.currentPassword}</p>}
+          {errors.currentPassword && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.currentPassword}
+            </p>
+          )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700" htmlFor="newPassword">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="newPassword"
+          >
             Nueva contraseña
           </label>
           <div className="mt-1 relative rounded-md shadow-sm">
@@ -97,7 +108,7 @@ const ChangePassword: React.FC = () => {
               value={passwordData.newPassword}
               onChange={handleChange}
               className={`block px-1 py-2 w-full pr-10 rounded-md ${
-                errors.newPassword ? 'border-red-500' : 'border-gray-300'
+                errors.newPassword ? "border-red-500" : "border-gray-300"
               } focus:outline-none focus:ring-indigo-500 focus:border-indigo-500`}
             />
             <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
@@ -109,11 +120,16 @@ const ChangePassword: React.FC = () => {
               </div>
             </div>
           </div>
-          {errors.newPassword && <p className="mt-2 text-sm text-red-600">{errors.newPassword}</p>}
+          {errors.newPassword && (
+            <p className="mt-2 text-sm text-red-600">{errors.newPassword}</p>
+          )}
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700" htmlFor="confirmPassword">
+          <label
+            className="block text-sm font-medium text-gray-700"
+            htmlFor="confirmPassword"
+          >
             Confirmar nueva contraseña
           </label>
           <input
@@ -123,10 +139,14 @@ const ChangePassword: React.FC = () => {
             value={passwordData.confirmPassword}
             onChange={handleChange}
             className={`mt-1 px-1 py-2 block w-full rounded-md shadow-sm ${
-              errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
+              errors.confirmPassword ? "border-red-500" : "border-gray-300"
             } focus:border-indigo-500 focus:ring-indigo-500`}
           />
-          {errors.confirmPassword && <p className="mt-2 text-sm text-red-600">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && (
+            <p className="mt-2 text-sm text-red-600">
+              {errors.confirmPassword}
+            </p>
+          )}
         </div>
 
         <div className="flex justify-end">
@@ -140,4 +160,3 @@ const ChangePassword: React.FC = () => {
 };
 
 export default ChangePassword;
-

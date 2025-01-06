@@ -99,3 +99,13 @@ export const fetchTermsAndConditions = async (): Promise<string> => {
     return '';
   }
 };
+
+export const addFavourite = async (id: number): Promise<boolean> => {
+  try {
+    const response = await axios.post(`${BASE_URL}/favorites/add/`,{},{params: {propertyId:id}});
+    return response.data;
+  } catch (error) {
+    console.error("Error al cargar las propiedades:", error);
+    return false;
+  }
+}

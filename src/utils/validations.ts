@@ -6,9 +6,8 @@ export const isValidEmail = (email: string): boolean => {
 
 export const isValidPhoneNumber = (phone: string): boolean => {
   // Expresión regular para números de teléfono en Uruguay, Argentina o Brasil
-  const phoneRegex =
-    /^(?:(?:598\d{9})|(?:0\d{8})|(?:54\d{10})|(?:55\d{10,11}))$/;
-  return phoneRegex.test(phone);
+  const regex = /^(?:\+5989[1-9]\d{6}|09[1-9]\d{6})$/;
+  return regex.test(phone);
 };
 
 export const isValidName = (name: string): boolean => {

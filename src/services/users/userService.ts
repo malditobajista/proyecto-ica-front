@@ -49,7 +49,6 @@ export async function loginUser(email:string, password:string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({user:{ email, password }}),
   });
-  console.log('res',res);
   if (res.status !== 200) throw new Error('Error login');
   return res;
 }
@@ -59,7 +58,7 @@ export async function updateUser(userData: UserData) {
     method: 'PUT',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({user:{ userData }}),
+    body: JSON.stringify({user:{ ...userData }}),
   });
   console.log('res',res);
   if (res.status !== 200) throw new Error('Error update');
@@ -84,16 +83,17 @@ export const registerUser = async (userData: UserData) => {
   const dataToSend = { user: { ...userData } };
   const res = await fetch(`${BASE_URL}/${endpoint}`, {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(dataToSend),
   });
-  return await res.json();
+  if (res.status !== 200) throw new Error("Error register");
+  return res;
 };
 
 export const logoutUser = async () => {
-  console.log('logoutUser');
   const res = await fetch(`${BASE_URL}/user/logout`, {
     method: 'GET',
     credentials: 'include',
@@ -102,4 +102,5 @@ export const logoutUser = async () => {
   console.log('res',res);
   if (res.status !== 200) throw new Error('Error logout');
 }
+
 

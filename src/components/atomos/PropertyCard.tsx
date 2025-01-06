@@ -4,6 +4,7 @@ import { replaceStatus } from "../../utils/replaceStatus";
 import { Link } from "react-router-dom";
 import FavButton from "./HeartButton";
 import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { addFavourite } from "../../services/properties/propertyService";
 
 const PropertyCard: React.FC<PropertyCardProps> = ({
   id,
@@ -40,8 +41,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   const handleImageLoad = () => {
     setIsLoading(false);
   };
-  const handleFavClick = () => {
+  const handleFavClick = async () => {
     setIsFav((prev) => !prev);
+    await addFavourite(id);
   };
   const image = "https://placehold.co/300x300";
 
@@ -121,20 +123,14 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               {/* Texto superior */}
               {/* status */}
               <div className="flex flex-wrap bg-blue-100 capitalize pt-2 py-2 text-blue-800 text-xs font-semibold mr-2 px-2.5  rounded">
-                {/* {status.map((s) => (
-                  <span
-                    key={s}
-                  >
-                    {replaceStatus(s)}
-                  </span>
-                ))} */}
                 {status.map((s, index) => (
                   <span key={s}>
                     {index > 0 && " -"}
                     {replaceStatus(s)}
                   </span>
                 ))}
-              </div>{" "}              {/* Precio destacado */}
+              </div>{" "}              
+              {/* Precio destacado */}
               <span className="text-2xl font-bold text-teal-600 hover:font-extrabold transition-font duration-300">
                 U$S {Number(price).toLocaleString("de-DE")}
               </span>

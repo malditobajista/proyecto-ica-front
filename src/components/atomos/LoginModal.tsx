@@ -3,6 +3,7 @@ import Title from './Title';
 import { getUsers, loginUser } from '../../services/users/userService';
 import { isValidEmail } from '../../utils/validations';
 import { errorMessages } from '../../utils/errorMessages';
+import { useAlert } from '../../contexts/AlertContext';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -11,6 +12,8 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegistering  }) => {
+  const { showAlert } = useAlert();
+    
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -50,17 +53,19 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateFields()) return;
-
+  
     try {
-      await loginUser(formData.email, formData.password);
-      const user = await getUsers();
-      sessionStorage.setItem('userData', JSON.stringify(user));
-      onClose();
+      await loginUser(formData.email, formData.password); // Llama a la función para iniciar sesión
+      const user = await getUsers(); // Obtiene los datos del usuario
+      sessionStorage.setItem('userData', JSON.stringify(user)); // Guarda los datos en el sessionStorage
+      showAlert("success", "Inicio de sesión exitoso"); // Alerta de éxito
+      onClose(); // Cierra el modal o ventana de login
     } catch (error) {
       console.error('Error en el login:', error);
-      setErrorMessage('Error en el inicio de sesión. Por favor, inténtalo de nuevo.');
+      showAlert("error", "Error en el inicio de sesión. Por favor, inténtalo de nuevo."); // Alerta de error
     }
   };
+  
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {

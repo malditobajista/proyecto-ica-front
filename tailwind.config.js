@@ -19,6 +19,7 @@ export default {
         accent: '#0477BF',         //  Azul
         'background-light': '#C2D9A0',  // Verde pastel (Fondo claro)
         'background-neutral': '#F2F2F2', // Gris claro (Fondo neutro)
+        error: '#D32F2F',          // Rojo para errores
       },
     },
   },

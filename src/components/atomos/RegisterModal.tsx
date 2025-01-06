@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Title from './Title';
-import { registerUser } from '../../services/users/userService';
+import { getUsers, registerUser } from '../../services/users/userService';
 import { isValidEmail, isValidName, isValidPhoneNumber } from '../../utils/validations';
 import { errorMessages } from '../../utils/errorMessages';
+import { useAlert } from '../../contexts/AlertContext';
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -12,6 +13,7 @@ interface RegisterModalProps {
 }
 
 const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRegistering }) => {
+  const { showAlert } = useAlert();
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -91,20 +93,21 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!validateFields()) return;
-
+  
     try {
-      const data = await registerUser(formData );
-      console.log('Registro exitoso:', data);
-      setSuccessMessage('Registro exitoso. ¡Bienvenido!');
+      await registerUser(formData); // Llama a la función para registrar al usuario
+      const user = await getUsers(); // Obtiene los datos del usuario
+      sessionStorage.setItem('userData', JSON.stringify(user)); // Guarda los datos en el sessionStorage
+      showAlert("success", `Registro exitoso. ¡Bienvenido ${user.firstName}!`); // Alerta de éxito
       setTimeout(() => {
-        setSuccessMessage(null);
-        onClose();
+        onClose(); // Cierra el modal o ventana de registro
       }, 2000);
     } catch (error) {
       console.error('Error en el registro:', error);
-      setErrorMessage('Error en el registro. Por favor, inténtalo de nuevo.');
+      showAlert("error", "Error en el registro. Por favor, inténtalo de nuevo."); // Alerta de error
     }
   };
+  
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {

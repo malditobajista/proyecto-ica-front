@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginRegisterModal from "./Modal";
-import { FaUser, FaBars, FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaUser, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import logo from "../../assets/imgs/logo.png";
 import { hasCookie } from "../../utils/cookie";
 import { logoutUser } from "../../services/users/userService";
 import { HiMenuAlt3 } from "react-icons/hi";
+import { useAlert } from "../../contexts/AlertContext";
 
 const Navbar = () => {
   const location = useLocation();
@@ -17,20 +18,26 @@ const Navbar = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const { showAlert } = useAlert();
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
 
   const handleLogout = async () => {
-    console.log("Logging out");
-    await logoutUser();
-    setIsLoggedIn(false);
-    setIsNavOpen(false);
-    setIsUserMenuOpen(false);
-    navigate("/home");
+    try {
+      await logoutUser(); // Llama a la función de logout
+      setIsLoggedIn(false);
+      setIsNavOpen(false);
+      setIsUserMenuOpen(false);
+      showAlert("success", "Sesión cerrada correctamente"); // Alerta de éxito
+      navigate("/home"); // Redirige al usuario a la página de inicio
+    } catch (error) {
+      showAlert("error", "Error al cerrar sesión. Intente nuevamente"); // Alerta de error
+      console.error("Error during logout:", error);
+    }
   };
-
+  
   const toggleUserMenu = useCallback(() => {
     if (isLoggedIn) {
       setIsUserMenuOpen(prev => !prev);
@@ -108,11 +115,11 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 transition-colors duration-300 
+      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3
             ${
               isHomePage && !hasScrolled
-                ? "bg-transparent"
-                : "bg-gradient-to-b from-gray-800 to-gray-400 text-white"
+                ? ""
+                : "bg-background-light text-white"
             }`}
     >
       <div className="flex justify-between items-center">
@@ -173,7 +180,7 @@ const Navbar = () => {
       </div>
 
       {isNavOpen && (
-        <div className="md:hidden flex flex-col gap-3 mt-3">
+        <div className="md:hidden flex flex-col gap-3 mt-3 text-right justify-end items-end">
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
@@ -185,7 +192,7 @@ const Navbar = () => {
             </Link>
           ))}
           <button
-            className={`nav-button hover:text-green-500 transition-text duration-300 text-left flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+            className={`nav-button hover:text-green-500 transition-text duration-300 text-right flex items-centar ${isUserMenuOpen ? 'text-green-500' : ''}`}
             onClick={toggleUserMenu}
             aria-label="Perfil de usuario"
           >

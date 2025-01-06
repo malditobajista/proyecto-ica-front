@@ -21,20 +21,19 @@ export const MisPropiedades = () => {
     
     return (
         <div className="my-12">
-
-            <Title text='Mis Propiedades' />
-
-            <div>
-                                {properties.length > 0 ? (
-                                    properties.map((property, index) => (
-                                        <div key={index} className="py-4">
-                                            <PropertyHorizontalCard {...property} />
-                                        </div>
-                                    ))
-                                ) : (
-                                    <Title text="Lo sentimos, pero no hay propiedades para mostrar de ese tipo" />
-                                )}
-                            </div>
+          <Title text="Tus propiedades" />
+    
+          <div className="flex flex-col items-center">
+            {properties.length > 0 ? (
+              properties.map((property, index) => (
+                <div key={index} className="py-4">
+                  <PropertyHorizontalCard {...property} />
+                </div>
+              ))
+            ) : (
+              <Title text="Lo sentimos, pero no hay propiedades para mostrar de ese tipo" />
+            )}
+          </div>
         </div>
-    )
+      );
 }
