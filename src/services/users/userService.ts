@@ -13,6 +13,32 @@ export const getUsers = async () => {
   return data;
 };
 
+export const forgotPassword = async (email: string) => {
+  const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  console.log('res',res);
+  if (!res.ok) {
+    throw new Error('No se pudo enviar el correo. Verifica tu email o intenta nuevamente.');
+  }
+};
+
+
+export const resetPassword = async (token: string, newPassword: string) => {
+  const res = await fetch(`${BASE_URL}/auth/reset-password`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ token, newPassword }),
+  });
+
+  if (!res.ok) {
+    throw new Error('No se pudo restablecer la contraseña. Intenta nuevamente.');
+  }
+};
+
+
 // export const createUser = async (userData: UserData) => {
 //   return await post<UserData>("/users", userData);
 // };

@@ -161,7 +161,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                     </div>
                 </div>
                 <div className="w-full mt-4">
-                    <Button clase="text-center w-full" to={`/propiedades/${id}`}>
+                    <Button clase="text-center w-full" to={`/properties/${id}`}>
                         Ver Propiedad
                     </Button>
                 </div>

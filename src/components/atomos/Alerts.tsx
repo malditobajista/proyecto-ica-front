@@ -27,7 +27,7 @@ const Alert: React.FC<AlertProps> = ({ type, message, duration = 3000, onClose }
   const alertClasses = {
     success: 'bg-secondary border-primary bg-opacity-10 text-primary',
     error: 'bg-error bg-opacity-10 border-error text-error',
-    info: 'bg-background-neutral border-primary text-primary',
+    info: 'bg-blue-200 bg-opacity-90 border-background-neutral text-primary',
   };
 
   const iconMap = {

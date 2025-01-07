@@ -15,6 +15,8 @@ import { MisFavoritas } from "./pages/MisFavoritas";
 import { PropertyProvider } from "./contexts/PropertyContext";
 // import Destacadas from './pages/Destacadas';
 import { AlertProvider } from "./contexts/AlertContext"; // Importa el AlertProvider
+import ForgotPassword from "./components/atomos/ForgotPassword";
+import ResetPassword from "./components/atomos/ResetPassword";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
                 <Route path="/home" element={<Home />} />
                 {/* <Route path="/ventas" element={<Ventas />} /> */}
                 {/* <Route path="/alquileres" element={<Alquileres />} /> */}
+                <Route path="/forgot-password" element={<ForgotPassword isOpen={true} onClose={() => {}} />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/properties" element={<Propiedades />} />
                 <Route path="/properties/:id" element={<PropertyDetails />} />
                 {/* <Route path="/destacadas" element={<Destacadas />} /> */}
