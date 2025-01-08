@@ -17,6 +17,7 @@ import { PropertyProvider } from "./contexts/PropertyContext";
 import { AlertProvider } from "./contexts/AlertContext"; // Importa el AlertProvider
 import ForgotPassword from "./components/atomos/ForgotPassword";
 import ResetPassword from "./components/atomos/ResetPassword";
+import LoginRegisterModal from "./components/atomos/Modal";
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
-                {/* <Route path="/ventas" element={<Ventas />} /> */}
+                <Route path="/login" element={<LoginRegisterModal />
+} />
                 {/* <Route path="/alquileres" element={<Alquileres />} /> */}
                 <Route path="/forgot-password" element={<ForgotPassword isOpen={true} onClose={() => {}} />} />
                 <Route path="/reset-password" element={<ResetPassword />} />

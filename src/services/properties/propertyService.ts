@@ -61,6 +61,9 @@ export const fetchFavourites = async (): Promise<Property[]> => {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
+    if (res.status === 401) {
+      window.location.href = "/login";
+    }
     return await res.json();
   }catch(error){
     console.error("Error al cargar las propiedades:", error);
@@ -72,6 +75,9 @@ export const fetchFavourites = async (): Promise<Property[]> => {
 export const fetchProperties = async (): Promise<Property[]> => {
   try {
     const response = await axios.get(`${BASE_URL}/property/findAll`);
+    if (response.status === 401) {
+      window.location.href = "/login";
+    }
     return response.data;
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
@@ -82,7 +88,9 @@ export const fetchProperties = async (): Promise<Property[]> => {
 export const fetchProperty = async (id: number): Promise<Property[]> => {
   try {
     const response = await axios.get(`${BASE_URL}/property/${id}`);
-    
+    if (response.status === 401) {
+      window.location.href = "/login";
+    }
     return response.data;
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
@@ -93,6 +101,9 @@ export const fetchProperty = async (id: number): Promise<Property[]> => {
 export const fetchTermsAndConditions = async (): Promise<string> => {
   try {
     const response = await axios.get(`${BASE_URL}/property/terms`);
+    if (response.status === 401) {
+      window.location.href = "/login";
+    }
     return response.data;
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
@@ -102,10 +113,32 @@ export const fetchTermsAndConditions = async (): Promise<string> => {
 
 export const addFavourite = async (id: number): Promise<boolean> => {
   try {
-    await fetch(`${BASE_URL}/favorites/add?propertyId=${id}`, {
+    const response = await fetch(`${BASE_URL}/favorites/add?propertyId=${id}`, {
       method: 'POST',
       credentials: 'include',
     });
+    if (response.status === 401) {
+      window.location.href = "/login";
+      return false;
+    }
+    return true;
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return false;
+  }
+};
+
+export const removeFavourite = async (id: number): Promise<boolean> => {
+  try {
+    const response = await fetch(`${BASE_URL}/favorites/delete?propertyId=${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
+  if (response.status === 401) {
+    window.location.href = "/login";
+    return false;
+  }
     return true;
   }catch(error){
     console.error("Error al cargar las propiedades:", error);

@@ -67,6 +67,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
       await loginUser(formData.email, formData.password)
       const user = await getUsers()
       sessionStorage.setItem('userData', JSON.stringify(user))
+      navigate('/home')
       showAlert("success", "Inicio de sesión exitoso")
       onClose()
     } catch (error) {
@@ -160,7 +161,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+              {!showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
             </button>
           </div>
           {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}

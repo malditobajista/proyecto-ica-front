@@ -4,56 +4,60 @@ import LoginModal from './LoginModal';
 import RegisterModal from './RegisterModal';
 import { hasCookie } from '../../utils/cookie';
 
-interface ModalProps {
-  isOpen: boolean;
-  onClose: () => void;
+interface LoginRegisterModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
 }
 
-const LoginRegisterModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const LoginRegisterModal: React.FC<LoginRegisterModalProps> = ({ isOpen: externalIsOpen, onClose: externalOnClose }) => {
+  const [isOpen, setIsOpen] = useState(true); // Estado interno para abrir/cerrar
   const [isRegistering, setIsRegistering] = useState(false);
   const navigate = useNavigate();
 
-  // Cuando abro el modal, chequeo si existe userData
-  // Si existe, mando a /profile y cierro el modal
+  // Determinar si se usa estado interno o externo
+  const isControlled = externalIsOpen !== undefined && externalOnClose !== undefined;
+  const modalIsOpen = isControlled ? externalIsOpen : isOpen;
+  const handleClose = isControlled ? externalOnClose : () => setIsOpen(false);
+
+  // Cuando abro el modal, chequeo si existe sesión
   useEffect(() => {
-    if (isOpen && hasCookie('sessionIndicator')) {
+    if (modalIsOpen && hasCookie('sessionIndicator')) {
       const storedUser = sessionStorage.getItem('userData');
       if (storedUser) {
-        navigate('/profile');
-        onClose();
+        handleClose(); // Cierra el modal si el usuario está autenticado
       }
     }
-  }, [isOpen, navigate, onClose]);
+  }, [modalIsOpen, navigate, handleClose]);
 
   // Escucha tecla Escape para cerrar
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') handleClose?.();
     };
-    if (isOpen) window.addEventListener('keydown', handleKeyDown);
+    if (modalIsOpen) window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+  }, [modalIsOpen, handleClose]);
 
-  const toggleRegistering = () => setIsRegistering(!isRegistering);
+  const toggleRegistering = () => setIsRegistering((prev) => !prev);
 
-  if (!isOpen) return null;
+  if (!modalIsOpen) return null;
 
   return (
-    <>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       {!isRegistering ? (
         <LoginModal
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={modalIsOpen}
+          onClose={handleClose}
           toggleRegistering={toggleRegistering}
         />
       ) : (
         <RegisterModal
-          isOpen={isOpen}
-          onClose={onClose}
+          isOpen={modalIsOpen}
+          onClose={handleClose}
           toggleRegistering={toggleRegistering}
         />
       )}
-    </>
+    </div>
   );
 };
 

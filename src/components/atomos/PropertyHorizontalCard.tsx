@@ -91,10 +91,12 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
                 )}
                 <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
 
-                    <FavButton
-                        onClick={handleFavClick}
-                        className={isFav ? "opacity-100" : "opacity-0 group-hover:opacity-100"}
-                    />
+                <FavButton
+  onClick={handleFavClick}
+  isFavourite={isFav}
+  className="opacity-100"
+/>
+
 
                 </div>
             </figure>

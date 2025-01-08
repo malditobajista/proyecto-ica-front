@@ -247,7 +247,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+              {!showPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
             </button>
           </div>
           {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
@@ -271,7 +271,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               onClick={() => setShowRepeatPassword(!showRepeatPassword)}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
             >
-              {showRepeatPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
+              {!showRepeatPassword ? <FaEyeSlash className="h-5 w-5" /> : <FaEye className="h-5 w-5" />}
             </button>
           </div>
           {errors.repeatPassword && <p className="text-red-500 text-xs">{errors.repeatPassword}</p>}

@@ -14,7 +14,7 @@ const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(hasCookie("sessionIndicator"));
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
@@ -192,7 +192,7 @@ const Navbar = () => {
             </Link>
           ))}
           <button
-            className={`nav-button hover:text-green-500 transition-text duration-300 text-right flex items-centar ${isUserMenuOpen ? 'text-green-500' : ''}`}
+            className={`nav-button hover:text-green-500 transition-text duration-300 text-right flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
             onClick={toggleUserMenu}
             aria-label="Perfil de usuario"
           >
