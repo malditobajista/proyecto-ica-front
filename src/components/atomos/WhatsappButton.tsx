@@ -8,7 +8,7 @@ interface WhatsappButtonProps {
 }
 
 const WhatsappButton: React.FC<WhatsappButtonProps> = ({
-    wppNumber = "9895385147",
+    wppNumber = "59895385147",
     wppMessage = "Hola, estoy interesado en sus propiedades.",
     urlMessage,
 }) => {
@@ -43,7 +43,7 @@ const WhatsappButton: React.FC<WhatsappButtonProps> = ({
         <>
             {isVisible && (
                 <a
-                    href={`https://wa.me/${wppNumber}?text=${encodeURIComponent(message)}`}
+                    href={`https://api.whatsapp.com/send?phone=${wppNumber}&text=${encodeURIComponent(message)}&app_absent=1`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="fixed bottom-4 right-4 bg-green-500 text-white p-3 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
