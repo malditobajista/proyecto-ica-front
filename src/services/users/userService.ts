@@ -8,13 +8,17 @@ export const getUsers = async () => {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
+  if (res.status === 401) {
+    await logoutUser();
+    window.location.href = "/login";
+  }
   if (res.status !== 200) throw new Error('Error get users');
   const data = await res.json();
   return data;
 };
 
 export const forgotPassword = async (email: string) => {
-  const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
+  const res = await fetch(`${BASE_URL}/user/forgot-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -27,7 +31,7 @@ export const forgotPassword = async (email: string) => {
 
 
 export const resetPassword = async (token: string, newPassword: string) => {
-  const res = await fetch(`${BASE_URL}/auth/reset-password`, {
+  const res = await fetch(`${BASE_URL}/user/reset-password`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, newPassword }),
@@ -37,36 +41,6 @@ export const resetPassword = async (token: string, newPassword: string) => {
     throw new Error('No se pudo restablecer la contraseña. Intenta nuevamente.');
   }
 };
-
-
-// export const createUser = async (userData: UserData) => {
-//   return await post<UserData>("/users", userData);
-// };
-
-// export const handleLogin = async (email: string, password: string) => {
-//   try {
-//     const url = "http://test2.inmobiliariacostaazul.com/user/login";
-//     const response = await fetch(url, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({ user: { email, password } }),
-//     });
-
-//     if (!response.ok) {
-//       throw new Error(`Error: ${response.status}`);
-//     }
-
-//     const data = await response.json();
-//     console.log("Login exitoso:", data);
-//     return data;
-//   } catch (error) {
-//     console.error("Error en el login:", error);
-//     throw error;
-//   }
-
-// };
 
 export async function loginUser(email:string, password:string) {
   const res = await fetch(`${BASE_URL}/user/login`, {
@@ -86,6 +60,10 @@ export async function updateUser(userData: UserData) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({user:{ ...userData }}),
   });
+  if (res.status === 401) {
+    await logoutUser();
+    window.location.href = "/login";
+  }
   console.log('res',res);
   if (res.status !== 200) throw new Error('Error update');
   return res;
@@ -99,6 +77,10 @@ export async function changePassword( passwordData: ChangePassword) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({...passwordData}),
   });
+  if (res.status === 401) {
+    await logoutUser();
+    window.location.href = "/login";
+  }
   console.log('res',res);
   if (res.status !== 200) throw new Error('Error cambio de contraseña');
   return res;

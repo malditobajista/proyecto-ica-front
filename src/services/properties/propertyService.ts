@@ -1,5 +1,6 @@
 import { Home, Property, PropertyCardProps } from "../../utils/types";
 import axios from "axios";
+import { logoutUser } from "../users/userService";
 
 const BASE_URL = "http://localhost:3000";
 
@@ -20,6 +21,10 @@ export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>
     body: formData,
   });
 
+  if (res.status === 401) {
+    await logoutUser();
+    window.location.href = "/login";
+  }
   if (!res.ok) throw new Error('Error creating property');
   return await res.json();
 };
@@ -33,6 +38,11 @@ export const fetchHomeClient = async (): Promise<Home> => {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
+    if (res.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+    }
+    if (!res.ok) throw new Error('Error obteniendo propiedades');
     return await res.json();
   }catch(error){
     console.error("Error al cargar las propiedades:", error);
@@ -47,9 +57,14 @@ export const fetchCreated = async (): Promise<Property[]> => {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
+    if (res.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+    }
+    if (!res.ok) throw new Error('Error obteniendo creadas');
     return await res.json();
   }catch(error){
-    console.error("Error al cargar las propiedades:", error);
+    console.error("Error al obtener tus propiedades creadas:", error);
     return [];
   }
 };
@@ -62,11 +77,13 @@ export const fetchFavourites = async (): Promise<Property[]> => {
       headers: { 'Content-Type': 'application/json' },
     });
     if (res.status === 401) {
+      await logoutUser();
       window.location.href = "/login";
     }
+    if (!res.ok) throw new Error('Error obteniendo favoritas');
     return await res.json();
   }catch(error){
-    console.error("Error al cargar las propiedades:", error);
+    console.error("Error al obtener tus propiedades favoritas:", error);
     return [];
   }
 };
@@ -74,11 +91,17 @@ export const fetchFavourites = async (): Promise<Property[]> => {
 
 export const fetchProperties = async (): Promise<Property[]> => {
   try {
-    const response = await axios.get(`${BASE_URL}/property/findAll`);
-    if (response.status === 401) {
+    const res = await fetch(`${BASE_URL}/property/findAll`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+    if (res.status === 401) {
+      await logoutUser();
       window.location.href = "/login";
     }
-    return response.data;
+    if (!res.ok) throw new Error('Error obteniendo propiedades');
+    return await res.json();
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return [];
@@ -89,6 +112,7 @@ export const fetchProperty = async (id: number): Promise<Property[]> => {
   try {
     const response = await axios.get(`${BASE_URL}/property/${id}`);
     if (response.status === 401) {
+      await logoutUser();
       window.location.href = "/login";
     }
     return response.data;
@@ -102,6 +126,7 @@ export const fetchTermsAndConditions = async (): Promise<string> => {
   try {
     const response = await axios.get(`${BASE_URL}/property/terms`);
     if (response.status === 401) {
+      await logoutUser();
       window.location.href = "/login";
     }
     return response.data;
@@ -118,6 +143,7 @@ export const addFavourite = async (id: number): Promise<boolean> => {
       credentials: 'include',
     });
     if (response.status === 401) {
+      await logoutUser();
       window.location.href = "/login";
       return false;
     }
@@ -136,6 +162,7 @@ export const removeFavourite = async (id: number): Promise<boolean> => {
     });
 
   if (response.status === 401) {
+    await logoutUser();
     window.location.href = "/login";
     return false;
   }

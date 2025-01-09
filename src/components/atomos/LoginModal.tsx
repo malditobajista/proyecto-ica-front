@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react'
 import Title from './Title'
-
 import { FaTimes, FaEye, FaEyeSlash, FaEnvelope, FaLock } from 'react-icons/fa'
 import { useAlert } from '../../contexts/AlertContext'
 import { loginUser, getUsers } from '../../services/users/userService'

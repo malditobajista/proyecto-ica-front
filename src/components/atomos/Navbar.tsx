@@ -26,14 +26,14 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      await logoutUser(); // Llama a la función de logout
+      await logoutUser();
       setIsLoggedIn(false);
       setIsNavOpen(false);
       setIsUserMenuOpen(false);
-      showAlert("success", "Sesión cerrada correctamente"); // Alerta de éxito
-      navigate("/home"); // Redirige al usuario a la página de inicio
+      showAlert("success", "Sesión cerrada correctamente");
+      navigate("/home");
     } catch (error) {
-      showAlert("error", "Error al cerrar sesión. Intente nuevamente"); // Alerta de error
+      showAlert("error", "Error al cerrar sesión. Intente nuevamente");
       console.error("Error during logout:", error);
     }
   };
@@ -119,7 +119,7 @@ const Navbar = () => {
             ${
               isHomePage && !hasScrolled
                 ? ""
-                : "bg-background-light text-white"
+                : "  bg-gradient-to-b to-background-light from-accent text-white"
             }`}
     >
       <div className="flex justify-between items-center">

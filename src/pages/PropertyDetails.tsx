@@ -1,57 +1,55 @@
-import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import { Property } from "../utils/types"
-import ImageSlider from "../components/atomos/ImageSlider"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
-import Button from "../components/atomos/Button"
-import PropertyFeatures from "../components/atomos/CaracteristicCarrusel"
-import ContactForm from "../components/atomos/ContactForm"
-import { useProperties } from "../contexts/PropertyContext"
-import PropertyHeader from "../components/atomos/PropertyHeader"
-import PropertyInfo from "../components/atomos/PropertyInfo"
-import Title from "../components/atomos/Title"
-import WhatsappButton from "../components/atomos/WhatsappButton"
-
-
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Property } from "../utils/types";
+import ImageSlider from "../components/atomos/ImageSlider";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import Button from "../components/atomos/Button";
+import PropertyFeatures from "../components/atomos/CaracteristicCarrusel";
+import { useProperties } from "../contexts/PropertyContext";
+import PropertyHeader from "../components/atomos/PropertyHeader";
+import PropertyInfo from "../components/atomos/PropertyInfo";
+import Title from "../components/atomos/Title";
+import WhatsappButton from "../components/atomos/WhatsappButton";
+import PropertyContactSlider from "../components/atomos/PropertiContactSlider";
 
 const PropertyDetails: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const [property, setProperty] = useState<Property | null>(null)
-  const [loading, setLoading] = useState<boolean>(true)
-  const [error, setError] = useState<string | null>(null)
-  const { properties } = useProperties()
+  const { id } = useParams<{ id: string }>();
+  const [property, setProperty] = useState<Property | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const { properties } = useProperties();
 
   // para mandar por whatsapp
   const currentUrl = window.location.href;
 
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const loadProperty = async () => {
       try {
         if (properties.length > 0 && id) {
-          const propertyData = properties.find(p => p.id === parseInt(id))
+          const propertyData = properties.find((p) => p.id === parseInt(id));
           if (propertyData) {
-            setProperty(propertyData)
-            return
+            setProperty(propertyData);
+            return;
           }
         }
       } catch (err) {
-        console.error("Error fetching property:", err)
-        setError("Hubo un problema al cargar los detalles de la propiedad.")
+        console.error("Error fetching property:", err);
+        setError("Hubo un problema al cargar los detalles de la propiedad.");
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    loadProperty()
-  }, [id, properties])
+    };
+    loadProperty();
+  }, [id, properties]);
 
-  if (loading) return <div>Cargando detalles de la propiedad...</div>
-  if (error) return <Title size="large" text={error} clase="h-screen mt-9" />
-  if (!property) return <div>No se encontró la propiedad.</div>
+  if (loading) return <div>Cargando detalles de la propiedad...</div>;
+  if (error) return <Title size="large" text={error} clase="h-screen mt-9" />;
+  if (!property) return <div>No se encontró la propiedad.</div>;
 
   return (
     <div className="w-full bg-white mt-8 my-8 overflow-hidden">
@@ -86,13 +84,14 @@ const PropertyDetails: React.FC = () => {
         />
       </div>
 
-      <div className="flex flex-col md:flex-row w-full justify-center">
-        <PropertyInfo property={property} />
+      <div className="flex flex-col pl-2 md:flex-row w-full justify-center items-center">
+  <PropertyInfo property={property} />
+  {/* Envolvemos el slider en un div con un ancho máximo */}
+  <div className="md:w-1/5 md justify-center mt-6 md:mt-0"> 
+    <PropertyContactSlider propertyId={property.id} />
+  </div>
+</div>
 
-        <div className="w-full h-full md:h-2/5 md:w-1/4 rounded-xl shadow-xl p-4 mb-4">
-          <ContactForm inRent={false} />
-        </div>
-      </div>
 
       <div className="mt-4 text-center w-full rounded-lg">
         <h2 className="text-2xl font-bold mb-2">Ubicación en el mapa</h2>
@@ -109,10 +108,8 @@ const PropertyDetails: React.FC = () => {
       </div>
 
       <WhatsappButton urlMessage={currentUrl} />
-
     </div>
-  )
-}
+  );
+};
 
-export default PropertyDetails
-
+export default PropertyDetails;

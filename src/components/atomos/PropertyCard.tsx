@@ -72,9 +72,9 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
 
   return (
     <div className="w-full h-auto flex justify-center items-center">
-      <article className="bg-white w-full min-h-[75vh] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
+      <article className="bg-white w-full min-h-[300px] h-auto shadow-md rounded-lg overflow-hidden flex flex-col items-stretch">
         {/* Image */}
-        <figure className="relative w-full h-[300px] bg-gray-200 overflow-hidden rounded-t-lg group">
+        <figure className="relative w-full h-[22rem] bg-gray-200 overflow-hidden rounded-t-lg group">
           {isLoading && imageSrc.length > 1 && (
             <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-50">
               <div className="loader"></div>

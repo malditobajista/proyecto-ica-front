@@ -71,6 +71,11 @@ h2 {
     animation: spin 1s linear infinite;
 }
 
+.shadowComplete {
+  padding: 10px;
+  box-shadow: 0px 0px 7px 7px #e8e8e8;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { hasCookie } from "../../utils/cookie";
 
 interface ContactFormProps {
-  inRent: boolean; // se usará para enviar al backend
+  propertyId: number;
 }
 
-const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
+const ContactForm: React.FC<ContactFormProps> = ({ propertyId }) => {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [isLogged, setIsLogged] = useState<boolean>(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Cambiamos el estado a "loading" mientras se procesa
     setStatus("loading");
 
     try {
@@ -26,7 +27,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
         body: JSON.stringify({
           email,
           message,
-          inRent, // incluimos la prop inRent
+          propertyId
         }),
       });
 
@@ -34,10 +35,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
         throw new Error("Error al enviar el formulario");
       }
 
-      // Si la petición fue exitosa
       setStatus("success");
-
-      // Opcional: Reseteamos campos
       setEmail("");
       setMessage("");
     } catch (error) {
@@ -46,15 +44,23 @@ const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
     }
   };
 
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("userData");
+    if (storedData && hasCookie("sessionIndicator")) {
+      setIsLogged(true);
+    }
+  }, []);
+
   return (
     <div
       className="
         w-full
         rounded
         dark:bg-surface-dark dark:text-gray-800
+shadowComplete
         p-4
         mb-4
-      "
+"
     >
       <h3 className="text-lg text-center font-bold mb-2">Contáctanos</h3>
       <p className="text-sm mb-3">
@@ -63,28 +69,49 @@ const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
 
       {/* Form para enviar datos */}
       <form onSubmit={handleSubmit}>
-        <input
-          className="border border-gray-300 rounded mb-3 p-2 w-full"
-          type="email"
-          placeholder="Escriba su email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+      {!isLogged && (
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                className="mt-1 mb-2 block w-full border border-black rounded-md shadow-sm p-2"
+                placeholder="Escriba su email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+          )}
 
         {/* Textarea */}
-        <textarea
-          className="border border-gray-300 rounded mb-3 p-2 w-full"
-          placeholder="Escribe tu consulta aquí"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          required
-        />
+        <div>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium mb-1 text-gray-700"
+            >
+              Mensaje
+            </label>
+            <textarea
+              id="message"
+              className="mb-2 block w-full border border-black rounded-md shadow-sm p-2"
+              rows={4}
+              placeholder="Escribe tu consulta aquí"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
+            />
+          </div>
 
         {/* Botón */}
         <button
           type="submit"
-          className="bg-green-500 hover:bg-green-600 text-white font-semibold 
+          className="bg-primary hover:bg-secondary text-white font-semibold 
                      py-2 px-4 rounded w-full disabled:opacity-50"
           disabled={status === "loading"}
         >
@@ -98,7 +125,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ inRent }) => {
       )}
       {status === "error" && (
         <p className="text-red-600 mt-2">
-          Ocurrió un error al enviar los datos. Intenta de nuevo.
+          Ocurrió un error al enviar los datos.
         </p>
       )}
     </div>
