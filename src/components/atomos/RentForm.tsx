@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { useAlert } from "../../contexts/AlertContext";
 import { hasCookie } from "../../utils/cookie";
+import { createRent } from "../../services/rent/rentService";
 
 interface RentalModalProps {
   propertyId: number;
@@ -9,145 +10,138 @@ interface RentalModalProps {
 
 const RentalModal: React.FC<RentalModalProps> = ({ propertyId }) => {
   const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
   const [checkIn, setCheckIn] = useState<Date | null>(null);
   const [checkOut, setCheckOut] = useState<Date | null>(null);
-  const [isLogged, setIsLogged] = useState<boolean>(false);
-
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [message, setMessage] = useState("");
+  const [isLogged, setIsLogged] = useState(false);
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const { showAlert } = useAlert();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
+
     try {
-      const response = await fetch("/api/rent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          message,
-          propertyId,
-          checkIn,
-          checkOut,
-        }),
+      const response = await createRent({
+        email: !isLogged ? email : JSON.parse(sessionStorage.getItem("userData") || "{}").email,
+        checkIn: checkIn ? format(checkIn, "yyyy-MM-dd") : "",
+        checkOut: checkOut ? format(checkOut, "yyyy-MM-dd") : "",
+        message,
+        propertyId,
+        userId: !isLogged ? undefined : JSON.parse(sessionStorage.getItem("userData") || "{}").id,
       });
 
-      if (!response.ok) {
-        throw new Error("Error al enviar la solicitud de alquiler");
-      }
+      if (!response.ok) throw new Error("Error al enviar solicitud de renta");
+
       setStatus("success");
       setEmail("");
-      setMessage("");
       setCheckIn(null);
       setCheckOut(null);
+      setMessage("");
       showAlert("success", "¡Solicitud enviada correctamente!");
     } catch (error) {
       console.error(error);
       setStatus("error");
-      showAlert(
-        "error",
-        "Ocurrió un error al enviar la solicitud. Intenta de nuevo."
-      );
+      showAlert("error", "Error al enviar solicitud de renta.");
     }
   };
 
   useEffect(() => {
-    const storedData = sessionStorage.getItem("userData");
-    if (storedData && hasCookie("sessionIndicator")) {
+    console.log(sessionStorage.getItem("userData"));
+    if (sessionStorage.getItem("userData") && hasCookie("sessionIndicator")) {
       setIsLogged(true);
     }
   }, []);
 
   return (
-    <div className="flex flex-col h-full w-full shadowComplete bg-white rounded-lg p-4">
-      <h3 className="text-lg text-center font-bold mb-4">Solicita tu alquiler</h3>
-      <form onSubmit={handleSubmit} className="flex flex-col flex-grow space-y-4">
+    <div className="w-full p-4 bg-white rounded-lg">
+      <h3 className="text-lg font-bold mb-4">Solicita tu alquiler</h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
         {!isLogged && (
-          <div className="flex-shrink-0">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+          <div>
+            <label htmlFor="email" className="block text-sm font-medium">
               Email
             </label>
             <input
               id="email"
               type="email"
-              className="mt-1 block w-full border border-black rounded-md shadow-sm p-2"
-              placeholder="Escriba su email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              className="block w-full mt-1 p-2 border rounded"
               required
             />
           </div>
         )}
-        <div className="flex flex-shrink-0">
-          <div className="w-1/2 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-2">
+          {/* Fecha de Entrada */}
+          <div className="relative">
             <input
               id="checkIn"
               type="date"
-              className="block w-full border border-black rounded-l-md shadow-sm p-2 pt-6 peer"
               value={checkIn ? format(checkIn, "yyyy-MM-dd") : ""}
               onChange={(e) => setCheckIn(e.target.valueAsDate)}
+              className="block w-full px-4 pt-6 pb-1 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               required
             />
             <label
               htmlFor="checkIn"
-              className="absolute text-xs font-medium text-gray-500 top-1 left-2 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-xs"
+              className="absolute text-sm text-gray-500 duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3"
             >
-              Fecha de entrada
+              Fecha de Entrada
             </label>
           </div>
-          <div className="w-1/2 relative">
+
+          {/* Fecha de Salida */}
+          <div className="relative">
             <input
               id="checkOut"
               type="date"
-              className="block w-full border border-black rounded-r-md shadow-sm p-2 pt-6 peer"
               value={checkOut ? format(checkOut, "yyyy-MM-dd") : ""}
               onChange={(e) => setCheckOut(e.target.valueAsDate)}
+              className="block w-full px-4 pt-6 pb-1 border rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500 peer"
               required
             />
             <label
               htmlFor="checkOut"
-              className="absolute text-xs font-medium text-gray-500 top-1 left-2 transition-all peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-1 peer-focus:text-xs"
+              className="absolute text-sm text-gray-500 duration-300 transform -translate-y-3 scale-75 top-4 z-10 origin-[0] left-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-3"
             >
-              Fecha de salida
+              Fecha de Salida
             </label>
           </div>
         </div>
-        <div className="flex-grow flex flex-col">
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700">
+
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium">
             Mensaje
           </label>
           <textarea
             id="message"
-            className="mt-1 block w-full border border-black rounded-md shadow-sm p-2 flex-grow"
-            placeholder="Escribe tu consulta aquí"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            className="block w-full mt-1 p-2 border rounded"
+            rows={4}
+            placeholder="Agrega detalles adicionales"
             required
           />
         </div>
         <button
           type="submit"
-          className="bg-primary hover:bg-secondary text-white font-semibold 
-                     py-2 px-4 rounded w-full disabled:opacity-50"
+          className="w-full bg-accent text-white py-2 rounded hover:bg-background-neutral disabled:opacity-50"
           disabled={status === "loading"}
         >
           {status === "loading" ? "Enviando..." : "Enviar"}
         </button>
       </form>
       {status === "success" && (
-        <p className="text-green-600 mt-2">¡Solicitud enviada correctamente!</p>
+        <p className="text-green-500 mt-2">¡Enviado correctamente!</p>
       )}
       {status === "error" && (
-        <p className="text-red-600 mt-2">
-          Ocurrió un error al enviar la solicitud. Intenta de nuevo.
-        </p>
+        <p className="text-red-500 mt-2">Error al enviar solicitud</p>
       )}
     </div>
   );
 };
 
 export default RentalModal;
-

@@ -135,10 +135,18 @@ export type FiltersPanelProps = {
 };
 
 export type SendEmail = {
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
+  from: string;
+  subject: string;
+  content: string;
+  isRent: boolean;
   id: number;
 };
 
+export type Rent = {
+  propertyId: number;
+  userId: number;
+  checkIn: string;
+  checkOut: string;
+  email: string;
+  message: string;
+};

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Property } from "../utils/types";
+import { Property, PropertyStatus } from "../utils/types";
 import ImageSlider from "../components/atomos/ImageSlider";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,18 +9,20 @@ import PropertyFeatures from "../components/atomos/CaracteristicCarrusel";
 import { useProperties } from "../contexts/PropertyContext";
 import PropertyHeader from "../components/atomos/PropertyHeader";
 import PropertyInfo from "../components/atomos/PropertyInfo";
-import Title from "../components/atomos/Title";
 import WhatsappButton from "../components/atomos/WhatsappButton";
 import PropertyContactSlider from "../components/atomos/PropertiContactSlider";
+import { fetchProperty } from "../services/properties/propertyService";
+import { useAlert } from "../contexts/AlertContext";
 
 const PropertyDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [property, setProperty] = useState<Property | null>(null);
+  const [isRent, setIsRent] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const { properties } = useProperties();
+  const { showAlert } = useAlert();
+  
 
-  // para mandar por whatsapp
   const currentUrl = window.location.href;
 
   useEffect(() => {
@@ -30,26 +32,37 @@ const PropertyDetails: React.FC = () => {
   useEffect(() => {
     const loadProperty = async () => {
       try {
+        console.log(id);
+        if (!id) throw new Error("No se encontró el ID de la propiedad.");  
+        console.log(id);
+
         if (properties.length > 0 && id) {
+          console.log("entro");
+
           const propertyData = properties.find((p) => p.id === parseInt(id));
           if (propertyData) {
+            console.log(propertyData);
+
             setProperty(propertyData);
+            setIsRent(propertyData.status.map((s) => s.toLowerCase()).includes(PropertyStatus.ForRent));
             return;
           }
         }
-      } catch (err) {
-        console.error("Error fetching property:", err);
-        setError("Hubo un problema al cargar los detalles de la propiedad.");
+        const propertyResponse = await fetchProperty(parseInt(id));
+        console.log(propertyResponse);
+        setProperty(propertyResponse);
+        setIsRent(propertyResponse.status.map((s) => s.toLowerCase()).includes(PropertyStatus.ForRent));
+      } catch {
+        showAlert("error", "Hubo un problema al cargar los detalles de la propiedad.");        
       } finally {
         setLoading(false);
       }
     };
     loadProperty();
-  }, [id, properties]);
+  },);
 
   if (loading) return <div>Cargando detalles de la propiedad...</div>;
-  if (error) return <Title size="large" text={error} clase="h-screen mt-9" />;
-  if (!property) return <div>No se encontró la propiedad.</div>;
+  if (!property) return <>No se encontró la propiedad</>;
 
   return (
     <div className="w-full bg-white mt-8 my-8 overflow-hidden">
@@ -87,8 +100,8 @@ const PropertyDetails: React.FC = () => {
       <div className="flex flex-col pl-2 md:flex-row w-full justify-center items-center">
   <PropertyInfo property={property} />
   {/* Envolvemos el slider en un div con un ancho máximo */}
-  <div className="md:w-1/5 md justify-center mt-6 md:mt-0"> 
-    <PropertyContactSlider propertyId={property.id} />
+  <div className="md:w-1/4  w-full md justify-center md:mt-0"> 
+    <PropertyContactSlider propertyId={property.id} isRent={isRent}/>
   </div>
 </div>
 

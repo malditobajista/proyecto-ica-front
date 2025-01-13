@@ -5,13 +5,10 @@ const BASE_URL = "http://localhost:3000";
 
 export const sendEmail = async (body: SendEmail) => {
     try {
-      const response = await axios.post(`${BASE_URL}/mail/send`, body);
-  
+      const response = await axios.post(`${BASE_URL}/mail/consultation`, body);
       const home = response.data;
-      console.log("fetchHomeClient response", home);
       return home;
-    }catch(error){
-      console.error("Error al cargar las propiedades:", error);
-      return {rent: [], sale: [], pinned: []};
+    }catch {
+      throw new Error("Error al enviar el email");
     }
   }

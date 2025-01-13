@@ -108,17 +108,16 @@ export const fetchProperties = async (): Promise<Property[]> => {
   }
 };
 
-export const fetchProperty = async (id: number): Promise<Property[]> => {
+export const fetchProperty = async (id: number): Promise<Property> => {
   try {
-    const response = await axios.get(`${BASE_URL}/property/${id}`);
+    const response = await axios.get(`${BASE_URL}/property/findOne`, {params: {id}});
     if (response.status === 401) {
       await logoutUser();
       window.location.href = "/login";
     }
     return response.data;
-  } catch (error) {
-    console.error("Error al cargar las propiedades:", error);
-    return [];
+  } catch {
+    throw new Error("Error al cargar la propiedad");
   }
 };
 

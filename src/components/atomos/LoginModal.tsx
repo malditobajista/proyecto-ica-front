@@ -66,7 +66,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
       await loginUser(formData.email, formData.password)
       const user = await getUsers()
       sessionStorage.setItem('userData', JSON.stringify(user))
-      navigate('/home')
+      window.location.reload()
       showAlert("success", "Inicio de sesión exitoso")
       onClose()
     } catch (error) {
