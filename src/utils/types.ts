@@ -5,6 +5,7 @@ export interface UserData {
     email: string;
     phone: string;
     password?: string;
+    admin?: boolean;
     repeatPassword?: string;
 }
 export interface ChangePassword {

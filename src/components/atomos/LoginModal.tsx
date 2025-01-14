@@ -66,7 +66,11 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
       await loginUser(formData.email, formData.password)
       const user = await getUsers()
       sessionStorage.setItem('userData', JSON.stringify(user))
-      window.location.reload()
+      if(window.location.pathname === '/login'){
+        navigate('/')
+      }else{
+        window.location.reload()
+      }
       showAlert("success", "Inicio de sesión exitoso")
       onClose()
     } catch (error) {
@@ -173,8 +177,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
         <div className="mt-4 text-center">
           <button
             onClick={toggleRegistering}
-            className="text-sm text-gray-600 hover:text-green-500 transition-colors duration-200"
-          >
+            className=" text-blue-500 hover:underline text-sm"
+            >
             ¿No tienes una cuenta? Regístrate
           </button>
         </div>
@@ -182,10 +186,10 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
         <button
             onClick={() => {
             onClose();
-            navigate('/forgot-password'); // Navega a la página de Forgot Password
+            navigate('/forgot-password');
             }}
-            className="text-sm text-gray-600 hover:text-accent"
-        >
+            className=" text-blue-500 hover:underline text-sm"
+            >
             Me olvidé mi contraseña
         </button>
         </div>

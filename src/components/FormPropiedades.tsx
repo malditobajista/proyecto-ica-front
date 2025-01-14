@@ -96,13 +96,13 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
   };
 
   const handleModalAccept = async () => {
-    setModalOpen(false); // Cerrar el modal
+    setModalOpen(false);
     try {
       const prop = await createProperty(formData, files);
       onAddProperty(formData);
       setFormData(inicializarPropiedad);
       setFiles([]);
-      navigate(`/propiedades/${prop.data.id}`);
+      navigate(`/properties/${prop.id}`);
     } catch (error) {
       console.error("Error al enviar la propiedad:", error);
     }

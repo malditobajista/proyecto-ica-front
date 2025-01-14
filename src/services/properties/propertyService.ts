@@ -171,3 +171,65 @@ export const removeFavourite = async (id: number): Promise<boolean> => {
     return false;
   }
 };
+
+export const findToApprove = async (): Promise<Property[]> => {
+  try {
+    const response = await fetch(`${BASE_URL}/property/findToApproved`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (response.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+      return [];
+    }
+    return await response.json();
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return [];
+  }
+};
+
+export const approveProperty = async (id: number): Promise<boolean> => {
+  try {
+    const response = await fetch(`${BASE_URL}/property/approve`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id, approved: true}),
+    });
+
+    if (response.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+      return false;
+    }
+    return true;
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return false;
+  }
+};
+
+export const deleteProperty = async (id: number): Promise<boolean> => {
+  try {
+    const response = await fetch(`${BASE_URL}/property/delete?id=${id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+      return false;
+    }
+
+    if (response.status === 403) throw new Error('No tienes los permisos necesarios.');
+    return true;
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return false;
+  }
+}

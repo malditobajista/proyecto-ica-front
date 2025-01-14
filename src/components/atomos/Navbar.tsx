@@ -3,10 +3,9 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoginRegisterModal from "./Modal";
 import { FaUser, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import logo from "../../assets/imgs/logo.png";
-import { hasCookie } from "../../utils/cookie";
-import { logoutUser } from "../../services/users/userService";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useAlert } from "../../contexts/AlertContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
@@ -14,11 +13,12 @@ const Navbar = () => {
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { showAlert } = useAlert();
+  const { user, isAuthenticated, logoutUser } = useAuth();
+
 
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
@@ -38,10 +38,10 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+  
   const handleLogout = async () => {
     try {
       await logoutUser();
-      setIsLoggedIn(false);
       setIsNavOpen(false);
       setIsUserMenuOpen(false);
       showAlert("success", "Sesión cerrada correctamente");
@@ -53,25 +53,18 @@ const Navbar = () => {
   };
 
   const toggleUserMenu = useCallback(() => {
-    if (isLoggedIn) {
+    if (isAuthenticated) {
       setIsUserMenuOpen(prev => !prev);
     } else {
       setIsModalOpen(true);
     }
-  }, [isLoggedIn]);
+  }, [isAuthenticated]);
 
   const closeMenus = useCallback(() => {
     setIsNavOpen(false);
     setIsUserMenuOpen(false);
   }, []);
 
-  useEffect(() => {
-    setIsLoggedIn(hasCookie("sessionIndicator"));
-  }, []);
-
-  useEffect(() => {
-    setIsLoggedIn(hasCookie("sessionIndicator"));
-  }, [isModalOpen]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -122,12 +115,16 @@ const Navbar = () => {
     { path: "/properties/favourites", label: "Mis Favoritas" },
   ];
 
+  const adminMenuItems = [
+    ...userMenuItems,
+    { path : "/properties/pending-approval", label: "Aprobar Propiedades"}
+  ]
+
   return (
-    <nav
+    (<nav
       ref={navRef}
       className={`absolute top-0 left-0 right-0 z-40 p-2 pr-3 bg-gradient-to-b from-blue-600 to-blue-300"
         `}
-
     >
       <div className="flex justify-between items-center">
         <Link to="/home">
@@ -150,12 +147,12 @@ const Navbar = () => {
               aria-label="Perfil de usuario"
             >
               <FaUser className="mr-2" />
-              {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
-              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" />}
+              {isAuthenticated ? "Mi Cuenta" : "Iniciar Sesión"}
+              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" /> }
             </button>
-            {isUserMenuOpen && isLoggedIn && (
+            {isUserMenuOpen && isAuthenticated && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                {userMenuItems.map(({ path, label }) => (
+                {!user?.admin && userMenuItems.map(({ path, label }) => (
                   <Link
                     key={path}
                     className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
@@ -167,6 +164,19 @@ const Navbar = () => {
                     {label}
                   </Link>
                 ))}
+
+                { user?.admin && (adminMenuItems.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                      path
+                    )}`}
+                    to={path}
+                    onClick={closeMenus}
+                  >
+                    {label}
+                  </Link>
+                )))}
                 <button
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   onClick={handleLogout}
@@ -204,21 +214,36 @@ const Navbar = () => {
             aria-label="Perfil de usuario"
           >
             <FaUser className="mr-2" />
-            {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
+            {isAuthenticated ? "Mi Cuenta" : "Iniciar Sesión"}
             <FaChevronDown className="ml-2" />
           </button>
-          {isLoggedIn && isUserMenuOpen && (
+          {isAuthenticated && isUserMenuOpen && (
             <>
-              {userMenuItems.map(({ path, label }) => (
-                <Link
-                  key={path}
-                  className={`nav-button ${isActive(path)} pl-8`}
-                  to={path}
-                  onClick={closeMenus}
-                >
-                  {label}
-                </Link>
-              ))}
+                {!user?.admin && userMenuItems.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                      path
+                    )}`}
+                    to={path}
+                    onClick={closeMenus}
+                  >
+                    {label}
+                  </Link>
+                ))}
+
+                { user?.admin && (adminMenuItems.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                      path
+                    )}`}
+                    to={path}
+                    onClick={closeMenus}
+                  >
+                    {label}
+                  </Link>
+                )))}
               <button
                 className="nav-button hover:bg-green-500 text-left pl-8"
                 onClick={handleLogout}
@@ -230,7 +255,8 @@ const Navbar = () => {
         </div>
       )}
       <LoginRegisterModal isOpen={isModalOpen} onClose={handleModalClose} />
-    </nav>
+    </nav>)
+
   );
 };
 
