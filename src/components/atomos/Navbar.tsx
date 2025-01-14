@@ -24,6 +24,20 @@ const Navbar = () => {
     setIsModalOpen(false);
   }, []);
 
+  // const handleScroll = () => {
+  //   setHasScrolled(window.scrollY > 0);
+  // };
+  useEffect(() => {
+    const handleScroll = () => {
+      setHasScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const handleLogout = async () => {
     try {
       await logoutUser();
@@ -37,7 +51,7 @@ const Navbar = () => {
       console.error("Error during logout:", error);
     }
   };
-  
+
   const toggleUserMenu = useCallback(() => {
     if (isLoggedIn) {
       setIsUserMenuOpen(prev => !prev);
@@ -71,16 +85,12 @@ const Navbar = () => {
       }
     };
 
-    const handleScroll = () => {
-      setHasScrolled(window.scrollY > 0);
-    };
-
     document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("scroll", handleScroll);
+    // window.addEventListener("scroll", handleScroll);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
-      window.removeEventListener("scroll", handleScroll);
+      // window.removeEventListener("scroll", handleScroll);
     };
   }, [closeMenus]);
 
@@ -88,14 +98,14 @@ const Navbar = () => {
     closeMenus();
   }, [location, closeMenus]);
 
-  const isHomePage =
-    location.pathname === "/" || location.pathname.toLowerCase() === "/home";
+  // const isHomePage =
+  //   location.pathname === "/" || location.pathname.toLowerCase() === "/home";
 
   const isActive = useCallback(
     (path: string) =>
       location.pathname === path
-        ? "text-green-500 font-extrabold"
-        : "hover:text-green-500 transition-text duration-300",
+        ? "text-white font-extrabold"
+        : "hover:text-white transition-text duration-300",
     [location.pathname]
   );
 
@@ -115,12 +125,9 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3
-            ${
-              isHomePage && !hasScrolled
-                ? ""
-                : "  bg-gradient-to-b to-background-light from-accent text-white"
-            }`}
+      className={`absolute top-0 left-0 right-0 z-40 p-2 pr-3 bg-gradient-to-b from-blue-600 to-blue-300"
+        `}
+
     >
       <div className="flex justify-between items-center">
         <Link to="/home">
@@ -138,13 +145,13 @@ const Navbar = () => {
           ))}
           <div className="relative" ref={userMenuRef}>
             <button
-              className={`nav-button hover:text-green-500 transition-text duration-300 flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+              className={`nav-button hover:text-white transition-text duration-300 flex items-center ${isUserMenuOpen ? 'text-white' : ''}`}
               onClick={toggleUserMenu}
               aria-label="Perfil de usuario"
             >
               <FaUser className="mr-2" />
               {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
-              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" /> }
+              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" />}
             </button>
             {isUserMenuOpen && isLoggedIn && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
@@ -175,7 +182,7 @@ const Navbar = () => {
           onClick={() => setIsNavOpen((prev) => !prev)}
           aria-label="Toggle navigation menu"
         >
-            <HiMenuAlt3 />
+          <HiMenuAlt3 />
         </button>
       </div>
 

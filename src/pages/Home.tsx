@@ -41,7 +41,8 @@ const Home: React.FC = () => {
 
   return (
     <div className="space-y-8  max-w-full bg-white">
-      <div className=" mx-auto">
+      {/* <div className="lg:max-w-[85%] mx-auto"> */}
+      <div className="relative mx-auto">
         <Banner />
       </div>
 
@@ -100,32 +101,32 @@ const Home: React.FC = () => {
             </>
           )}
         </section>
-          <section className="px-0">
-            {home.favourites && home.favourites.length > 0 && (
-              <>
-                <Title text="Tus propiedades favoritas" size="large" />
-                <Carousel
-                  properties={home.favourites.length ? home.favourites : []}
-                />
-                <div className="py-3">
-                  <Button to="/">Ir a tus propiedades favoritas</Button>
-                </div>
-                <hr />
-              </>
-            )}
-          </section>
-          <section className="px-0">
-            {home.created && home.created.length > 0 && (
-              <>
-                <Title text="Tus propiedades" size="large" />
-                <Carousel properties={home.created.length ? home.created : []} />
-                <div className="py-3">
-                  <Button to="/">Ir a tus propiedades</Button>
-                </div>
-                <hr />
-              </>
-            )}
-          </section>
+        <section className="px-0">
+          {home.favourites && home.favourites.length > 0 && (
+            <>
+              <Title text="Tus propiedades favoritas" size="large" />
+              <Carousel
+                properties={home.favourites.length ? home.favourites : []}
+              />
+              <div className="py-3">
+                <Button to="/">Ir a tus propiedades favoritas</Button>
+              </div>
+              <hr />
+            </>
+          )}
+        </section>
+        <section className="px-0">
+          {home.created && home.created.length > 0 && (
+            <>
+              <Title text="Tus propiedades" size="large" />
+              <Carousel properties={home.created.length ? home.created : []} />
+              <div className="py-3">
+                <Button to="/">Ir a tus propiedades</Button>
+              </div>
+              <hr />
+            </>
+          )}
+        </section>
         {/* <hr />
                 // mapa con todas las propiedades, hay q terminar de setear las apiKey de google en el componente
                 <div className="lg:max-w-[1200px] mx-auto">

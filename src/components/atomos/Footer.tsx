@@ -21,7 +21,7 @@ export const Footer = () => {
     // }, [location]);
 
     return (
-        <footer className={`sticky top-[100vh] p-5 bg-gradient-to-b to-gray-800 from-gray-400 text-white`}>
+        <footer className={`sticky top-[100vh] p-5 bg-gradient-to-b to-blue-600 from-blue-300 text-white`}>
             {/* <footer className={`sticky top-[100vh] p-5 transition-colors duration-300 ${hasScrolled ? 'bg-gray-700' : 'bg-gray-600 '} text-white`}> */}
             <div className="flex flex-col md:flex-row justify-between items-center px-5">
                 <div className="flex-shrink-0 mb-4 md:mb-0">
@@ -36,13 +36,13 @@ export const Footer = () => {
                 </div>
                 <div className="flex space-x-4">
                     <a className="facebook" href="https://www.facebook.com/inmobiliariacostaazul.lapaloma" target="_blank" rel="noopener noreferrer">
-                        <FaFacebookSquare className="fa-lg hover:text-blue-500 transition-text duration-300" />
+                        <FaFacebookSquare className="fa-lg hover:text-blue-500 transition-text duration-300" size={25} />
                     </a>
                     <a className="youtube" href="https://www.youtube.com/channel/UCDNHUcAabL3I4XRk71CACqg" target="_blank" rel="noopener noreferrer">
-                        <FaYoutube className="fa-lg hover:text-red-500 transition-text duration-300" />
+                        <FaYoutube className="fa-lg hover:text-red-500 transition-text duration-300" size={25} />
                     </a>
                     <a className="whatsapp" href="https://api.whatsapp.com/send?phone=59898384860&text=&source=&data=" target="_blank" rel="noopener noreferrer">
-                        <FaWhatsapp className="fa-lg hover:text-green-500 transition-text duration-300" />
+                        <FaWhatsapp className="fa-lg hover:text-green-500 transition-text duration-300" size={25} />
                     </a>
                 </div>
             </div>
