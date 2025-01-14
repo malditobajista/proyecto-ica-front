@@ -145,7 +145,7 @@ export type SendEmail = {
 
 export type Rent = {
   propertyId: number;
-  userId: number;
+  user: number;
   checkIn: string;
   checkOut: string;
   email: string;

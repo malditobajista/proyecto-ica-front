@@ -3,7 +3,7 @@ import Navbar from "./components/atomos/Navbar";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { AlertProvider } from "./contexts/AlertContext";
 import { PropertyProvider } from "./contexts/PropertyContext";
-import { AuthProvider } from "./contexts/AuthContext"; // Importa el AuthProvider
+import { AuthProvider } from "./contexts/AuthContext";
 import Home from "./pages/Home";
 import LoginRegisterModal from "./components/atomos/Modal";
 import ApprovePropertiesPage from "./pages/PropertyApproval";

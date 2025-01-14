@@ -24,27 +24,24 @@ const RentalModal: React.FC<RentalModalProps> = ({ propertyId }) => {
     setStatus("loading");
 
     try {
-      const response = await createRent({
+      await createRent({
         email: !isLogged ? email : JSON.parse(sessionStorage.getItem("userData") || "{}").email,
         checkIn: checkIn ? format(checkIn, "yyyy-MM-dd") : "",
         checkOut: checkOut ? format(checkOut, "yyyy-MM-dd") : "",
         message,
         propertyId,
-        userId: !isLogged ? undefined : JSON.parse(sessionStorage.getItem("userData") || "{}").id,
+        user: !isLogged ? undefined : JSON.parse(sessionStorage.getItem("userData") || "{}").id,
       });
 
-      if (!response.ok) throw new Error("Error al enviar solicitud de renta");
-
       setStatus("success");
+      showAlert("success", "¡Solicitud enviada correctamente!");
       setEmail("");
       setCheckIn(null);
       setCheckOut(null);
       setMessage("");
-      showAlert("success", "¡Solicitud enviada correctamente!");
     } catch (error) {
-      console.error(error);
       setStatus("error");
-      showAlert("error", "Error al enviar solicitud de renta.");
+      showAlert("error", (error as Error).message);
     }
   };
 
@@ -134,12 +131,6 @@ const RentalModal: React.FC<RentalModalProps> = ({ propertyId }) => {
           {status === "loading" ? "Enviando..." : "Enviar"}
         </button>
       </form>
-      {status === "success" && (
-        <p className="text-green-500 mt-2">¡Enviado correctamente!</p>
-      )}
-      {status === "error" && (
-        <p className="text-red-500 mt-2">Error al enviar solicitud</p>
-      )}
     </div>
   );
 };

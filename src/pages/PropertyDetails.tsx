@@ -32,24 +32,16 @@ const PropertyDetails: React.FC = () => {
   useEffect(() => {
     const loadProperty = async () => {
       try {
-        console.log(id);
         if (!id) throw new Error("No se encontró el ID de la propiedad.");  
-        console.log(id);
-
         if (properties.length > 0 && id) {
-          console.log("entro");
-
           const propertyData = properties.find((p) => p.id === parseInt(id));
           if (propertyData) {
-            console.log(propertyData);
-
             setProperty(propertyData);
             setIsRent(propertyData.status.map((s) => s.toLowerCase()).includes(PropertyStatus.ForRent));
             return;
           }
         }
         const propertyResponse = await fetchProperty(parseInt(id));
-        console.log(propertyResponse);
         setProperty(propertyResponse);
         setIsRent(propertyResponse.status.map((s) => s.toLowerCase()).includes(PropertyStatus.ForRent));
       } catch {
