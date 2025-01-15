@@ -5,6 +5,7 @@ import { registerUser, getUsers } from "../../services/users/userService";
 import { errorMessages } from "../../utils/errorMessages";
 import { isValidName, isValidEmail, isValidPhoneNumber } from "../../utils/validations";
 import CustomButton from "./ButtonProfile";
+import Title from "./Title";
 
 interface RegisterModalProps {
   isOpen: boolean;
@@ -113,7 +114,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
   return (
     <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center">Registro</h2>
+        {/* <h2 className="text-2xl font-bold mb-6 text-center">Registro</h2> */}
+        <Title text="Registro" clase="mt-0 pt-0 text-2xl font-bold mb-6 text-center" />
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Nombre */}
           <div className="relative">
@@ -124,9 +126,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Nombre"
               value={formData.firstName}
               onChange={handleChange}
-              className={`w-full pl-10 pr-3 py-2 border rounded-md ${
-                errors.firstName ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-3 py-2 border rounded-md ${errors.firstName ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
@@ -141,9 +142,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Apellido"
               value={formData.lastName}
               onChange={handleChange}
-              className={`w-full pl-10 pr-3 py-2 border rounded-md ${
-                errors.lastName ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-3 py-2 border rounded-md ${errors.lastName ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
@@ -158,9 +158,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full pl-10 pr-3 py-2 border rounded-md ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-3 py-2 border rounded-md ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
@@ -175,9 +174,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Contraseña"
               value={formData.password}
               onChange={handleChange}
-              className={`w-full pl-10 pr-10 py-2 border rounded-md ${
-                errors.password ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-10 py-2 border rounded-md ${errors.password ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             <button
@@ -199,9 +197,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Repetir Contraseña"
               value={formData.repeatPassword}
               onChange={handleChange}
-              className={`w-full pl-10 pr-10 py-2 border rounded-md ${
-                errors.repeatPassword ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-10 py-2 border rounded-md ${errors.repeatPassword ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             <button
@@ -223,17 +220,18 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               placeholder="Teléfono"
               value={formData.phone}
               onChange={handleChange}
-              className={`w-full pl-10 pr-3 py-2 border rounded-md ${
-                errors.phone ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`w-full pl-10 pr-3 py-2 border rounded-md ${errors.phone ? "border-red-500" : "border-gray-300"
+                }`}
               required
             />
             {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
           </div>
+          <div className="flex justify-center">
 
-          <CustomButton type="submit" variant="primary">
-            Registrarse
-          </CustomButton>
+            <CustomButton type="submit" variant="primary">
+              Registrarse
+            </CustomButton>
+          </div>
         </form>
         <div className="text-center mt-4">
           <button

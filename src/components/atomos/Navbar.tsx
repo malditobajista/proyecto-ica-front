@@ -39,7 +39,7 @@ const Navbar = () => {
       await logoutUser();
       setIsNavOpen(false);
       setIsUserMenuOpen(false);
-      showAlert("success", "Sesión cerrada correctamente");
+      showAlert("info", "Sesión cerrada correctamente");
       navigate("/home");
     } catch (error) {
       showAlert("error", "Error al cerrar sesión. Intente nuevamente");
@@ -86,8 +86,10 @@ const Navbar = () => {
   const isActive = useCallback(
     (path: string) =>
       location.pathname === path
-        ? "text-accent-light font-extrabold"
+        ? "font-extrabold text-black underline"
         : "hover:text-accent-light transition-text duration-300",
+    // ? "text-accent-light font-extrabold text-black"
+    // : "hover:text-accent-light transition-text duration-300",
     [location.pathname]
   );
 
@@ -114,7 +116,8 @@ const Navbar = () => {
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-40 bg-primary transition-transform duration-300`}
+      className={`fixed top-0 left-0 right-0 z-40 bg-gradient-to-b to-blue-300 from-blue-600 text-black`}
+    // className={`fixed top-0 left-0 right-0 z-40 bg-primary transition-transform duration-300`}
     >
       <div className="flex justify-between items-center p-2 pr-3">
         <Link to="/home">
@@ -124,7 +127,7 @@ const Navbar = () => {
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
-              className={`nav-button text-white ${isActive(path)}`}
+              className={`nav-button text-white ${isActive(path)} hover:font-bold `}
               to={path}
             >
               {label}
@@ -132,9 +135,8 @@ const Navbar = () => {
           ))}
           <div className="relative" ref={userMenuRef}>
             <button
-              className={`nav-button text-white hover:text-accent-light transition-text duration-300 flex items-center ${
-                isUserMenuOpen ? "text-accent-light" : ""
-              }`}
+              className={`nav-button text-white hover:text-accent-light hover:font-bold transition-text duration-300 flex items-center ${isUserMenuOpen ? "text-accent-light" : ""
+                }`}
               onClick={toggleUserMenu}
               aria-label="Perfil de usuario"
             >
@@ -147,12 +149,14 @@ const Navbar = () => {
               )}
             </button>
             {isUserMenuOpen && isAuthenticated && (
-              <div className="absolute right-0 mt-2 w-48 bg-background-light rounded-md shadow-lg py-1 z-50">
+              // <div className="absolute right-0 mt-2 w-48 bg-background-light rounded-md shadow-lg py-1 z-50">
+              <div className="absolute right-0 mt-2 w-48 bg-blue rounded-md shadow-lg py-1 z-50">
                 {!user?.admin &&
                   userMenuItems.map(({ path, label }) => (
                     <Link
                       key={path}
-                      className={`block px-4 py-2 text-sm text-primary hover:bg-secondary hover:text-white ${isActive(
+                      className={`block px-4 py-2 text-sm text-white  hover:bg-blue-600 bg-blue-300 hover:text-white ${isActive(
+                        // className={`block px-4 py-2 text-sm text-primary hover:bg-secondary hover:text-white ${isActive(
                         path
                       )}`}
                       to={path}
@@ -166,7 +170,7 @@ const Navbar = () => {
                   adminMenuItems.map(({ path, label }) => (
                     <Link
                       key={path}
-                      className={`block px-4 py-2 text-sm text-primary hover:bg-secondary hover:text-white ${isActive(
+                      className={`block px-4 py-2 text-sm text-white hover:bg-blue-600 hover:font-bold bg-blue-300 hover:text-white ${isActive(
                         path
                       )}`}
                       to={path}
@@ -176,7 +180,7 @@ const Navbar = () => {
                     </Link>
                   ))}
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-primary hover:bg-secondary hover:text-white"
+                  className="block w-full text-left px-4 py-2 text-sm text-white hover:bg-blue-600 hover:font-bold bg-blue-300 hover:text-white"
                   onClick={handleLogout}
                 >
                   Cerrar Sesión
@@ -195,7 +199,7 @@ const Navbar = () => {
       </div>
 
       {isNavOpen && (
-        <div className="md:hidden flex flex-col gap-3 mt-3 text-right justify-end items-end bg-secondary p-4">
+        <div className="md:hidden flex flex-col gap-3 mt-3 text-right justify-end items-end bg-blue-300 p-4">
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
@@ -207,9 +211,8 @@ const Navbar = () => {
             </Link>
           ))}
           <button
-            className={`nav-button text-white hover:text-accent-light transition-text duration-300 text-right flex items-center ${
-              isUserMenuOpen ? "text-accent-light" : ""
-            }`}
+            className={`nav-button text-white hover:text-accent-light transition-text duration-300 text-right flex items-center ${isUserMenuOpen ? "text-accent-light" : ""
+              }`}
             onClick={toggleUserMenu}
             aria-label="Perfil de usuario"
           >
@@ -223,7 +226,7 @@ const Navbar = () => {
                 userMenuItems.map(({ path, label }) => (
                   <Link
                     key={path}
-                    className={`block px-4 py-2 text-sm text-white hover:bg-primary hover:text-accent-light ${isActive(
+                    className={`block px-4 py-2 text-sm text-white hover:bg-blue-600 hover:text-accent-light ${isActive(
                       path
                     )}`}
                     to={path}

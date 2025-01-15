@@ -4,22 +4,6 @@ import '../../utils/Footer.css';
 import logo from '../../assets/imgs/logo.png';
 
 export const Footer = () => {
-    // const [hasScrolled, setHasScrolled] = useState(false);
-    // const location = useLocation();
-
-    // useEffect(() => {
-    //     const handleScroll = () => {
-    //         setHasScrolled(window.scrollY > 0);
-    //     };
-
-    //     window.addEventListener('scroll', handleScroll);
-    //     return () => window.removeEventListener('scroll', handleScroll);
-    // }, []);
-
-    // useEffect(() => {
-    //     setHasScrolled(false);
-    // }, [location]);
-
     return (
         <footer className={`sticky top-[100vh] p-5 bg-gradient-to-b to-blue-600 from-blue-300 text-white`}>
             {/* <footer className={`sticky top-[100vh] p-5 transition-colors duration-300 ${hasScrolled ? 'bg-gray-700' : 'bg-gray-600 '} text-white`}> */}
@@ -50,17 +34,17 @@ export const Footer = () => {
             <div className="flex flex-col md:flex-row justify-around p-5 gap-8">
                 <section id="nav_menu-1" className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="flex flex-col">
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Home">Inicio</Link>
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Propiedades/">Propiedades</Link>
+                        <Link className="nav-button hover:text-blue-600 hover:font-bold transition-text duration-300" to="/home">Inicio</Link>
+                        <Link className="nav-button hover:text-blue-600 hover:font-bold transition-text duration-300" to="/properties/">Propiedades</Link>
                     </div>
                     <div className="flex flex-col">
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/Contacto/">Contacto</Link>
-                        <Link className="nav-button hover:text-green-500 transition-text duration-300" to="/PublicarProp/">Publicar propiedad</Link>
+                        <Link className="nav-button hover:text-blue-600 hover:font-bold transition-text duration-300" to="/contact/">Contacto</Link>
+                        <Link className="nav-button hover:text-blue-600 hover:font-bold transition-text duration-300" to="/properties/create">Publicar propiedad</Link>
                     </div>
                 </section>
 
                 <section id="contact-info" className="flex flex-col gap-4 sm:pb-4">
-                    <div className="contact-item hover:text-green-500 transition-text duration-300">
+                    <div className="contact-item hover:text-blue-600 hover:font-bold transition-text duration-300">
                         <FaMapMarkerAlt className="icon" />
                         <p className="content">
                             <a href="https://www.google.com/maps/place/Real+Estate+Costa+Azul/@-34.6345552,-54.1634234,17z/data=!3m1!4b1!4m6!3m5!1s0x95749c887837af5d:0xc00eb1ee62df83f8!8m2!3d-34.6345552!4d-54.1608485!16s%2Fg%2F1pp2w_lp7?entry=ttu&g_ep=EgoyMDI0MDkxOC4xIKXMDSoASAFQAw%3D%3D"
@@ -70,11 +54,11 @@ export const Footer = () => {
                             </a>
                         </p>
                     </div>
-                    <div className="contact-item hover:text-green-500 transition-text duration-300">
+                    <div className="contact-item hover:text-blue-600 hover:font-bold transition-text duration-300">
                         <FaPhoneAlt className="icon" />
                         <p className="content">(+598) 4479 8463</p>
                     </div>
-                    <div className="contact-item hover:text-green-500 transition-text duration-300">
+                    <div className="contact-item hover:text-blue-600 hover:font-bold transition-text duration-300">
                         <FaEnvelope className="icon" />
                         <a href="mailto:consultas@inmobiliariacostaazul.com" className="content">consultas@inmobiliariacostaazul.com</a>
                     </div>

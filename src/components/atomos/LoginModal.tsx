@@ -19,8 +19,8 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegistering }) => {
   const { showAlert } = useAlert()
   const navigate = useNavigate();
-  
-    
+
+
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -61,14 +61,14 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!validateFields()) return
-  
+
     try {
       await loginUser(formData.email, formData.password)
       const user = await getUsers()
       sessionStorage.setItem('userData', JSON.stringify(user))
-      if(window.location.pathname === '/login'){
+      if (window.location.pathname === '/login') {
         navigate('/')
-      }else{
+      } else {
         window.location.reload()
       }
       showAlert("success", "Inicio de sesión exitoso")
@@ -138,9 +138,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
               value={formData.email}
               onChange={handleChange}
               required
-              className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className={`w-full pl-10 pr-3 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${errors.email ? 'border-red-500' : 'border-gray-300'
+                }`}
             />
           </div>
           {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
@@ -155,9 +154,8 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
               value={formData.password}
               onChange={handleChange}
               required
-              className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${
-                errors.password ? 'border-red-500' : 'border-gray-300'
-              }`}
+              className={`w-full pl-10 pr-10 py-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 ${errors.password ? 'border-red-500' : 'border-gray-300'
+                }`}
             />
             <button
               type="button"
@@ -168,30 +166,31 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose, toggleRegister
             </button>
           </div>
           {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
-
-          <CustomButton type="submit" variant="primary" onClick={() => {}}>
-            Iniciar Sesión
-          </CustomButton>
+          <div className="flex justify-center">
+            <CustomButton type="submit" variant="primary" onClick={() => { }}>
+              Iniciar Sesión
+            </CustomButton>
+          </div>
         </form>
 
         <div className="mt-4 text-center">
           <button
             onClick={toggleRegistering}
             className=" text-blue-500 hover:underline text-sm"
-            >
+          >
             ¿No tienes una cuenta? Regístrate
           </button>
         </div>
         <div className="mt-2 text-center">
-        <button
+          <button
             onClick={() => {
-            onClose();
-            navigate('/forgot-password');
+              onClose();
+              navigate('/forgot-password');
             }}
             className=" text-blue-500 hover:underline text-sm"
-            >
+          >
             Me olvidé mi contraseña
-        </button>
+          </button>
         </div>
       </div>
     </div>
