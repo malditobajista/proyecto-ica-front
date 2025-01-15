@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import Alert, { AlertType } from '../components/atomos/Alerts';
+import React, { createContext, useContext, useState, ReactNode } from "react";
+import Alert, { AlertType } from "../components/atomos/Alerts";
 
 interface AlertContextProps {
   showAlert: (type: AlertType, message: string) => void;
@@ -8,22 +8,23 @@ interface AlertContextProps {
 const AlertContext = createContext<AlertContextProps | undefined>(undefined);
 
 export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [alerts, setAlerts] = useState<{ type: AlertType; message: string }[]>([]);
+  const [currentAlert, setCurrentAlert] = useState<{ type: AlertType; message: string } | null>(null);
 
   const showAlert = (type: AlertType, message: string) => {
-    setAlerts((prev) => [...prev, { type, message }]);
+    // Reemplaza la alerta actual con la nueva
+    setCurrentAlert({ type, message });
+
+    // Configura el tiempo para que desaparezca
     setTimeout(() => {
-      setAlerts((prev) => prev.slice(1));
-    }, 3000);
+      setCurrentAlert(null);
+    }, 2000);
   };
 
   return (
     <AlertContext.Provider value={{ showAlert }}>
       {children}
       <div className="fixed top-4 right-4 space-y-2">
-        {alerts.map((alert, idx) => (
-          <Alert key={idx} type={alert.type} message={alert.message} />
-        ))}
+        {currentAlert && <Alert type={currentAlert.type} message={currentAlert.message} />}
       </div>
     </AlertContext.Provider>
   );
@@ -32,7 +33,7 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 export const useAlert = () => {
   const context = useContext(AlertContext);
   if (!context) {
-    throw new Error('useAlert must be used within an AlertProvider');
+    throw new Error("useAlert must be used within an AlertProvider");
   }
   return context;
 };

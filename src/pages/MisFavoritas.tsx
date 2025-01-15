@@ -11,7 +11,7 @@ export const MisFavoritas = () => {
 
   useEffect(() => {
     const loadProperties = async () => {
-      //setProperties(JSON.parse(localStorage.getItem('createdProperties') || '[]'));
+      setProperties(JSON.parse(localStorage.getItem('createdProperties') || '[]'));
       if (!properties.length) {
         setProperties(await fetchFavourites());
       }

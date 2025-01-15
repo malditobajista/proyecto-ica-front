@@ -41,7 +41,6 @@ const Home: React.FC = () => {
 
   return (
     <div className="space-y-8  max-w-full bg-white">
-      {/* <div className="lg:max-w-[85%] mx-auto"> */}
       <div className="relative mx-auto">
         <Banner />
       </div>

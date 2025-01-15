@@ -97,8 +97,14 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
       sessionStorage.setItem("userData", JSON.stringify(user));
       showAlert("success", `Registro exitoso. ¡Bienvenido, ${user.firstName}!`);
       onClose();
-    } catch {
-      showAlert("error", "Error en el registro. Inténtalo nuevamente.");
+    } catch (error) {
+      let errorMessage = "Error al registrar el usuario";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      throw new Error(errorMessage);
     }
   };
 

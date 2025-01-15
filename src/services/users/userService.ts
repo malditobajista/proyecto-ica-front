@@ -8,13 +8,8 @@ export const getUsers = async () => {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
-  if (res.status === 401) {
-    await logoutUser();
-    window.location.href = "/login";
-  }
-  if (res.status !== 200) throw new Error('Error get users');
-  const data = await res.json();
-  return data;
+  handlerError(res, 'No se encontro el usuario.');
+  return await res.json();
 };
 
 export const forgotPassword = async (email: string) => {
@@ -23,10 +18,7 @@ export const forgotPassword = async (email: string) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
   });
-  console.log('res',res);
-  if (!res.ok) {
-    throw new Error('No se pudo enviar el correo. Verifica tu email o intenta nuevamente.');
-  }
+  handlerError(res, 'No se pudo enviar el correo. Verifica tu email o intenta nuevamente.');
 };
 
 
@@ -36,10 +28,7 @@ export const resetPassword = async (token: string, newPassword: string) => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, newPassword }),
   });
-
-  if (!res.ok) {
-    throw new Error('No se pudo restablecer la contraseña. Intenta nuevamente.');
-  }
+  handlerError(res, 'No se pudo cambiar la contraseña. Intenta nuevamente.');
 };
 
 export async function loginUser(email:string, password:string) {
@@ -49,7 +38,7 @@ export async function loginUser(email:string, password:string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({user:{ email, password }}),
   });
-  if (res.status !== 200) throw new Error('Error login');
+  handlerError(res, 'Error al realizar login');
   return res;
 }
 
@@ -60,29 +49,18 @@ export async function updateUser(userData: UserData) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({user:{ ...userData }}),
   });
-  if (res.status === 401) {
-    await logoutUser();
-    window.location.href = "/login";
-  }
-  console.log('res',res);
-  if (res.status !== 200) throw new Error('Error update');
-  return res;
+  handlerError(res, 'Error al actualizar el usuario');
+  return await res.json();
 }
 
 export async function changePassword( passwordData: ChangePassword) {
-  console.log('passwordData',passwordData);
   const res = await fetch(`${BASE_URL}/user/changePassword`, {
     method: 'PUT',
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({...passwordData}),
   });
-  if (res.status === 401) {
-    await logoutUser();
-    window.location.href = "/login";
-  }
-  console.log('res',res);
-  if (res.status !== 200) throw new Error('Error cambio de contraseña');
+  handlerError(res, 'Error al cambiar la contraseña');
   return res;
 }
 
@@ -97,8 +75,7 @@ export const registerUser = async (userData: UserData) => {
     },
     body: JSON.stringify(dataToSend),
   });
-  if (res.status !== 200) throw new Error("Error register");
-  return res;
+  handlerError(res, 'Error al registrarse');
 };
 
 export const logoutUser = async () => {
@@ -107,8 +84,41 @@ export const logoutUser = async () => {
     credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
   });
-  console.log('res',res);
-  if (res.status !== 200) throw new Error('Error logout');
+  handlerError(res, 'Error al realizar logout');
 }
 
+export const all = async () => {
+  const res = await fetch(`${BASE_URL}/user/all`, {
+    method: 'GET',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+  });
+  handlerError(res, 'Error al obtener los usuarios');
+  return await res.json();
+}
+
+export const makeAdmin = async (email:string, isAdmin: boolean) => {
+  const params = new URLSearchParams({
+    email
+});
+  const res = await fetch(`${BASE_URL}/user/makeAdmin?${params}`, {
+    method: 'PUT',
+    credentials: 'include',
+  });
+  handlerError(res, isAdmin ? 'Error al hacer admin':'Error al quitar admin');
+  return await res.json();
+}
+
+const handlerError = (res: Response, message: string) => {
+  if(res.ok) return;
+  if(res.status === 401){
+    logoutUser();
+    window.location.href = "/login";
+  }
+  else if(res.status === 403){
+    throw new Error('No tienes permisos para realizar esta acción');
+  } else {
+    throw new Error(message);
+  }
+}
 

@@ -41,7 +41,13 @@ const RentalModal: React.FC<RentalModalProps> = ({ propertyId }) => {
       setMessage("");
     } catch (error) {
       setStatus("error");
-      showAlert("error", (error as Error).message);
+      let errorMessage = "Error al crear la solicitud";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "string") {
+        errorMessage = error;
+      }
+      throw new Error(errorMessage);
     }
   };
 

@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   isValidEmail,
   isValidName,
   isValidPhoneNumber,
 } from "../utils/validations";
 import { errorMessages } from "../utils/errorMessages";
-import { UserData } from "../utils/types";
 import Title from "../components/atomos/Title";
 import InputPhone from "../components/atomos/InputPhone";
 import ChangePassword from "../components/atomos/ChangePassword";
 import CustomButton from "../components/atomos/ButtonProfile";
 import { updateUser } from "../services/users/userService";
 import { useNavigate } from "react-router-dom";
-import { hasCookie } from "../utils/cookie";
 import { useAlert } from "../contexts/AlertContext";
+import { useAuth } from "../contexts/AuthContext";
 
 const Profile: React.FC = () => {
-  const [userData, setUserData] = useState<UserData | null>(null);
+  const { user, isAuthenticated } = useAuth();
   const { showAlert } = useAlert();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    email: user?.email || "",
+    phone: user?.phone || "",
+  });
 
   const [errors, setErrors] = useState({
     firstName: "",
@@ -27,51 +34,44 @@ const Profile: React.FC = () => {
   });
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedData = sessionStorage.getItem("userData");
-    if (storedData && hasCookie("sessionIndicator")) {
-      setUserData(JSON.parse(storedData));
-    } else {
-      navigate("/home");
-    }
-  }, [navigate]);
+  if (!isAuthenticated) {
+    navigate("/login");
+    return null;
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUserData((prev) => (prev ? { ...prev, [name]: value } : null));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const validateFields = () => {
-    if (!userData) return false;
-
     const newErrors = { ...errors };
 
-    if (!userData.firstName || !isValidName(userData.firstName)) {
+    if (!formData.firstName || !isValidName(formData.firstName)) {
       newErrors.firstName = errorMessages.firstName.invalid;
     } else {
       newErrors.firstName = "";
     }
 
-    if (!userData.lastName || !isValidName(userData.lastName)) {
+    if (!formData.lastName || !isValidName(formData.lastName)) {
       newErrors.lastName = errorMessages.lastName.invalid;
     } else {
       newErrors.lastName = "";
     }
 
-    if (!userData.email) {
+    if (!formData.email) {
       newErrors.email = errorMessages.email.required;
-    } else if (!isValidEmail(userData.email)) {
+    } else if (!isValidEmail(formData.email)) {
       newErrors.email = errorMessages.email.invalid;
     } else {
       newErrors.email = "";
     }
 
-    if (!userData.phone) {
+    if (!formData.phone) {
       newErrors.phone = errorMessages.phone.required;
-    } else if (!isValidPhoneNumber(userData.phone)) {
+    } else if (!isValidPhoneNumber(formData.phone)) {
       newErrors.phone = errorMessages.phone.invalid;
     } else {
       newErrors.phone = "";
@@ -83,15 +83,18 @@ const Profile: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (validateFields() && userData) {
+    if (validateFields()) {
       try {
-        const response = await updateUser(userData);
-        if (response.ok) {
-          showAlert("success", "Datos actualizados correctamente");
-          sessionStorage.setItem("userData", JSON.stringify(userData));
-        } else {
-          showAlert("error", "Error al actualizar los datos");
-        }
+        const updatedUser = await updateUser(formData);
+        setFormData({
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+          email: updatedUser.email,
+          phone: updatedUser.phone,
+        });
+        sessionStorage.setItem("userData", JSON.stringify(updatedUser));
+        showAlert("success", "Datos actualizados correctamente");
+
       } catch {
         showAlert("error", "Error al actualizar los datos");
       }
@@ -100,130 +103,124 @@ const Profile: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-      {userData && (
-        <div className="max-w-3xl mx-auto">
-          <Title text="Perfil de Usuario" />
-          <div className="bg-white shadow-md rounded-lg overflow-hidden">
-            <form onSubmit={handleSubmit} className="p-6 space-y-6" noValidate>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="firstName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Nombre
-                  </label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={userData.firstName}
-                    onChange={handleChange}
-                    className={`mt-1 px-1 py-2 block w-full rounded-md shadow-sm ${
-                      errors.firstName ? "border-red-500" : "border-gray-300"
-                    } focus:border-indigo-500 focus:ring-indigo-500`}
-                  />
-                  {errors.firstName && (
-                    <p className="mt-2 text-sm text-red-600">
-                      {errors.firstName}
-                    </p>
-                  )}
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="lastName"
-                    className="block text-sm font-medium text-gray-700"
-                  >
-                    Apellido
-                  </label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={userData.lastName}
-                    onChange={handleChange}
-                    className={`mt-1 block px-1 py-2 w-full rounded-md shadow-sm ${
-                      errors.lastName ? "border-red-500" : "border-gray-300"
-                    } focus:border-indigo-500 focus:ring-indigo-500`}
-                  />
-                  {errors.lastName && (
-                    <p className="mt-2 text-sm text-red-600">
-                      {errors.lastName}
-                    </p>
-                  )}
-                </div>
-              </div>
+      <div className="max-w-3xl mx-auto">
+        <Title text="Perfil de Usuario" />
+        <div className="bg-white shadow-md rounded-lg overflow-hidden">
+          <form onSubmit={handleSubmit} className="p-6 space-y-6" noValidate>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label
-                  htmlFor="email"
+                  htmlFor="firstName"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Email
+                  Nombre
                 </label>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={userData.email}
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  value={formData.firstName}
                   onChange={handleChange}
-                  className={`mt-1 block w-full px-1 py-2 rounded-md shadow-sm ${
-                    errors.email ? "border-red-500" : "border-gray-300"
+                  className={`mt-1 px-1 py-2 block w-full rounded-md shadow-sm ${
+                    errors.firstName ? "border-red-500" : "border-gray-300"
                   } focus:border-indigo-500 focus:ring-indigo-500`}
                 />
-                {errors.email && (
-                  <p className="mt-2 text-sm text-red-600">{errors.email}</p>
+                {errors.firstName && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errors.firstName}
+                  </p>
                 )}
               </div>
 
-              <InputPhone
-                userData={userData}
-                handleChange={handleChange}
-                errors={{ phone: errors.phone }}
-              />
-
-              <div className="flex justify-between items-center pt-4">
-                <CustomButton type="submit" variant="primary">
-                  Guardar Cambios
-                </CustomButton>
-                <CustomButton
-                  onClick={() => setShowPasswordModal(!showPasswordModal)}
-                  variant="outline"
+              <div>
+                <label
+                  htmlFor="lastName"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  {showPasswordModal
-                    ? "Ocultar cambio de contraseña"
-                    : "Cambiar contraseña"}
-                </CustomButton>
+                  Apellido
+                </label>
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  className={`mt-1 block px-1 py-2 w-full rounded-md shadow-sm ${
+                    errors.lastName ? "border-red-500" : "border-gray-300"
+                  } focus:border-indigo-500 focus:ring-indigo-500`}
+                />
+                {errors.lastName && (
+                  <p className="mt-2 text-sm text-red-600">
+                    {errors.lastName}
+                  </p>
+                )}
               </div>
-            </form>
+            </div>
 
-            {showPasswordModal && (
-              <div className="border-t border-gray-200 mt-6 pt-6">
-                <ChangePassword />
-              </div>
-            )}
-          </div>
-
-          <div className="mt-8 bg-white shadow-md rounded-lg overflow-hidden">
-            <div className="p-6 flex justify-around">
-              <CustomButton
-                onClick={() => (window.location.href = "/properties/created")}
-                variant="secondary"
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
               >
-                Mis propiedades
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                disabled
+                className="mt-1 block w-full px-1 py-2 rounded-md shadow-sm border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 bg-gray-100"
+              />
+            </div>
+
+            <InputPhone
+              userData={formData}
+              handleChange={handleChange}
+              errors={{ phone: errors.phone }}
+            />
+
+            <div className="flex justify-between items-center pt-4">
+              <CustomButton type="submit" variant="primary">
+                Guardar Cambios
               </CustomButton>
               <CustomButton
-                onClick={() =>
-                  (window.location.href = "/properties/favourites")
-                }
-                variant="secondary"
+                onClick={() => setShowPasswordModal(!showPasswordModal)}
+                variant="outline"
               >
-                Mis favoritas
+                {showPasswordModal
+                  ? "Ocultar cambio de contraseña"
+                  : "Cambiar contraseña"}
               </CustomButton>
             </div>
-          </div>
+          </form>
+
+          {showPasswordModal && (
+            <div className="border-t border-gray-200 mt-6 pt-6">
+              <ChangePassword />
+            </div>
+          )}
         </div>
-      )}
+
+        <div className="mt-8 bg-white shadow-md rounded-lg overflow-hidden">
+          <div className="p-6 flex justify-around">
+            <CustomButton
+              onClick={() => navigate("/properties/created")}
+              variant="secondary"
+            >
+              Mis propiedades
+            </CustomButton>
+            <CustomButton
+              onClick={() => navigate("/properties/favourites")}
+              variant="secondary"
+            >
+              Mis favoritas
+            </CustomButton>
+
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 };

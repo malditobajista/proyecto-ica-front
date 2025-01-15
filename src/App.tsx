@@ -15,6 +15,9 @@ import ResetPassword from "./components/atomos/ResetPassword";
 import PublicarProp from "./pages/PublicarProp";
 import { Footer } from "./components/atomos/Footer";
 import Contacto from "./pages/Contacto";
+import { MisPropiedades } from "./pages/MisPropiedades";
+import { MisFavoritas } from "./pages/MisFavoritas";
+import { MakeAdmin } from "./pages/MakeAdmin";
 
 function App() {
   return (
@@ -28,11 +31,14 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/home" element={<Home />} />
                 <Route path="/login" element={<LoginRegisterModal />} />
+                <Route path="/user/make-admin" element={<MakeAdmin />} />
                 <Route path="/properties/pending-approval" element={<ApprovePropertiesPage />} />
                 <Route path="/forgot-password" element={<ForgotPassword isOpen={true} onClose={() => {}} />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/properties" element={<Propiedades />} />
                 <Route path="/properties/:id" element={<PropertyDetails />} />
+                <Route path="/properties/created" element={<MisPropiedades />} />
+                <Route path="/properties/favourites" element={<MisFavoritas />} />
                 <Route path="/contact" element={<Contacto />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/properties/create" element={<PublicarProp />} />
