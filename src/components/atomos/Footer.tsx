@@ -43,7 +43,7 @@ export const Footer = () => {
                     </div>
                 </section>
 
-                <section id="contact-info" className="flex flex-col gap-4 sm:pb-4">
+                <section id="contact-info" className="flex flex-col gap-4 sm:pb-4 text-left">
                     <div className="contact-item hover:text-blue-600 hover:font-bold transition-text duration-300">
                         <FaMapMarkerAlt className="icon" />
                         <p className="content">
