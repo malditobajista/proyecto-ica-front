@@ -1,4 +1,7 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper as SwiperType } from 'swiper';
+import { Navigation, A11y } from "swiper/modules";
 import {
   FaBed,
   FaBath,
@@ -9,6 +12,10 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from "react-icons/fa";
+
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/scrollbar";
 
 interface PropertyFeaturesProps {
   property: {
@@ -23,128 +30,71 @@ interface PropertyFeaturesProps {
 }
 
 const PropertyFeatures: React.FC<PropertyFeaturesProps> = ({ property }) => {
-  // Arreglo de características
   const features = [
     { icon: FaBed, label: "Dormitorios", value: property.rooms },
     { icon: FaBath, label: "Baños", value: property.bathrooms },
     { icon: FaCar, label: "Garage", value: property.garages ? "Sí" : "No" },
-    {
-      icon: FaSwimmingPool,
-      label: "Piscina",
-      value: property.pool ? "Sí" : "No",
-    },
-    {
-      icon: FaRulerCombined,
-      label: "Área",
-      value: property.area ? `${property.area} m²` : undefined,
-    },
-    {
-      icon: FaRulerCombined,
-      label: "Lote",
-      value: property.lotSize ? `${property.lotSize} m²` : undefined,
-    },
-    {
-      icon: FaCalendarAlt,
-      label: "Año de construcción",
-      value: property.yearBuilt,
-    },
+    { icon: FaSwimmingPool, label: "Piscina", value: property.pool ? "Sí" : "No" },
+    { icon: FaRulerCombined, label: "Área", value: property.area ? `${property.area} m²` : undefined },
+    { icon: FaRulerCombined, label: "Lote", value: property.lotSize ? `${property.lotSize} m²` : undefined },
+    { icon: FaCalendarAlt, label: "Año de construcción", value: property.yearBuilt },
   ].filter((f) => f.value !== undefined);
 
-  // Referencia al contenedor para el drag
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [slidesToShow, setSlidesToShow] = useState(1);
+  const swiperRef = useRef<SwiperType>();
 
-  // Estados para el drag
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [scrollLeft, setScrollLeft] = useState(0);
-
-  // Cuando el mouse baja (mousedown) empezamos a “arrastrar”
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true);
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0));
-    setScrollLeft(carouselRef.current?.scrollLeft || 0);
+  // Función para determinar cuántos slides mostrar según el ancho de pantalla
+  const updateSlidesToShow = () => {
+    const width = window.innerWidth;
+    if (width >= 1440) setSlidesToShow(8);
+    else if (width >= 1024) setSlidesToShow(5);
+    else if (width >= 640) setSlidesToShow(3);
+    else setSlidesToShow(2);
   };
 
-  // Cuando el mouse se mueve, si estamos arrastrando, desplazamos el scroll
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !carouselRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - carouselRef.current.offsetLeft;
-    // A mayor factor, mayor velocidad de desplazamiento
-    const walk = (x - startX) * 2;
-    carouselRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  // Cuando soltamos el mouse o salimos del área, termina el drag
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => setIsDragging(false);
-
-  // Flechas para mover el contenedor
-  const handlePrev = () => {
-    if (!carouselRef.current) return;
-    carouselRef.current.scrollBy({ left: -200, behavior: "smooth" });
-  };
-
-  const handleNext = () => {
-    if (!carouselRef.current) return;
-    carouselRef.current.scrollBy({ left: 200, behavior: "smooth" });
-  };
-
-  // Evitar que, si redimensionan la ventana, el drag se “rompa”
   useEffect(() => {
-    const stopDrag = () => setIsDragging(false);
-    window.addEventListener("resize", stopDrag);
-    return () => window.removeEventListener("resize", stopDrag);
+    updateSlidesToShow();
+    window.addEventListener("resize", updateSlidesToShow);
+    return () => window.removeEventListener("resize", updateSlidesToShow);
   }, []);
 
   return (
-    <div className="relative w-full max-w-4xl mx-auto">
-      {/* Flecha Izquierda */}
+    <div className="relative w-full max-w-4xl mx-auto rounded-lg p-4">
       <button
-        onClick={handlePrev}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2
-                   bg-white/80 hover:bg-white p-2 rounded-full shadow
-                   z-10 flex items-center justify-center"
+        onClick={() => swiperRef.current?.slidePrev()}
+        className="absolute left-0 top-1/2 transform hover:bg-primary-light hover:text-text-light hover:shadow-md hover:rounded-full -translate-y-1/2 p-2 z-10"
       >
-        <FaChevronLeft className="text-gray-700 w-4 h-4" />
+        <FaChevronLeft className="w-5 h-5" />
       </button>
 
-      {/* Contenedor “draggable” */}
-      <div
-        ref={carouselRef}
-        className="flex overflow-x-auto scrollbar-hide
-                   cursor-grab active:cursor-grabbing mx-8"
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
+      <Swiper
+        modules={[Navigation, A11y]}
+        spaceBetween={0}
+        slidesPerView={slidesToShow}
+        onBeforeInit={(swiper) => {
+          swiperRef.current = swiper;
+        }}
+        className="w-full"
       >
         {features.map((feature, i) => {
           const Icon = feature.icon;
           return (
-            <div key={i} className="flex-none w-32 p-2">
-              <div
-                className="bg-white rounded p-4 flex flex-col
-                           items-center justify-center text-center"
-              >
-                {/* Ícono con tamaño por defecto */}
-                <Icon className="text-primary text-2xl mb-2" />
-                <span className="text-sm font-medium">{feature.label}</span>
-                <span className="text-sm font-semibold">{feature.value}</span>
+            <SwiperSlide key={i}>
+              <div className="flex flex-col items-center justify-center text-center p-4 rounded-lg">
+                <Icon className="text-primary text-3xl mb-2" />
+                <span className="text-sm font-medium text-text-primary">{feature.label}</span>
+                <span className="text-sm font-semibold text-text-dark">{feature.value}</span>
               </div>
-            </div>
+            </SwiperSlide>
           );
         })}
-      </div>
+      </Swiper>
 
-      {/* Flecha Derecha */}
       <button
-        onClick={handleNext}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2
-                   bg-white/80 hover:bg-white p-2 rounded-full shadow
-                   z-10 flex items-center justify-center"
+        onClick={() => swiperRef.current?.slideNext()}
+        className="absolute right-0 top-1/2 transform hover:bg-primary-light hover:text-text-light text-text-dark hover:shadow-md hover:rounded-full -translate-y-1/2 p-2 z-10"
       >
-        <FaChevronRight className="text-gray-700 w-4 h-4" />
+        <FaChevronRight className="w-5 h-5" />
       </button>
     </div>
   );

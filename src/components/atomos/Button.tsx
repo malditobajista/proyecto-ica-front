@@ -16,7 +16,9 @@ const Button: React.FC<ButtonProps> = ({ to, children, onClick, clase, type = 'b
     return isLink ? (
         <Link
             to={to as string}
-            className={`btn py-2 px-3 pointer-events-auto inline-block cursor-pointer rounded text-base font-normal leading-normal text-primary transition ease-in-out hover:text-white focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:text-primary-400 bg-green-300 hover:bg-green-500 duration-300 ${clase}`}
+            className={`btn py-2 px-7 inline-block cursor-pointer rounded text-base font-medium leading-normal transition ease-in-out 
+                        text-text-light bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-light active:bg-primary-dark 
+                        disabled:bg-background-dark disabled:text-text-secondary disabled:cursor-not-allowed duration-300 ${clase}`}
             onClick={onClick}
         >
             {children}
@@ -24,7 +26,9 @@ const Button: React.FC<ButtonProps> = ({ to, children, onClick, clase, type = 'b
     ) : (
         <button
             type={type}
-            className={`btn py-2 px-3 pointer-events-auto inline-block cursor-pointer rounded text-base font-normal leading-normal text-primary transition ease-in-out hover:text-white focus:text-primary-600 focus:outline-none focus:ring-0 active:text-primary-700 dark:text-primary-400 bg-green-300 hover:bg-green-500 duration-300 ${clase}`}
+            className={`btn py-2 px-3 inline-block cursor-pointer rounded text-base font-medium leading-normal transition ease-in-out 
+                        text-text-light bg-primary hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary-light active:bg-primary-dark 
+                        disabled:bg-background-dark disabled:text-text-secondary disabled:cursor-not-allowed duration-300 ${clase}`}
             onClick={onClick}
             disabled={disabled}
         >

@@ -26,11 +26,9 @@ const ContactForm: React.FC<ContactFormProps> = ({ propertyId, isRent }) => {
           isRent,
           content,
           id: propertyId,
-          subject: "Prueba Mariano no dar bola",
+          subject: `Consulta por propiedad ${propertyId}`,
           from: isLogged ? user.email : email,
         });
-        console.log(response);
-
       if (!response) throw new Error("Error al enviar el formulario");
 
       showAlert("success", "Consulta enviada correctamente");
@@ -51,7 +49,7 @@ const ContactForm: React.FC<ContactFormProps> = ({ propertyId, isRent }) => {
   }, []);
 
   return (
-    <div className="w-full p-4 bg-white rounded-lg">
+    <div className="w-full p-4 rounded-lg">
       <h3 className="text-lg font-bold mb-4">Contáctanos</h3>
       <p className="text-sm mb-3">
         Déjanos tu mensaje y te contactaremos a la brevedad.

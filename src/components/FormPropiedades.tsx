@@ -1,28 +1,31 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Button from "./atomos/Button";
 import InputField from "./atomos/InputFieldProps";
 import MockMap from "../assets/MockMapProps";
 import { useNavigate } from "react-router-dom";
-import {
-  PropertyStatus,
-  PropertyTypes,
-  PropertyCardProps,
-} from "../utils/types";
+import { PropertyStatus, PropertyTypes, Property } from "../utils/types";
 import Title from "./atomos/Title";
 import { replaceType } from "../utils/replaceType";
 import PropertyCard from "./atomos/PropertyCard";
 import { useDropzone } from "react-dropzone";
-import { createProperty } from "../services/properties/propertyService";
+import {
+  createProperty,
+  updateProperty,
+} from "../services/properties/propertyService";
 import { Barrios } from "../assets/barrios";
 import { PropertyStatusSelect } from "./atomos/PropertyStatusSelect";
 import ModalTerms from "./atomos/ModalTerms";
 import TextareaField from "./atomos/TextareaField";
+import ImagePreview from "./atomos/ImagesPrewiev";
 
-interface CreatePropertyFormProps {
-  onAddProperty: (newProperty: Omit<PropertyCardProps, "id">) => void;
+interface PropertyFormProps {
+  onAddProperty?: (newProperty: Omit<Property, "id">) => void;
+  onUpdateProperty?: (updatedProperty: Property) => void;
+  property?: Property;
 }
 
 const inicializarPropiedad = {
+  id: 0,
   title: "",
   description: "",
   longDescription: "",
@@ -39,23 +42,38 @@ const inicializarPropiedad = {
     lng: 0,
   },
   neighborhood: "",
-  yearBuilt: 0,
+  yearBuilt: "0",
   garages: false,
   pool: false,
-  contribution: 0,
+  contribution: "0",
   imageSrc: [],
   pinned: false,
   approved: false,
 };
 
-const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
+const PropertyForm: React.FC<PropertyFormProps> = ({
   onAddProperty,
+  onUpdateProperty,
+  property,
 }) => {
-  const [isModalOpen, setModalOpen] = useState(false); // Estado para controlar la visibilidad del modal
+  const [isModalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
-  const [formData, setFormData] =
-    useState<Omit<PropertyCardProps, "id">>(inicializarPropiedad);
-  const [files, setFiles] = useState<File[]>([]); // Nuevo estado para almacenar los archivos
+  const [formData, setFormData] = useState<Property>(
+    property || inicializarPropiedad
+  );
+
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [previewImages, setPreviewImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (property) {
+      setFormData(property);
+      setExistingImages(property.imageSrc || []);
+      setPreviewImages(property.imageSrc || []);
+    }
+  }, [property]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -77,32 +95,63 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const newImageSrc = acceptedFiles.map((file) => URL.createObjectURL(file));
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]); // Guardar archivos reales
-    setFormData((prev) => ({
-      ...prev,
-      imageSrc: [...prev.imageSrc, ...newImageSrc],
-    })); // Guardar URLs de vista previa
+    setNewImages((prevFiles) => [...prevFiles, ...acceptedFiles]);
+    setPreviewImages((prevImages) => [...prevImages, ...newImageSrc]);
   }, []);
+
+  const handleDeleteImage = (index: number) => {
+    const imageToDelete = previewImages[index];
+    console.log("existingImages", existingImages);
+    console.log("imageToDelete", imageToDelete);
+
+    if (existingImages.includes(imageToDelete)) {
+      if (!deletedImages.includes(imageToDelete)) {
+        setDeletedImages((prev) => [...prev, imageToDelete]);
+      }
+      setExistingImages((prev) => prev.filter((img) => img !== imageToDelete));
+      console.log("deletedImages", deletedImages);
+
+    } else {
+      setNewImages((prev) =>
+        prev.filter((_, i) => i !== index - existingImages.length)
+      );
+    }
+    setPreviewImages((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setModalOpen(true); // Abrir el modal al enviar el formulario
+    setModalOpen(true);
   };
 
   const handleModalClose = () => {
-    setModalOpen(false); // Cerrar el modal
+    setModalOpen(false);
   };
 
   const handleModalAccept = async () => {
     setModalOpen(false);
     try {
-      const prop = await createProperty(formData, files);
-      onAddProperty(formData);
-      setFormData(inicializarPropiedad);
-      setFiles([]);
-      navigate(`/properties/${prop.id}`);
+      if (property) {
+        const updatedProperty = await updateProperty(
+          formData,
+          deletedImages,
+          newImages
+        );
+        if (onUpdateProperty) {
+          onUpdateProperty(updatedProperty);
+        }
+        navigate(`/properties/${updatedProperty.id}`);
+      } else {
+        const newProperty = await createProperty(formData, newImages);
+        if (onAddProperty) {
+          onAddProperty(newProperty);
+        }
+        setFormData(inicializarPropiedad);
+        setNewImages([]);
+        navigate(`/properties/${newProperty.id}`);
+      }
     } catch (error) {
       console.error("Error al enviar la propiedad:", error);
     }
@@ -135,8 +184,9 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             <label className="block text-sm font-medium">Imagenes</label>
             <div
               {...getRootProps()}
-              className={`w-full p-6 md:p-10 border rounded-md ${isDragActive ? "bg-blue-100" : "bg-gray-50"
-                }`}
+              className={`w-full p-6 md:p-10 border rounded-md ${
+                isDragActive ? "bg-blue-100" : "bg-gray-50"
+              }`}
             >
               <input {...getInputProps()} />
               {isDragActive ? (
@@ -147,6 +197,15 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
                   seleccionar archivos
                 </p>
               )}
+            </div>
+            <div className="grid grid-cols-4 gap-4 mt-4">
+              {previewImages.map((src, index) => (
+                <ImagePreview
+                  key={index}
+                  src={src || "/placeholder.svg"}
+                  onDelete={() => handleDeleteImage(index)}
+                />
+              ))}
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -291,8 +350,6 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
             />
           </div>
 
-
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputField
               label="Año de construcción"
@@ -312,28 +369,31 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
           </div>
 
           <MockMap
-            onClick={(latLng) => setFormData((prev) => ({
-              ...prev,
-              geoCordinates: {
-                lat: latLng.lat,
-                lng: latLng.lng,
-              },
-            }))}
+            onClick={(latLng) =>
+              setFormData((prev) => ({
+                ...prev,
+                geoCordinates: {
+                  lat: latLng.lat,
+                  lng: latLng.lng,
+                },
+              }))
+            }
           />
 
-          <Button type="submit" clase="w-full bg-blue-500 text-white">
-            Crear Propiedad
+          <Button type="submit" clase="w-full text-white">
+            {property ? "Actualizar Propiedad" : "Crear Propiedad"}
           </Button>
         </form>
 
         <div className="space-y-8 mt-10 rounded-md">
           <div className="border-2 border-grey p-4 md:p-8 rounded-md">
-            <Title clase="mb-4" size="medium" text="Vista previa de la propiedad" />
+            <Title
+              clase="mb-4"
+              size="medium"
+              text="Vista previa de la propiedad"
+            />
             {formData.title.trim() ? (
-              // {formData.title.trim() || formData.imageSrc ? (
-              <PropertyCard
-                {...{ ...formData, id: 0 }} // Pasamos los datos del estado.
-              />
+              <PropertyCard {...{ ...formData, id: 0 }} />
             ) : (
               <p className="text-gray-500 text-sm">
                 Comience a llenar el formulario para ver una vista previa de la
@@ -348,9 +408,8 @@ const CreatePropertyForm: React.FC<CreatePropertyFormProps> = ({
         onClose={handleModalClose}
         onAccept={handleModalAccept}
       />{" "}
-      {/* Agregar el modal */}
     </div>
   );
 };
 
-export default CreatePropertyForm;
+export default PropertyForm;

@@ -40,7 +40,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="space-y-8  max-w-full bg-white">
+    <div className="space-y-8  max-w-full">
       <div className="relative mx-auto">
         <Banner />
       </div>

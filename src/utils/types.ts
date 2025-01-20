@@ -17,30 +17,6 @@ export interface LatLng {
   lat: number;
   lng: number;
 }
-export interface PropertyCardProps {
-  id: number;
-  title: string;
-  imageSrc: string[];
-  image?: string[];
-  address: string;
-  description: string;
-  longDescription: string;
-  status: PropertyStatus[];
-  price: number;
-  type: string;
-  rooms?: number;
-  bathrooms?: number;
-  garages?: boolean;
-  pool?: boolean;
-  neighborhood?: string;
-  area?: number;
-  lotSize?: number;
-  yearBuilt?: number | string;
-  geoCoordinates?: LatLng | null;
-  contribution?: number;
-  pinned?: boolean;
-  approved?: boolean;
-}
 
 export interface Property {
   id: number;
@@ -63,7 +39,7 @@ export interface Property {
   latitud?: number;
   longitud?: number;
   geoCoordinates?: LatLng | null;
-  contribucion?: string;
+  contribution?: string;
   pinned?: boolean;
   approved?: boolean;
 }
@@ -140,7 +116,9 @@ export type SendEmail = {
   subject: string;
   content: string;
   isRent: boolean;
-  id: number;
+  id?: number;
+  name?: string;
+  phone?: string;
 };
 
 export type Rent = {

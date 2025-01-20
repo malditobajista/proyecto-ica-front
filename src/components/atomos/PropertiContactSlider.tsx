@@ -14,7 +14,7 @@ interface PropertyContactSliderProps {
 const PropertyContactSlider: React.FC<PropertyContactSliderProps> = ({ propertyId, isRent }) => {
 
   return (
-    <div className="w-full max-w-lg bg-white rounded-lg ">
+    <div className="w-full max-w-lg bg-white  shadow-md">
       <Swiper
         modules={[Scrollbar, A11y]}
         spaceBetween={30}

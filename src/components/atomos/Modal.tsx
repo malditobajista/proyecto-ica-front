@@ -18,7 +18,16 @@ const LoginRegisterModal: React.FC<LoginRegisterModalProps> = ({
   const isControlled = externalIsOpen !== undefined && externalOnClose !== undefined;
   const modalIsOpen = isControlled ? externalIsOpen : isOpen;
   const handleClose = useMemo(
-    () => (isControlled ? externalOnClose : () => setIsOpen(false)),
+    () =>
+      isControlled
+        ? () => {
+            externalOnClose?.();
+            setIsRegistering(false);
+          }
+        : () => {
+            setIsOpen(false);
+            setIsRegistering(false);
+          },
     [isControlled, externalOnClose]
   );
 

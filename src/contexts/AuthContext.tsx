@@ -6,6 +6,7 @@ interface AuthContextProps {
   user: UserData | null;
   isAuthenticated: boolean;
   logoutUser: () => void;
+  fetchUserProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
@@ -13,20 +14,15 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<UserData | null>(null);
 
-  // Llamada para obtener el perfil del usuario:
   const fetchUserProfile = async () => {
     try {
       const userData = await getUsers();
       sessionStorage.setItem("userData", JSON.stringify(userData));
       setUser(userData);
     } catch (error) {
-      console.error("Error fetching user profile:", error);
-
-      // Evitar logout repetitivo si el usuario ya está en login:
-      if (window.location.pathname !== "/login") {
-        // Si necesitamos redirigir a login:
-        handleLogout();
-      }
+      console.warn("No se encontró un usuario activo o ocurrió un error:", error);
+      sessionStorage.removeItem("userData");
+      setUser(null);
     }
   };
 
@@ -34,19 +30,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     await logoutUser();
     sessionStorage.removeItem("userData");
     setUser(null);
-    // Si quieres forzar redirect a login:
-    // window.location.href = "/login";
   };
 
   useEffect(() => {
-    // Este effect solo se ejecuta una vez, al montar el AuthProvider.
     const storedUser = sessionStorage.getItem("userData");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     } else {
       fetchUserProfile();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -54,7 +46,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         isAuthenticated: !!user,
-        logoutUser: handleLogout
+        logoutUser: handleLogout,
+        fetchUserProfile
       }}
     >
       {children}

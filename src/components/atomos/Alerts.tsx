@@ -25,15 +25,15 @@ const Alert: React.FC<AlertProps> = ({ type, message, duration = 3000, onClose }
   if (!isVisible) return null;
 
   const alertClasses = {
-    success: 'bg-secondary border-primary bg-opacity-10 text-primary',
-    error: 'bg-error bg-opacity-10 border-error text-error',
-    info: 'bg-blue-200 bg-opacity-90 border-background-neutral text-primary',
+    success: 'bg-white bg-opacity-60 border-status-success text-status-success',
+    error: 'bg-white bg-opacity-60 border-status-error text-status-error',
+    info: 'bg-white bg-opacity-60 border-status-info text-status-info',
   };
 
   const iconMap = {
-    success: <FaCheckCircle className="w-5 h-5" />,
-    error: <FaExclamationCircle className="w-5 h-5" />,
-    info: <FaInfoCircle className="w-5 h-5" />,
+    success: <FaCheckCircle className="w-5 h-5 text-status-success" />,
+    error: <FaExclamationCircle className="w-5 h-5 text-status-error" />,
+    info: <FaInfoCircle className="w-5 h-5 text-status-info" />,
   };
 
   return (

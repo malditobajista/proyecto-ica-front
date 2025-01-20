@@ -18,6 +18,7 @@ import Contacto from "./pages/Contacto";
 import { MisPropiedades } from "./pages/MisPropiedades";
 import { MisFavoritas } from "./pages/MisFavoritas";
 import { MakeAdmin } from "./pages/MakeAdmin";
+import EditProperty from "./pages/EditProperty";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                 <Route path="/login" element={<LoginRegisterModal />} />
                 <Route path="/user/make-admin" element={<MakeAdmin />} />
                 <Route path="/properties/pending-approval" element={<ApprovePropertiesPage />} />
+                <Route path="/properties/edit/:id" element={<EditProperty />} />
                 <Route path="/forgot-password" element={<ForgotPassword isOpen={true} onClose={() => {}} />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/properties" element={<Propiedades />} />

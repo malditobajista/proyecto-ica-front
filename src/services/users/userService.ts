@@ -38,7 +38,11 @@ export async function loginUser(email:string, password:string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({user:{ email, password }}),
   });
-  handlerError(res, 'Error al realizar login');
+  console.log('res', res);
+  if(res.ok) return;
+  if(res.status === 401){
+    throw new Error('Email o contraseña incorrectos');
+  }
   return res;
 }
 
@@ -75,6 +79,11 @@ export const registerUser = async (userData: UserData) => {
     },
     body: JSON.stringify(dataToSend),
   });
+  console.log('res', res);
+  if(res.ok) return;
+  if(res.status === 400){
+    throw new Error('El email ya está en uso');
+  }
   handlerError(res, 'Error al registrarse');
 };
 
@@ -112,12 +121,13 @@ export const makeAdmin = async (email:string, isAdmin: boolean) => {
 const handlerError = (res: Response, message: string) => {
   if(res.ok) return;
   if(res.status === 401){
-    logoutUser();
-    window.location.href = "/login";
+    // logoutUser();
+    // window.location.href = "/login";
   }
   else if(res.status === 403){
     throw new Error('No tienes permisos para realizar esta acción');
-  } else {
+  } 
+  else {
     throw new Error(message);
   }
 }

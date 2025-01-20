@@ -58,7 +58,8 @@ h2 {
 }
 
 .main-content {
-  padding-top: 65px; /* Ajusta este valor según la altura de tu navbar */
+  background-color: #F2F2F2;
+  padding-top: 75px; /* Ajusta este valor según la altura de tu navbar */
 }
 
 /* loader */

@@ -135,12 +135,12 @@ const FormBusqueda: React.FC = () => {
       <div className="flex justify-between items-center">
         <button
           onClick={toggleMoreOptions}
-          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-text-light bg-accent-light hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light"
         >
           {showMoreOptions ? 'Menos opciones' : 'Más opciones'}
         </button>
         <button
-          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          className="px-4 py-2 border border-transparent text-sm font-medium rounded-md text-text-light bg-accent-light hover:bg-accent-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light"
         >
           Buscar
         </button>

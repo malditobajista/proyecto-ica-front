@@ -8,14 +8,14 @@ interface PropertyInfoProps {
 
 const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
   return (
-    <article className="w-full bg-white rounded mr-4 dark:bg-surface-dark dark:text-gray-800 relative md:w-2/4">
-      <div className="grid grid-cols-1 md:grid-cols-2 text-center gap-6 mb-4 px-5">
+    <article className="w-full rounded-lg p-6 text-text-primary md:w-2/4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-6">
         {/* Left Column */}
-        <div className="grid gap-6 h-full">
+        <div className="grid gap-4">
           <div>
-            <h2 className="text-xl font-bold text-lime-600 mb-4">Estado</h2>
+            <h2 className="text-lg font-bold text-primary mb-2">Estado</h2>
             <div
-              className="flex flex-wrap gap-2 text-center justify-center"
+              className="flex flex-wrap gap-2"
               role="list"
               aria-label="Property statuses"
             >
@@ -24,28 +24,32 @@ const PropertyInfo: React.FC<PropertyInfoProps> = ({ property }) => {
               ))}
             </div>
           </div>
-          <div className="flex flex-col h-full"> {/* Diseño vertical */}
-            <h2 className="text-xl font-bold text-lime-600">Barrio</h2>
-            <p className="text-blue-600 font-bold">{property.neighborhood}</p>
+          <div>
+            <h2 className="text-lg font-bold text-primary mb-2">Barrio</h2>
+            <p className="text-secondary font-medium">{property.neighborhood}</p>
           </div>
         </div>
 
         {/* Right Column */}
-        <div className="grid gap-6 h-full">
+        <div className="grid gap-4">
           <div>
-            <h2 className="text-xl font-bold text-lime-600 mb-4">Dirección</h2>
-            <p className="break-words">{property.address}</p>
+            <h2 className="text-lg font-bold text-primary mb-2">Dirección</h2>
+            <p className="text-text-secondary break-words">{property.address}</p>
           </div>
-          <div className="flex flex-col h-full"> {/* Diseño vertical */}
-            <h2 className="text-xl font-bold text-lime-600">Contribución</h2>
-            <p>$ {Number(property.contribucion).toLocaleString("de-DE")} por año</p>
+          <div>
+            <h2 className="text-lg font-bold text-primary mb-2">Contribución</h2>
+            <p className="text-secondary font-medium">
+              $ {Number(property.contribution).toLocaleString("de-DE")} por año
+            </p>
           </div>
         </div>
       </div>
-      <hr className="my-6" />
+
+      <hr className="my-4 border-t border-background-dark" />
+
       <div>
-        <h2 className="text-xl font-bold mb-2">Descripción completa</h2>
-        <p>{property.longDescription}</p>
+        <h2 className="text-lg font-bold text-primary mb-3">Descripción completa</h2>
+        <p className="text-text-secondary leading-relaxed">{property.longDescription}</p>
       </div>
     </article>
   );

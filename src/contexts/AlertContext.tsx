@@ -23,7 +23,7 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
   return (
     <AlertContext.Provider value={{ showAlert }}>
       {children}
-      <div className="fixed top-4 right-4 space-y-2">
+      <div className="fixed top-4 right-4 space-y-2 z-50">
         {currentAlert && <Alert type={currentAlert.type} message={currentAlert.message} />}
       </div>
     </AlertContext.Provider>

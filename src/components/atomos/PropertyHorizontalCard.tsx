@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PropertyCardProps } from "../../utils/types";
+import { Property } from "../../utils/types";
 import Button from "./Button";
 import { replaceStatus } from "../../utils/replaceStatus";
 import {
@@ -14,8 +14,10 @@ import {
   addFavourite,
   removeFavourite,
 } from "../../services/properties/propertyService";
+import EditButton from "./EditButton";
+import { useNavigate } from "react-router-dom";
 
-const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
+const PropertyHorizontalCard: React.FC<Property> = ({
   id,
   title,
   type,
@@ -30,6 +32,12 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
   imageSrc = [],
 }) => {
   const [isFav, setIsFav] = useState(false);
+  const navigate = useNavigate();
+
+  const handleEdit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/properties/edit/${id}`);
+  };
 
   useEffect(() => {
     const favourites = JSON.parse(
@@ -104,7 +112,7 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
         {/* <figure className="w-full  relative group  "> */}
         <div
           // className="post_thumbnail bg-center bg-cover w-full rounded-l-lg aspect-square md:w-[350px] md:h-[350px]"
-          className="post_thumbnail bg-center bg-cover w-full aspect-square md:w-[350px] md:h-[350px] rounded-t-lg md:rounded-l-lg md:rounded-r-none"
+          className="post_thumbnail bg-center bg-cover w-full aspect-square md:w-m-[350px] md:h-m-[350px] rounded-t-lg md:rounded-l-lg md:rounded-r-none"
           style={{
             backgroundImage: `url('${imageSrc[currentImageIndex] ?? image}')`,
           }}
@@ -143,6 +151,9 @@ const PropertyHorizontalCard: React.FC<PropertyCardProps> = ({
             isFavourite={isFav}
             className="opacity-100"
           />
+        </div>
+        <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <EditButton onClick={handleEdit} />
         </div>
       </figure>
 

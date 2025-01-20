@@ -7,6 +7,7 @@ interface PropertyContextType {
     home: Home;
     fetchAllProperties: () => Promise<void>;
     fetchHome: () => Promise<void>;
+    setProperties: (properties: Property[]) => void;
 }
 
 const PropertyContext = createContext<PropertyContextType | undefined>(undefined);
@@ -49,7 +50,7 @@ export const PropertyProvider: React.FC<{ children: ReactNode }> = ({ children }
     }, []);
 
     return (
-        <PropertyContext.Provider value={{ properties, home, fetchAllProperties, fetchHome }}>
+        <PropertyContext.Provider value={{ properties, home, fetchAllProperties, fetchHome, setProperties }}>
             {children}
         </PropertyContext.Provider>
     );

@@ -10,7 +10,7 @@ const Contacto: React.FC = () => {
     }, []);
 
     return (
-        <div className=" mx-10 ">
+        <div className=" mx-10 bg-background-neutral">
             <Title text="Contacto" size='large' />
             <div className="flex flex-col lg:flex-row lg:space-x-8">
                 <div className="flex-1">

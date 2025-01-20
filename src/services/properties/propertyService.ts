@@ -1,10 +1,10 @@
-import { Home, Property, PropertyCardProps } from "../../utils/types";
+import { Home, Property } from "../../utils/types";
 import axios from "axios";
 import { logoutUser } from "../users/userService";
 
 const BASE_URL = "http://localhost:3000";
 
-export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>, files: File[]) => {
+export const createProperty = async (propertyData: Omit<Property, 'id'>, files: File[]) => {
   const formData = new FormData();
 
   formData.append("property", JSON.stringify(propertyData));
@@ -26,6 +26,32 @@ export const createProperty = async (propertyData: Omit<PropertyCardProps, 'id'>
     window.location.href = "/login";
   }
   if (!res.ok) throw new Error('Error creating property');
+  return await res.json();
+};
+
+export const updateProperty = async (
+  propertyData: Property,
+  deletedImages: string[],
+  newImages: File[]
+) => {
+  const formData = new FormData();
+  formData.append("property", JSON.stringify(propertyData));
+  formData.append("deletedImages", JSON.stringify(deletedImages));
+  newImages.forEach((file) => formData.append("files", file));
+
+  for (const pair of formData.entries()) {
+    console.log(`${pair[0]}: ${pair[1]}`);
+  }
+  console.log("formData", formData);
+  const res = await fetch(`${BASE_URL}/property/update`, {
+    method: 'PUT',
+    credentials: 'include',
+    body: formData,
+  });
+
+  console.log("res", res);
+
+  if (!res.ok) throw new Error('Error al actualizar la propiedad');
   return await res.json();
 };
 
@@ -219,6 +245,8 @@ export const deleteProperty = async (id: number): Promise<boolean> => {
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
     });
+
+    console.log(response);
 
     if (response.status === 401) {
       await logoutUser();

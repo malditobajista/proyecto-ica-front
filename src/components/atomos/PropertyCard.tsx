@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { addFavourite, removeFavourite } from "../../services/properties/propertyService";
 import { replaceStatus } from "../../utils/replaceStatus";
-import { PropertyCardProps } from "../../utils/types";
+import { Property } from "../../utils/types";
 import FavButton from "./HeartButton";
+import EditButton from "./EditButton";
+import { useNavigate } from "react-router-dom";
 
-const PropertyCard: React.FC<PropertyCardProps> = ({
+const PropertyCard: React.FC<Property> = ({
   id,
   title,
   imageSrc,
@@ -21,6 +23,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isFav, setIsFav] = useState(false);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const favourites = JSON.parse(localStorage.getItem("favouritesProperties") || "[]");
@@ -68,6 +71,11 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
     setIsFav((prev) => !prev);
   };
 
+  const handleEdit = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    navigate(`/properties/edit/${id}`);
+  };
+
   const image = "https://placehold.co/300x300";
 
   return (
@@ -110,6 +118,10 @@ const PropertyCard: React.FC<PropertyCardProps> = ({
               isFavourite={isFav}
             />
           </div>
+
+          <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <EditButton onClick={handleEdit} />
+        </div>
         </figure>
 
         {/* Contenido */}

@@ -5,20 +5,22 @@ interface CustomButtonProps {
   type?: 'button' | 'submit' | 'reset';
   children: React.ReactNode;
   variant?: 'primary' | 'secondary' | 'outline';
+  className?: string;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({ 
   onClick, 
   type = 'button', 
   children, 
-  variant = 'primary' 
+  variant = 'primary',
+  className
 }) => {
-  const baseStyles = "px-4 py-3 rounded-md font-semibold text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
-  
+  const baseStyles = `${className} px-4 py-3 rounded-md font-semibold text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2`;
+
   const variantStyles = {
-    primary: "bg-accent text-white hover:bg-blue-700 focus:ring-blue-500",
-    secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-500",
-    outline: "bg-transparent border border-gray-300 text-gray-700 hover:bg-gray-100 focus:ring-gray-500"
+    primary: "bg-primary text-text-light hover:bg-primary-dark focus:ring-primary-light",
+    secondary: "bg-secondary text-text-light hover:bg-secondary-dark focus:ring-secondary-light",
+    outline: "bg-transparent border border-background-dark text-text-primary hover:bg-background-light focus:ring-primary-light"
   };
 
   return (
@@ -33,4 +35,3 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 };
 
 export default CustomButton;
-

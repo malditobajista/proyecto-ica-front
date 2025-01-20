@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   isValidEmail,
   isValidName,
@@ -35,8 +35,17 @@ const Profile: React.FC = () => {
 
   const [showPasswordModal, setShowPasswordModal] = useState(false);
 
+  useEffect(() => {
+      setFormData({
+        firstName: user?.firstName || "",
+        lastName: user?.lastName || "",
+        email: user?.email || "",
+        phone: user?.phone || "",
+      });
+    
+  }, [user]);
+
   if (!isAuthenticated) {
-    navigate("/login");
     return null;
   }
 
@@ -175,7 +184,7 @@ const Profile: React.FC = () => {
             </div>
 
             <InputPhone
-              userData={formData}
+              phone={formData.phone}
               handleChange={handleChange}
               errors={{ phone: errors.phone }}
             />

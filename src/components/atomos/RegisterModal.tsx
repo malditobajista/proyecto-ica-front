@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone, FaTimes } from "react-icons/fa";
 import { useAlert } from "../../contexts/AlertContext";
 import { registerUser, getUsers } from "../../services/users/userService";
 import { errorMessages } from "../../utils/errorMessages";
@@ -104,15 +104,22 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
       } else if (typeof error === "string") {
         errorMessage = error;
       }
-      throw new Error(errorMessage);
+      showAlert("error", errorMessage);
     }
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+<div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <button
+      onClick={onClose}
+      className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors duration-200"
+      aria-label="Cerrar"
+    >
+      <FaTimes className="h-6 w-6" />
+    </button>
         <h2 className="text-2xl font-bold mb-6 text-center">Registro</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Nombre */}
@@ -231,7 +238,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
             {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
           </div>
 
-          <CustomButton type="submit" variant="primary">
+          <CustomButton type="submit" variant="primary" className="w-full">
             Registrarse
           </CustomButton>
         </form>
