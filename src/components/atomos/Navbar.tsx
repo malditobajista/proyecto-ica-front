@@ -21,7 +21,7 @@ const Navbar = () => {
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { showAlert } = useAlert();
   const { user } = useAuth();
-  
+
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
@@ -39,10 +39,10 @@ const Navbar = () => {
       console.error("Error during logout:", error);
     }
   };
-  
+
   const toggleUserMenu = useCallback(() => {
     if (isLoggedIn) {
-      setIsUserMenuOpen(prev => !prev);
+      setIsUserMenuOpen((prev) => !prev);
     } else {
       setIsModalOpen(true);
     }
@@ -90,14 +90,11 @@ const Navbar = () => {
     closeMenus();
   }, [location, closeMenus]);
 
-  const isHomePage =
-    location.pathname === "/" || location.pathname.toLowerCase() === "/home";
-
   const isActive = useCallback(
     (path: string) =>
       location.pathname === path
-        ? "text-green-500 font-extrabold"
-        : "hover:text-green-500 transition-text duration-300",
+        ? "text-text-light font-extrabold"
+        : " hover:font-extrabold hover:text-text-light",
     [location.pathname]
   );
 
@@ -116,19 +113,18 @@ const Navbar = () => {
 
   const adminMenuItems = [
     ...userMenuItems,
-    { path: "/properties/pending-approval", label: "Pendiente de aprobacion" },
+    { path: "/properties/pending-approval", label: "Pendiente de aprobación" },
     { path: "/user/make-admin", label: "Hacer Administrador" },
   ];
 
   return (
     <nav
       ref={navRef}
-      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3
-            ${
-              isHomePage && !hasScrolled
-                ? ""
-                : "  bg-gradient-to-b to-background-light from-accent text-white"
-            }`}
+      className={`fixed top-0 left-0 right-0 z-40 p-2 pr-3 bg-gradient-to-b from-accent-light to-white transition-all duration-300 ${
+        location.pathname === "/home" && !hasScrolled
+          ? "opacity-0 invisible"
+          : "opacity-100 visible"
+      }`}
     >
       <div className="flex justify-between items-center">
         <Link to="/home">
@@ -138,7 +134,7 @@ const Navbar = () => {
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
-              className={`nav-button text-white ${isActive(path)} hover:font-bold `}
+              className={`nav-button text-text-light ${isActive(path)} hover:font-bold`}
               to={path}
             >
               {label}
@@ -146,43 +142,49 @@ const Navbar = () => {
           ))}
           <div className="relative" ref={userMenuRef}>
             <button
-              className={`nav-button hover:text-green-500 transition-text duration-300 flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+              className={`nav-button  text-text-light  hover:font-bold transition-text duration-300 flex items-center ${
+                isUserMenuOpen ? "text-text-light" : ""
+              }`}
               onClick={toggleUserMenu}
               aria-label="Perfil de usuario"
             >
               <FaUser className="mr-2" />
               {isLoggedIn ? "Mi Cuenta" : "Iniciar Sesión"}
-              {isUserMenuOpen ? <FaChevronUp className="ml-2" /> : <FaChevronDown className="ml-2" /> }
+              {isUserMenuOpen ? (
+                <FaChevronUp className="ml-2" />
+              ) : (
+                <FaChevronDown className="ml-2" />
+              )}
             </button>
             {isUserMenuOpen && isLoggedIn && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                {
-                  user?.admin ? adminMenuItems.map(({ path, label }) => (
-                    <Link
-                      key={path}
-                      className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
-                        path
-                      )}`}
-                      to={path}
-                      onClick={closeMenus}
-                    >
-                      {label}
-                    </Link>
-                  )) : userMenuItems.map(({ path, label }) => (
-                    <Link
-                      key={path}
-                      className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
-                        path
-                      )}`}
-                      to={path}
-                      onClick={closeMenus}
-                    >
-                      {label}
-                    </Link>
-                  ))
-                }
+              <div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50">
+                {user?.admin
+                  ? adminMenuItems.map(({ path, label }) => (
+                      <Link
+                        key={path}
+                        className={`block px-4 py-2 text-sm text-text-primary hover:bg-background-neutral ${isActive(
+                          path
+                        )}`}
+                        to={path}
+                        onClick={closeMenus}
+                      >
+                        {label}
+                      </Link>
+                    ))
+                  : userMenuItems.map(({ path, label }) => (
+                      <Link
+                        key={path}
+                        className={`block px-4 py-2 text-sm text-text-primary hover:bg-background-neutral ${isActive(
+                          path
+                        )}`}
+                        to={path}
+                        onClick={closeMenus}
+                      >
+                        {label}
+                      </Link>
+                    ))}
                 <button
-                  className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  className="block w-full text-left px-4 py-2 text-sm text-text-primary hover:bg-background-neutral"
                   onClick={handleLogout}
                 >
                   Cerrar Sesión
@@ -192,16 +194,15 @@ const Navbar = () => {
           </div>
         </div>
         <button
-          className="md:hidden nav-button text-2xl"
+          className="md:hidden nav-button text-2xl text-text-light"
           onClick={() => setIsNavOpen((prev) => !prev)}
           aria-label="Toggle navigation menu"
         >
-            <HiMenuAlt3 />
+          <HiMenuAlt3 />
         </button>
       </div>
-
       {isNavOpen && (
-        <div className="md:hidden flex flex-col gap-3 mt-3 text-right justify-end items-end">
+        <div className="md:hidden flex flex-col gap-3 mt-3 text-right justify-end items-end  p-4 rounded-md">
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
@@ -213,7 +214,9 @@ const Navbar = () => {
             </Link>
           ))}
           <button
-            className={`nav-button hover:text-green-500 transition-text duration-300 text-right flex items-center ${isUserMenuOpen ? 'text-green-500' : ''}`}
+            className={`nav-button transition-text duration-300 text-right hover:font-bold hover:text-text-light flex items-center ${
+              isUserMenuOpen ? "text-text-light" : ""
+            }`}
             onClick={toggleUserMenu}
             aria-label="Perfil de usuario"
           >
@@ -234,7 +237,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <button
-                className="nav-button hover:bg-green-500 text-left pl-8"
+                className="nav-button hover:bg-accent-light text-left pl-8"
                 onClick={handleLogout}
               >
                 Cerrar Sesión
@@ -249,4 +252,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

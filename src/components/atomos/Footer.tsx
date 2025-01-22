@@ -48,8 +48,8 @@ export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-gradient-to-b from-primary-light to-primary-dark text-text-light w-full">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+    <footer className={`sticky top-[100vh] p-5 bg-gradient-to-b to-blue-600 from-blue-300 text-white`}>
+<div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
           <Link to="/Home" className="mb-4 sm:mb-0" title="Inmobiliaria Costa Azul">
             <img

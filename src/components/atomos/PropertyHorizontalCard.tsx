@@ -129,7 +129,7 @@ const PropertyHorizontalCard: React.FC<Property> = ({
             onLoad={handleImageLoad}
           />
         </div>
-        {imageSrc.length > 1 && (
+        {imageSrc.length > 0 && (
           <div className="absolute inset-0 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <button
               className="bg-black bg-opacity-20 hover:bg-opacity-50 text-white p-2 rounded-full ml-2"
