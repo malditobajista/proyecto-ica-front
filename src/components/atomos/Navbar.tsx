@@ -7,6 +7,7 @@ import { hasCookie } from "../../utils/cookie";
 import { logoutUser } from "../../services/users/userService";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { useAlert } from "../../contexts/AlertContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 const Navbar = () => {
   const location = useLocation();
@@ -19,7 +20,8 @@ const Navbar = () => {
   const navRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { showAlert } = useAlert();
-
+  const { user } = useAuth();
+  
   const handleModalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
@@ -30,7 +32,7 @@ const Navbar = () => {
       setIsLoggedIn(false);
       setIsNavOpen(false);
       setIsUserMenuOpen(false);
-      showAlert("success", "Sesión cerrada correctamente");
+      showAlert("info", "Sesión cerrada correctamente");
       navigate("/home");
     } catch (error) {
       showAlert("error", "Error al cerrar sesión. Intente nuevamente");
@@ -112,6 +114,12 @@ const Navbar = () => {
     { path: "/properties/favourites", label: "Mis Favoritas" },
   ];
 
+  const adminMenuItems = [
+    ...userMenuItems,
+    { path: "/properties/pending-approval", label: "Pendiente de aprobacion" },
+    { path: "/user/make-admin", label: "Hacer Administrador" },
+  ];
+
   return (
     <nav
       ref={navRef}
@@ -130,7 +138,7 @@ const Navbar = () => {
           {navLinks.map(({ path, label }) => (
             <Link
               key={path}
-              className={`nav-button ${isActive(path)}`}
+              className={`nav-button text-white ${isActive(path)} hover:font-bold `}
               to={path}
             >
               {label}
@@ -148,18 +156,31 @@ const Navbar = () => {
             </button>
             {isUserMenuOpen && isLoggedIn && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
-                {userMenuItems.map(({ path, label }) => (
-                  <Link
-                    key={path}
-                    className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
-                      path
-                    )}`}
-                    to={path}
-                    onClick={closeMenus}
-                  >
-                    {label}
-                  </Link>
-                ))}
+                {
+                  user?.admin ? adminMenuItems.map(({ path, label }) => (
+                    <Link
+                      key={path}
+                      className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                        path
+                      )}`}
+                      to={path}
+                      onClick={closeMenus}
+                    >
+                      {label}
+                    </Link>
+                  )) : userMenuItems.map(({ path, label }) => (
+                    <Link
+                      key={path}
+                      className={`block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 ${isActive(
+                        path
+                      )}`}
+                      to={path}
+                      onClick={closeMenus}
+                    >
+                      {label}
+                    </Link>
+                  ))
+                }
                 <button
                   className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                   onClick={handleLogout}

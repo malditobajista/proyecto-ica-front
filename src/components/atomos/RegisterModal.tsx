@@ -1,9 +1,21 @@
 import React, { useState } from "react";
-import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash, FaPhone, FaTimes } from "react-icons/fa";
+import {
+  FaUser,
+  FaEnvelope,
+  FaLock,
+  FaEye,
+  FaEyeSlash,
+  FaPhone,
+  FaTimes,
+} from "react-icons/fa";
 import { useAlert } from "../../contexts/AlertContext";
 import { registerUser, getUsers } from "../../services/users/userService";
 import { errorMessages } from "../../utils/errorMessages";
-import { isValidName, isValidEmail, isValidPhoneNumber } from "../../utils/validations";
+import {
+  isValidName,
+  isValidEmail,
+  isValidPhoneNumber,
+} from "../../utils/validations";
 import CustomButton from "./ButtonProfile";
 
 interface RegisterModalProps {
@@ -12,7 +24,11 @@ interface RegisterModalProps {
   toggleRegistering: () => void;
 }
 
-const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRegistering }) => {
+const RegisterModal: React.FC<RegisterModalProps> = ({
+  isOpen,
+  onClose,
+  toggleRegistering,
+}) => {
   const { showAlert } = useAlert();
   const [formData, setFormData] = useState({
     firstName: "",
@@ -111,15 +127,15 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
   if (!isOpen) return null;
 
   return (
-<div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center z-50">
-  <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-    <button
-      onClick={onClose}
-      className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors duration-200"
-      aria-label="Cerrar"
-    >
-      <FaTimes className="h-6 w-6" />
-    </button>
+    <div className="fixed inset-0 text-black bg-black bg-opacity-50 flex justify-center items-center z-50">
+      <div className="relative bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors duration-200"
+          aria-label="Cerrar"
+        >
+          <FaTimes className="h-6 w-6" />
+        </button>
         <h2 className="text-2xl font-bold mb-6 text-center">Registro</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Nombre */}
@@ -136,7 +152,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               }`}
               required
             />
-            {errors.firstName && <p className="text-red-500 text-xs">{errors.firstName}</p>}
+            {errors.firstName && (
+              <p className="text-red-500 text-xs">{errors.firstName}</p>
+            )}
           </div>
 
           {/* Apellido */}
@@ -153,7 +171,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               }`}
               required
             />
-            {errors.lastName && <p className="text-red-500 text-xs">{errors.lastName}</p>}
+            {errors.lastName && (
+              <p className="text-red-500 text-xs">{errors.lastName}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -170,7 +190,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               }`}
               required
             />
-            {errors.email && <p className="text-red-500 text-xs">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-xs">{errors.email}</p>
+            )}
           </div>
 
           {/* Contraseña */}
@@ -194,7 +216,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            {errors.password && <p className="text-red-500 text-xs">{errors.password}</p>}
+            {errors.password && (
+              <p className="text-red-500 text-xs">{errors.password}</p>
+            )}
           </div>
 
           {/* Repetir Contraseña */}
@@ -218,7 +242,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
             >
               {showRepeatPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            {errors.repeatPassword && <p className="text-red-500 text-xs">{errors.repeatPassword}</p>}
+            {errors.repeatPassword && (
+              <p className="text-red-500 text-xs">{errors.repeatPassword}</p>
+            )}
           </div>
 
           {/* Teléfono */}
@@ -235,12 +261,15 @@ const RegisterModal: React.FC<RegisterModalProps> = ({ isOpen, onClose, toggleRe
               }`}
               required
             />
-            {errors.phone && <p className="text-red-500 text-xs">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-xs">{errors.phone}</p>
+            )}
           </div>
-
-          <CustomButton type="submit" variant="primary" className="w-full">
-            Registrarse
-          </CustomButton>
+          <div className="flex justify-center">
+            <CustomButton type="submit" variant="primary" className="w-full">
+              Registrarse
+            </CustomButton>
+          </div>
         </form>
         <div className="text-center mt-4">
           <button
