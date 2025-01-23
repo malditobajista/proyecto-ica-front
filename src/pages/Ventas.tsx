@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPropertiesByStatus } from '../services/services';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
-import { Property } from '../utils/types';
+import { Property, PropertyStatus } from '../utils/types';
+import { fetchPropertiesByStatus } from '../services/properties/propertyService';
 
 const Ventas: React.FC = () => {
     const [propiedadesVenta, setPropiedadesVenta] = useState<Property[]>([]);
@@ -15,7 +15,7 @@ const Ventas: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const properties = await fetchPropertiesByStatus("for-sale");
+                const properties = await fetchPropertiesByStatus(PropertyStatus.ForSale);
                 setPropiedadesVenta(properties);
 
                 propiedadesVenta.map((property) => {

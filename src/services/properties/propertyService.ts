@@ -1,4 +1,4 @@
-import { Home, Property } from "../../utils/types";
+import { Home, Property, PropertyStatus } from "../../utils/types";
 import axios from "axios";
 import { logoutUser } from "../users/userService";
 
@@ -259,5 +259,25 @@ export const deleteProperty = async (id: number): Promise<boolean> => {
   }catch(error){
     console.error("Error al cargar las propiedades:", error);
     return false;
+  }
+}
+
+export const fetchPropertiesByStatus = async (status: PropertyStatus): Promise<Property[]> => {
+  try {
+    const response = await fetch(`${BASE_URL}/property/findByStatus?status=${status}`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (response.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+      return [];
+    }
+    return await response.json();
+  }catch(error){
+    console.error("Error al cargar las propiedades:", error);
+    return [];
   }
 }

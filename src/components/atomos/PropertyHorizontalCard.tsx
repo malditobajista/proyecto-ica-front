@@ -1,21 +1,12 @@
-import { useEffect, useState } from "react";
-import { Property } from "../../utils/types";
-import Button from "./Button";
-import { replaceStatus } from "../../utils/replaceStatus";
-import {
-  FaBath,
-  FaBed,
-  FaRulerCombined,
-  FaChevronLeft,
-  FaChevronRight,
-} from "react-icons/fa";
-import FavButton from "./HeartButton";
-import {
-  addFavourite,
-  removeFavourite,
-} from "../../services/properties/propertyService";
-import EditButton from "./EditButton";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react"
+import type { Property } from "../../utils/types"
+import Button from "./Button"
+import { replaceStatus } from "../../utils/replaceStatus"
+import { FaBath, FaBed, FaRulerCombined, FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import FavButton from "./HeartButton"
+import { addFavourite, removeFavourite } from "../../services/properties/propertyService"
+import EditButton from "./EditButton"
+import { useNavigate } from "react-router-dom"
 
 const PropertyHorizontalCard: React.FC<Property> = ({
   id,
@@ -31,90 +22,67 @@ const PropertyHorizontalCard: React.FC<Property> = ({
   area,
   imageSrc = [],
 }) => {
-  const [isFav, setIsFav] = useState(false);
-  const navigate = useNavigate();
+  const [isFav, setIsFav] = useState(false)
+  const navigate = useNavigate()
 
   const handleEdit = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    navigate(`/properties/edit/${id}`);
-  };
+    e.preventDefault()
+    navigate(`/properties/edit/${id}`)
+  }
 
   useEffect(() => {
-    const favourites = JSON.parse(
-      localStorage.getItem("favouritesProperties") || "[]"
-    );
-    const isFavourite = favourites.some(
-      (fav: { id: number }) => +fav.id === +id
-    );
-    setIsFav(isFavourite);
-  }, []);
+    const favourites = JSON.parse(localStorage.getItem("favouritesProperties") || "[]")
+    const isFavourite = favourites.some((fav: { id: number }) => +fav.id === +id)
+    setIsFav(isFavourite)
+  }, [])
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handlePrevImage = () => {
-    setIsLoading(true);
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === 0 ? imageSrc.length - 1 : prevIndex - 1
-    );
-  };
+    setIsLoading(true)
+    setCurrentImageIndex((prevIndex) => (prevIndex === 0 ? imageSrc.length - 1 : prevIndex - 1))
+  }
 
   const handleNextImage = () => {
-    setIsLoading(true);
-    setCurrentImageIndex((prevIndex) =>
-      prevIndex === imageSrc.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+    setIsLoading(true)
+    setCurrentImageIndex((prevIndex) => (prevIndex === imageSrc.length - 1 ? 0 : prevIndex + 1))
+  }
 
   const handleImageLoad = () => {
-    setIsLoading(false);
-  };
+    setIsLoading(false)
+  }
 
   const handleFavClick = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const favourites = JSON.parse(
-      localStorage.getItem("favouritesProperties") || "[]"
-    );
+    e.preventDefault()
+    e.stopPropagation()
+    const favourites = JSON.parse(localStorage.getItem("favouritesProperties") || "[]")
 
     if (isFav) {
       // Remove from favorites
-      const updatedFavourites = favourites.filter(
-        (fav: { id: number }) => fav.id !== id
-      );
-      localStorage.setItem(
-        "favouritesProperties",
-        JSON.stringify(updatedFavourites)
-      );
-      await removeFavourite(id);
+      const updatedFavourites = favourites.filter((fav: { id: number }) => fav.id !== id)
+      localStorage.setItem("favouritesProperties", JSON.stringify(updatedFavourites))
+      await removeFavourite(id)
     } else {
       // Add to favorites
-      const updatedFavourites = [...favourites, { id }];
-      localStorage.setItem(
-        "favouritesProperties",
-        JSON.stringify(updatedFavourites)
-      );
-      await addFavourite(id);
+      const updatedFavourites = [...favourites, { id }]
+      localStorage.setItem("favouritesProperties", JSON.stringify(updatedFavourites))
+      await addFavourite(id)
     }
 
-    setIsFav((prev) => !prev);
-  };
-  const image = "https://placehold.co/300x300";
+    setIsFav((prev) => !prev)
+  }
+  const image = "https://placehold.co/300x300"
 
   return (
-    // <div className="flex w-full max-w-full items-start overflow-hidden rounded-lg shadow-xl">
-    <article
-      className="bg-white rounded max-w-[1090px] shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row 
-            min-h-[400px] md:min-h-[450px] lg:min-h-[36vh] w-full md:w-[700px] lg:w-[100%]"
-    >
-      {/* <article className="bg-white rounded max-w-[1090px] shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row md:max-h-[36vh]" > */}
-      <figure className="w-full md:w-2/8 relative group  ">
-        {/* <figure className="w-full  relative group  "> */}
+    <article className="bg-white rounded-lg max-w-[1090px] shadow-md dark:bg-surface-dark dark:text-gray-800 flex flex-col md:flex-row h-full md:h-[500px] w-full">
+      <figure className="w-full relative group overflow-hidden">
         <div
-          // className="post_thumbnail bg-center bg-cover w-full rounded-l-lg aspect-square md:w-[350px] md:h-[350px]"
-          className="post_thumbnail bg-center bg-cover w-full aspect-square md:w-m-[350px] md:h-m-[350px] rounded-t-lg md:rounded-l-lg md:rounded-r-none"
+          className="post_thumbnail bg-center bg-cover w-full  md:h-full rounded-lg md:rounded-l-lg md:rounded-r-none"
           style={{
             backgroundImage: `url('${imageSrc[currentImageIndex] ?? image}')`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
           {isLoading && imageSrc.length > 1 && (
@@ -122,12 +90,7 @@ const PropertyHorizontalCard: React.FC<Property> = ({
               <div className="loader"></div>
             </div>
           )}
-          <img
-            src={imageSrc[currentImageIndex] ?? image}
-            alt="Property"
-            className="hidden"
-            onLoad={handleImageLoad}
-          />
+          <img src={imageSrc[currentImageIndex] ?? image} alt="Property" className="hidden" onLoad={handleImageLoad} />
         </div>
         {imageSrc.length > 0 && (
           <div className="absolute inset-0 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -146,18 +109,14 @@ const PropertyHorizontalCard: React.FC<Property> = ({
           </div>
         )}
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <FavButton
-            onClick={handleFavClick}
-            isFavourite={isFav}
-            className="opacity-100"
-          />
+          <FavButton onClick={handleFavClick} isFavourite={isFav} className="opacity-100" />
         </div>
         <div className="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <EditButton onClick={handleEdit} />
         </div>
       </figure>
 
-      <div className="w-full md:w-3/8 p-4 flex flex-col justify-between">
+      <div className="w-full md:w-1/2 p-2 flex flex-col justify-between">
         <div>
           <h3 className="text-xl leading-tight font-bold">
             <span>{title}</span>
@@ -173,8 +132,7 @@ const PropertyHorizontalCard: React.FC<Property> = ({
         </div>
       </div>
 
-      <div className="w-full md:w-3/8 p-4 flex flex-col items-start md:items-end">
-        {/* <div className="w-full p-4 flex flex-col items-start md:items-end"> */}
+      <div className="w-full md:w-1/2 p-2 flex flex-col justify-between">
         <div className="flex flex-col pb-4 mb-4 w-full space-y-3 flex-grow px-4">
           <div className="flex flex-row justify-between items-center w-full">
             <span className="font-bold">Tipo:</span>
@@ -183,16 +141,12 @@ const PropertyHorizontalCard: React.FC<Property> = ({
           <div className="flex flex-row justify-between items-center w-full">
             <span className="font-bold">Estado:</span>
             <span className="text-right sm:text-left">
-              <span className="capitalize text-red-500 font-bold">
-                {replaceStatus(status[0])}
-              </span>
+              <span className="capitalize text-red-500 font-bold">{replaceStatus(status[0])}</span>
             </span>
           </div>
           <div className="flex flex-row justify-between items-center w-full">
             <span className="font-bold">Precio:</span>
-            <span className="text-green-700 text-right sm:text-left">
-              U$S {Number(price).toLocaleString("de-DE")}
-            </span>
+            <span className="text-green-700 text-right sm:text-left">U$S {Number(price).toLocaleString("de-DE")}</span>
           </div>
           <div className="flex flex-row justify-between items-center w-full">
             <span className="font-bold">Barrio:</span>
@@ -202,7 +156,6 @@ const PropertyHorizontalCard: React.FC<Property> = ({
           </div>
         </div>
         <div className="pb-3 w-full">
-          {/* Detalles */}
           <div className="mb-6 flex justify-around items-center text-sm text-gray-700">
             <div className="flex flex-col items-center space-x-0 space-y-1">
               <FaBed className="text-accent text-2xl" />
@@ -225,8 +178,8 @@ const PropertyHorizontalCard: React.FC<Property> = ({
         </div>
       </div>
     </article>
-    // </div>
-  );
-};
+  )
+}
 
-export default PropertyHorizontalCard;
+export default PropertyHorizontalCard
+

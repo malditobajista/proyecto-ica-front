@@ -93,7 +93,7 @@ const FiltersPanel: React.FC<FiltersPanelProps> = ({ initialFilters, onFiltersCh
     const [filters, setFilters] = useState<Filters>(initialFilters);
 
     const handleFilterChange = <T extends keyof Filters>(key: T, value: Filters[T]) => {
-        let updatedValue = value;
+        let updatedValue:Filters[T] = value;
 
         // If the filter should be an array, make sure we're appending to it correctly
         // if (Array.isArray(filters[key])) {
@@ -102,7 +102,7 @@ const FiltersPanel: React.FC<FiltersPanelProps> = ({ initialFilters, onFiltersCh
         // }
         if (Array.isArray(filters[key])) {
             //eslint-disable-next-line 
-            updatedValue = Array.isArray(value) ? [...filters[key], ...(value as any)] : [value];
+            updatedValue = Array.isArray(value) ? ([...(filters[key] as any[]), ...(value as any)] as Filters[T]) : ([value] as Filters[T]);
         }
 
         if (key === 'filterGarages' && typeof value === 'boolean') {

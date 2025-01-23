@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { fetchPropertiesByStatus } from '../services/services';
 import PropertyHorizontalCard from '../components/atomos/PropertyHorizontalCard';
 import Title from '../components/atomos/Title';
-import { Property } from '../utils/types';
+import { Property, PropertyStatus } from '../utils/types';
+import { fetchPropertiesByStatus } from '../services/properties/propertyService';
 
 const Alquileres: React.FC = () => {
     const [propiedadesAlquiler, setPropiedadesAlquiler] = useState<Property[]>([]);
@@ -16,7 +16,7 @@ const Alquileres: React.FC = () => {
     useEffect(() => {
         const loadProperties = async () => {
             try {
-                const properties = await fetchPropertiesByStatus("for-rent");
+                const properties = await fetchPropertiesByStatus(PropertyStatus.ForRent);
                 setPropiedadesAlquiler(properties);
 
                 propiedadesAlquiler.map((property) => {
