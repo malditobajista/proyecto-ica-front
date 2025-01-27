@@ -7,6 +7,7 @@ import Title from "../components/atomos/Title";
 import Garantias from "../components/Garantias";
 import Nosotros from "../components/Nosotros";
 import { useProperties } from "../contexts/PropertyContext";
+import { useNavigate } from 'react-router-dom';
 
 import playa1Gif from "../assets/imgs/playas/playa1.gif";
 import playa2Gif from "../assets/imgs/playas/playa3.gif";
@@ -17,6 +18,7 @@ import WhatsappButton from "../components/atomos/WhatsappButton";
 
 const Home: React.FC = () => {
   const { home } = useProperties();
+  const navigate = useNavigate();
 
   // hooks para cambiar las imágenes en parallax
   const [desktopImage, setDesktopImage] = useState(playa1Gif);
@@ -56,7 +58,9 @@ const Home: React.FC = () => {
               <Title text="En venta" />
               <Carousel properties={home.sale.length ? home.sale : []} />
               <div className="py-3">
-                <Button to="/ventas">Ir a propiedades en venta</Button>
+                {/* <Button to="/ventas">Ir a propiedades en venta</Button> */}
+                <Button onClick={() => navigate("/properties?filter=sale")}>Ir a propiedades en venta</Button>
+
               </div>
               <hr />
             </>
@@ -67,7 +71,9 @@ const Home: React.FC = () => {
               <Title text="En alquiler" />
               <Carousel properties={home.rent.length ? home.rent : []} />
               <div className="py-3">
-                <Button to="/alquileres">Ir a propiedades en alquiler</Button>
+                {/* <Button to="/alquileres">Ir a propiedades en alquiler</Button> */}
+                <Button onClick={() => navigate("/properties?filter=rent")}>Ir a propiedades en alquiler</Button>
+
               </div>
               <hr />
             </>
@@ -94,7 +100,9 @@ const Home: React.FC = () => {
               <Title text="Propiedades destacadas" />
               <Carousel properties={home.pinned.length ? home.pinned : []} />
               <div className="py-3">
-                <Button to="/destacadas">Ir a propiedades destacadas</Button>
+                {/* <Button to="/destacadas">Ir a propiedades destacadas</Button> */}
+                <Button onClick={() => navigate("/properties?filter=pinned")}>Ir a propiedades destacadas</Button>
+
               </div>
               <hr />
             </>

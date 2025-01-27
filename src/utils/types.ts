@@ -1,12 +1,12 @@
 export interface UserData {
-    id?: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    password?: string;
-    admin?: boolean;
-    repeatPassword?: string;
+  id?: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password?: string;
+  admin?: boolean;
+  repeatPassword?: string;
 }
 export interface ChangePassword {
   currentPassword: string;
@@ -44,7 +44,7 @@ export interface Property {
   approved?: boolean;
 }
 
-export interface Home{
+export interface Home {
   rent: Property[];
   sale: Property[];
   pinned: Property[];
@@ -103,7 +103,7 @@ export type Filters = {
   filterRooms: number[] | null;
   filterGarages: boolean;
   filterPool: boolean;
-  sortOrder: "asc" | "desc" | null;
+  sortOrder: "asc" | "desc" | "relevant" | null;
 };
 
 export type FiltersPanelProps = {
@@ -129,3 +129,4 @@ export type Rent = {
   email: string;
   message: string;
 };
+

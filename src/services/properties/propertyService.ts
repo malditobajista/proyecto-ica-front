@@ -4,7 +4,10 @@ import { logoutUser } from "../users/userService";
 
 const BASE_URL = "http://localhost:3000";
 
-export const createProperty = async (propertyData: Omit<Property, 'id'>, files: File[]) => {
+export const createProperty = async (
+  propertyData: Omit<Property, "id">,
+  files: File[]
+) => {
   const formData = new FormData();
 
   formData.append("property", JSON.stringify(propertyData));
@@ -16,8 +19,8 @@ export const createProperty = async (propertyData: Omit<Property, 'id'>, files: 
   }
 
   const res = await fetch(`${BASE_URL}/property/create`, {
-    method: 'POST',
-    credentials: 'include',
+    method: "POST",
+    credentials: "include",
     body: formData,
   });
 
@@ -25,7 +28,7 @@ export const createProperty = async (propertyData: Omit<Property, 'id'>, files: 
     await logoutUser();
     window.location.href = "/login";
   }
-  if (!res.ok) throw new Error('Error creating property');
+  if (!res.ok) throw new Error("Error creating property");
   return await res.json();
 };
 
@@ -44,52 +47,51 @@ export const updateProperty = async (
   }
   console.log("formData", formData);
   const res = await fetch(`${BASE_URL}/property/update`, {
-    method: 'PUT',
-    credentials: 'include',
+    method: "PUT",
+    credentials: "include",
     body: formData,
   });
 
   console.log("res", res);
 
-  if (!res.ok) throw new Error('Error al actualizar la propiedad');
+  if (!res.ok) throw new Error("Error al actualizar la propiedad");
   return await res.json();
 };
-
 
 export const fetchHomeClient = async (): Promise<Home> => {
   try {
     console.log("fetchHomeClient");
     const res = await fetch(`${BASE_URL}/property/home`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     });
     if (res.status === 401) {
       await logoutUser();
       window.location.href = "/login";
     }
-    if (!res.ok) throw new Error('Error obteniendo propiedades');
+    if (!res.ok) throw new Error("Error obteniendo propiedades");
     return await res.json();
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
-    return {rent: [], sale: [], pinned: []};
+    return { rent: [], sale: [], pinned: [] };
   }
-}
+};
 
 export const fetchCreated = async (): Promise<Property[]> => {
   try {
     const res = await fetch(`${BASE_URL}/property/createdProperties`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     });
     if (res.status === 401) {
       await logoutUser();
       window.location.href = "/login";
     }
-    if (!res.ok) throw new Error('Error obteniendo creadas');
+    if (!res.ok) throw new Error("Error obteniendo creadas");
     return await res.json();
-  }catch(error){
+  } catch (error) {
     console.error("Error al obtener tus propiedades creadas:", error);
     return [];
   }
@@ -98,35 +100,34 @@ export const fetchCreated = async (): Promise<Property[]> => {
 export const fetchFavourites = async (): Promise<Property[]> => {
   try {
     const res = await fetch(`${BASE_URL}/favorites/get`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     });
     if (res.status === 401) {
       await logoutUser();
       window.location.href = "/login";
     }
-    if (!res.ok) throw new Error('Error obteniendo favoritas');
+    if (!res.ok) throw new Error("Error obteniendo favoritas");
     return await res.json();
-  }catch(error){
+  } catch (error) {
     console.error("Error al obtener tus propiedades favoritas:", error);
     return [];
   }
 };
 
-
 export const fetchProperties = async (): Promise<Property[]> => {
   try {
     const res = await fetch(`${BASE_URL}/property/findAll`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     });
     if (res.status === 401) {
       await logoutUser();
       window.location.href = "/login";
     }
-    if (!res.ok) throw new Error('Error obteniendo propiedades');
+    if (!res.ok) throw new Error("Error obteniendo propiedades");
     return await res.json();
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
@@ -136,7 +137,9 @@ export const fetchProperties = async (): Promise<Property[]> => {
 
 export const fetchProperty = async (id: number): Promise<Property> => {
   try {
-    const response = await axios.get(`${BASE_URL}/property/findOne`, {params: {id}});
+    const response = await axios.get(`${BASE_URL}/property/findOne`, {
+      params: { id },
+    });
     if (response.status === 401) {
       await logoutUser();
       window.location.href = "/login";
@@ -157,15 +160,15 @@ export const fetchTermsAndConditions = async (): Promise<string> => {
     return response.data;
   } catch (error) {
     console.error("Error al cargar las propiedades:", error);
-    return '';
+    return "";
   }
 };
 
 export const addFavourite = async (id: number): Promise<boolean> => {
   try {
     const response = await fetch(`${BASE_URL}/favorites/add?propertyId=${id}`, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
     });
     if (response.status === 401) {
       await logoutUser();
@@ -173,7 +176,7 @@ export const addFavourite = async (id: number): Promise<boolean> => {
       return false;
     }
     return true;
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return false;
   }
@@ -181,18 +184,21 @@ export const addFavourite = async (id: number): Promise<boolean> => {
 
 export const removeFavourite = async (id: number): Promise<boolean> => {
   try {
-    const response = await fetch(`${BASE_URL}/favorites/delete?propertyId=${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
+    const response = await fetch(
+      `${BASE_URL}/favorites/delete?propertyId=${id}`,
+      {
+        method: "DELETE",
+        credentials: "include",
+      }
+    );
 
-  if (response.status === 401) {
-    await logoutUser();
-    window.location.href = "/login";
-    return false;
-  }
+    if (response.status === 401) {
+      await logoutUser();
+      window.location.href = "/login";
+      return false;
+    }
     return true;
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return false;
   }
@@ -201,8 +207,8 @@ export const removeFavourite = async (id: number): Promise<boolean> => {
 export const findToApprove = async (): Promise<Property[]> => {
   try {
     const response = await fetch(`${BASE_URL}/property/findToApproved`, {
-      method: 'GET',
-      credentials: 'include',
+      method: "GET",
+      credentials: "include",
     });
 
     if (response.status === 401) {
@@ -211,7 +217,7 @@ export const findToApprove = async (): Promise<Property[]> => {
       return [];
     }
     return await response.json();
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return [];
   }
@@ -220,10 +226,10 @@ export const findToApprove = async (): Promise<Property[]> => {
 export const approveProperty = async (id: number): Promise<boolean> => {
   try {
     const response = await fetch(`${BASE_URL}/property/approve`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({id, approved: true}),
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, approved: true }),
     });
 
     if (response.status === 401) {
@@ -232,7 +238,7 @@ export const approveProperty = async (id: number): Promise<boolean> => {
       return false;
     }
     return true;
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return false;
   }
@@ -241,9 +247,9 @@ export const approveProperty = async (id: number): Promise<boolean> => {
 export const deleteProperty = async (id: number): Promise<boolean> => {
   try {
     const response = await fetch(`${BASE_URL}/property/delete?id=${id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
+      method: "DELETE",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
     });
 
     console.log(response);
@@ -254,21 +260,27 @@ export const deleteProperty = async (id: number): Promise<boolean> => {
       return false;
     }
 
-    if (response.status === 403) throw new Error('No tienes los permisos necesarios.');
+    if (response.status === 403)
+      throw new Error("No tienes los permisos necesarios.");
     return true;
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return false;
   }
-}
+};
 
-export const fetchPropertiesByStatus = async (status: PropertyStatus): Promise<Property[]> => {
+export const fetchPropertiesByStatus = async (
+  status: PropertyStatus
+): Promise<Property[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/property/findByStatus?status=${status}`, {
-      method: 'GET',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const response = await fetch(
+      `${BASE_URL}/property/findByStatus?status=${status}`,
+      {
+        method: "GET",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+      }
+    );
 
     if (response.status === 401) {
       await logoutUser();
@@ -276,8 +288,9 @@ export const fetchPropertiesByStatus = async (status: PropertyStatus): Promise<P
       return [];
     }
     return await response.json();
-  }catch(error){
+  } catch (error) {
     console.error("Error al cargar las propiedades:", error);
     return [];
   }
-}
+};
+
